@@ -1,0 +1,65 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+
+interface MetaItem {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  /** Page heading. */
+  title: string;
+  /** Lede paragraph below the title. */
+  subtitle: string;
+  /** Optional small uppercase label above the title (e.g. section name). */
+  kicker?: string;
+  /** Breadcrumb trail (Home is prepended automatically) */
+  crumbs: { label: string; href?: string }[];
+  /** Up to four small facts surfaced on the right side of the hero */
+  meta?: MetaItem[];
+  /** Legacy chapter prop (kept for compatibility, no longer rendered) */
+  chapter?: string;
+}
+
+const { title, subtitle, kicker, crumbs, meta = [] } = Astro.props;
+---
+
+{/*
+  Clean MUI-style inner-page hero. Sits on the same light grey paper as
+  the rest of the site, no decorative banner. Roboto title, brand-teal
+  optional kicker, plain subtitle, optional facts strip on the right.
+*/}
+<section class="relative bg-background border-b border-border">
+  <div class="container-main pt-24 md:pt-28 pb-12 md:pb-14">
+    <Breadcrumbs items={crumbs} />
+
+    <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start mt-2">
+      <div class="lg:col-span-8">
+        {kicker && (
+          <p class="text-xs font-semibold uppercase tracking-[0.12em] text-brand mb-3">
+            {kicker}
+          </p>
+        )}
+        <h1 class="text-4xl md:text-5xl font-medium text-text mb-4 tracking-tight leading-[1.1]">
+          {title}
+        </h1>
+        <p class="text-base md:text-lg text-text-secondary max-w-2xl leading-relaxed">
+          {subtitle}
+        </p>
+      </div>
+
+      {meta.length > 0 && (
+        <aside class="lg:col-span-4">
+          <dl class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-4 lg:flex lg:flex-col lg:gap-4 border-t-2 lg:border-t-0 lg:border-l-2 border-brand/20 lg:pl-6 pt-5 lg:pt-0">
+            {meta.map((m) => (
+              <div>
+                <dt class="text-[10px] font-semibold uppercase tracking-[0.12em] text-text-tertiary mb-1">{m.label}</dt>
+                <dd class="text-sm md:text-base text-text font-medium leading-snug" set:html={m.value}></dd>
+              </div>
+            ))}
+          </dl>
+        </aside>
+      )}
+    </div>
+  </div>
+</section>

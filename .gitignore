@@ -1,0 +1,18 @@
+node_modules
+.dist
+dist
+.env
+.DS_Store
+pnpm-lock.yaml
+yarn.lock
+.astro
+
+# Local IDE / agent state
+.claude/
+
+# Internal working docs — not part of the deployed site
+AGENTS.md
+architecture.md
+AUDIT.md
+info.md
+SITE_OVERVIEW.md

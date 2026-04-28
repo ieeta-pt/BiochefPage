@@ -1,0 +1,572 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================
+   CSS Custom Properties - Bioluminescent Lab Theme
+   ======================================== */
+:root {
+  /* Core backgrounds — match the live BioChef app (Material Grey 100) */
+  --color-background: #F5F5F5;
+  --color-background-alt: #EEEEEE;
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+
+  /* Text hierarchy — values match tailwind.config.cjs `text` tokens so
+     components reading raw CSS vars (PageHero, nav-brand) and components
+     using Tailwind utilities render the exact same shades. */
+  --color-text: #1A1A1A;
+  --color-text-secondary: #525252;
+  --color-text-tertiary: #6B6B6B;
+  --color-text-muted: #94A3B8;
+
+  /* Borders */
+  --color-border: #E0E0E0;
+  --color-border-subtle: #EEEEEE;
+
+  /* Brand — Material Teal (matches live BioChef app `primary.main: #009688`) */
+  --color-brand: #009688;
+  --color-brand-dark: #00796B;
+  --color-brand-darker: #004D40;
+  --color-brand-light: #E0F2F1;
+  --color-brand-300: #4DB6AC;
+  --color-brand-400: #26A69A;
+  --color-brand-800: #00695C;
+
+  /* Accent — Material Deep Orange (matches live BioChef app `secondary.main: #ff5722`) */
+  --color-accent: #FF5722;
+  --color-accent-dark: #E64A19;
+  --color-accent-light: #FBE9E7;
+
+  /* Secondary - Purple (AI/ML) */
+  --color-secondary: #7C3AED;
+  --color-secondary-dark: #6D28D9;
+  --color-secondary-light: #F5F3FF;
+  --color-secondary-300: #C4B5FD;
+  --color-secondary-400: #A78BFA;
+
+  /* Tertiary - Blue (Infrastructure) */
+  --color-tertiary: #2563EB;
+  --color-tertiary-dark: #1D4ED8;
+  --color-tertiary-light: #EFF6FF;
+  --color-tertiary-300: #93C5FD;
+  --color-tertiary-400: #60A5FA;
+
+  /* Typography — Roboto matches the live app exactly */
+  --font-sans: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  --font-display: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Roboto Mono', Consolas, monospace;
+
+  /* Shadows - more dramatic */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.14), 0 8px 16px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.18), 0 12px 24px rgba(0, 0, 0, 0.1);
+
+  /* Colored shadows with glow effect — matched to Material Teal / Deep Orange */
+  --shadow-brand: 0 4px 20px rgba(0, 150, 136, 0.25), 0 2px 8px rgba(0, 150, 136, 0.15);
+  --shadow-brand-lg: 0 8px 32px rgba(0, 150, 136, 0.3), 0 4px 12px rgba(0, 150, 136, 0.2);
+  --shadow-accent: 0 4px 20px rgba(255, 87, 34, 0.25);
+  --shadow-secondary: 0 4px 20px rgba(124, 58, 237, 0.25);
+
+  /* Glass effect */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-blur: 12px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ========================================
+   Base Styles
+   ======================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-background);
+  }
+
+  /* Visible keyboard focus on every interactive element */
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  [role="button"]:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Premium heading styles */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    line-height: 1.2;
+  }
+
+  /* :where() drops these to specificity 0 so Tailwind utilities (text-white,
+     text-text, etc.) and component classes can opt out cleanly. Without this,
+     a:hover would repaint button text dark-teal on dark-teal backgrounds. */
+  :where(a) {
+    color: var(--color-brand);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+
+  :where(a:hover) {
+    color: var(--color-brand-dark);
+  }
+
+  /* Enhanced focus states */
+  a:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Inline code: same size as surrounding text. Font-family alone is enough
+     to differentiate it; the 0.875em reduction was creating visible size
+     mismatches inside paragraphs and accordion content. */
+  code {
+    font-family: var(--font-mono);
+    font-size: 1em;
+  }
+
+  ::selection {
+    background-color: rgba(10, 125, 115, 0.2);
+    color: var(--color-brand-dark);
+  }
+}
+
+/* ========================================
+   Component Styles
+   ======================================== */
+@layer components {
+  /* Container */
+  .container-main {
+    @apply w-full max-w-container mx-auto px-5 sm:px-6 md:px-8 lg:px-10;
+  }
+
+  /* Section spacing */
+  .section {
+    @apply py-16 md:py-20 lg:py-28;
+  }
+
+  .section-lg {
+    @apply py-20 md:py-28 lg:py-36;
+  }
+
+  /* Card surface — used by .card-class containers (the home Architecture
+     preview and the Architecture page diagram). Inline article cards use
+     the same visual vocabulary via Tailwind utilities. */
+  .card {
+    @apply bg-surface rounded-xl;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-padding {
+    @apply p-6 sm:p-7 md:p-8;
+  }
+
+  /* Badge component - more refined */
+  .badge {
+    @apply inline-flex items-center gap-2 px-3.5 py-1.5;
+    @apply text-xs font-semibold uppercase tracking-wider;
+    @apply rounded-full;
+    background-color: var(--color-brand-light);
+    color: var(--color-brand);
+    border: 1px solid rgba(10, 125, 115, 0.15);
+  }
+
+  /* Button component. rounded-md (6px) matches the inline Hero/CTA buttons
+     and the Material convention of buttons having smaller radius than cards. */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2;
+    @apply px-6 py-3;
+    @apply text-sm font-semibold tracking-wide;
+    @apply rounded-md;
+    @apply transition-all duration-200;
+    min-height: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn:focus-visible {
+    @apply outline-none ring-2 ring-brand ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply bg-brand text-white;
+    box-shadow: var(--shadow-brand);
+  }
+
+  .btn-primary:hover {
+    @apply bg-brand-dark;
+    box-shadow: var(--shadow-brand-lg);
+    transform: translateY(-1px);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .btn-secondary {
+    @apply bg-surface text-brand;
+    border: 2px solid var(--color-brand);
+  }
+
+  .btn-secondary:hover {
+    @apply bg-brand-light;
+    border-color: var(--color-brand-dark);
+  }
+
+  .btn-sm {
+    @apply px-4 py-2 text-xs;
+    min-height: 40px;
+  }
+
+  /* Grid layouts */
+  .grid-2 {
+    @apply grid gap-5 sm:gap-6 md:grid-cols-2;
+  }
+
+  .grid-3 {
+    @apply grid gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3;
+  }
+
+  /* Navigation links — charcoal at the top of the page, white once the nav
+     becomes the teal AppBar on scroll. Color transitions smoothly with the bar. */
+  .nav-link {
+    @apply text-sm font-medium;
+    @apply py-2 px-1;
+    @apply border-b-2 border-transparent;
+    color: var(--color-text-secondary);
+    transition: color 250ms ease, border-color 250ms ease;
+  }
+
+  .nav-link:hover {
+    color: var(--color-text);
+  }
+
+  .nav-link:focus-visible {
+    @apply outline-none ring-2 ring-brand/40 ring-offset-2 rounded;
+  }
+
+  .nav-link.active {
+    color: var(--color-brand);
+    border-color: var(--color-brand);
+  }
+
+  /* GitHub ghost pill in the nav. Quiet outline that earns attention only on
+     hover; both colors are remapped to white-on-teal in the scrolled state. */
+  .nav-github-pill {
+    @apply inline-flex items-center gap-2;
+    @apply h-9 px-3 rounded-md;
+    @apply text-sm font-medium;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+    background-color: transparent;
+    transition: color 250ms ease, border-color 250ms ease, background-color 250ms ease;
+  }
+
+  .nav-github-pill:hover {
+    color: var(--color-text);
+    border-color: var(--color-text-tertiary);
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  .nav-github-pill:focus-visible {
+    @apply outline-none ring-2 ring-brand/40 ring-offset-2 rounded-md;
+  }
+
+  /* Component detail cards */
+  details.component-card {
+    @apply bg-surface border border-border rounded-xl p-4;
+    @apply transition-all duration-200 ease-out;
+    box-shadow: var(--shadow-sm);
+    min-height: auto;
+    height: auto;
+  }
+
+  details.component-card:hover:not([open]) {
+    border-color: rgba(10, 125, 115, 0.3);
+    box-shadow: var(--shadow-card);
+  }
+
+  details.component-card[open] {
+    border-color: rgba(10, 125, 115, 0.4);
+    background: linear-gradient(135deg, rgba(10, 125, 115, 0.02) 0%, transparent 100%);
+    box-shadow: var(--shadow-card);
+  }
+
+  .component-summary {
+    @apply flex items-center justify-between cursor-pointer;
+    @apply list-none;
+    min-height: 0;
+  }
+
+  .component-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .component-summary::marker {
+    display: none;
+  }
+
+  details.component-card[open] .component-summary {
+    @apply pb-4 mb-4 border-b border-brand/20;
+  }
+
+  details.component-card[open] .component-summary > div:first-child > span:first-child {
+    @apply ring-2 ring-brand/20 ring-offset-2;
+  }
+
+  details.component-card .prose {
+    @apply overflow-hidden;
+    max-width: 100%;
+  }
+
+  details.component-card .prose pre {
+    @apply overflow-x-auto text-xs rounded-lg;
+    max-width: 100%;
+  }
+
+  details.component-card .prose code {
+    word-break: break-word;
+  }
+
+  details.component-card .prose svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .prose svg text {
+    font-family: var(--font-sans);
+  }
+
+}
+
+/* ========================================
+   Utility Classes
+   ======================================== */
+@layer utilities {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ========================================
+   Navigation-specific styles
+   ======================================== */
+.nav-brand {
+  @apply flex items-center gap-2.5 font-semibold text-lg;
+  color: var(--color-text);
+  transition: color 250ms ease, text-shadow 250ms ease;
+}
+
+/* Hover — un-scrolled (white wash, dark elements): charcoal lights up to the
+   brand teal. The brand color emerges, signalling "this is the brand mark." */
+.nav-brand:hover {
+  color: var(--color-brand);
+}
+
+.nav-brand:hover .nav-logo-mark {
+  background-color: var(--color-brand);
+}
+
+/* Logo painted as a solid color so background-color can transition smoothly
+   between the dark un-scrolled state and the white scrolled state. A gradient
+   would not interpolate cleanly across the scroll-color change. */
+.nav-logo-mark {
+  @apply w-9 h-9 sm:w-10 sm:h-10;
+  background-color: var(--color-text);
+  mask-image: var(--logo-url);
+  -webkit-mask-image: var(--logo-url);
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  transition: background-color 250ms ease, filter 250ms ease;
+}
+
+/* Partner logo (white-on-transparent source painted with brand color via SVG mask) */
+.partner-mark {
+  display: inline-block;
+  width: 56px;
+  height: 40px;
+  background-color: var(--color-text-tertiary);
+  mask-image: var(--mark-url);
+  -webkit-mask-image: var(--mark-url);
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  transition: background-color var(--transition-base);
+}
+
+.group:hover .partner-mark,
+.partner-mark:hover {
+  background-color: var(--color-brand-dark);
+}
+
+.partner-mark--ua {
+  width: 48px;
+}
+
+/* Mobile menu overlay */
+.mobile-menu-overlay {
+  @apply fixed inset-0 z-40;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  @apply opacity-0 pointer-events-none;
+  @apply transition-opacity duration-300;
+}
+
+.mobile-menu-overlay.open {
+  @apply opacity-100 pointer-events-auto;
+}
+
+/* Mobile menu drawer */
+.mobile-menu {
+  @apply fixed top-0 right-0 bottom-0 w-80 max-w-[85vw];
+  @apply bg-surface z-50;
+  @apply transform translate-x-full;
+  @apply transition-transform duration-300 ease-out;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-menu.open {
+  @apply translate-x-0;
+}
+
+/* Two-state navigation. Top of the page: a soft frosted-white wash so the
+   hero shows through, dark elements. Once the user scrolls past the hero,
+   the bar fills in as the site's brand teal AppBar with white elements.
+   No hairline border in either state — the backdrop-blur and shadow do the
+   separating. Element colors transition in lockstep with the bar so the
+   scroll feels like one cohesive motion. */
+#main-nav {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  transition: background-color 350ms cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#main-nav.scrolled {
+  background: linear-gradient(135deg, rgba(0, 150, 136, 0.97) 0%, rgba(0, 121, 107, 0.97) 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Scrolled state: every element flips to white-on-teal in lockstep with the bar. */
+#main-nav.scrolled .nav-brand {
+  color: #ffffff;
+}
+
+#main-nav.scrolled .nav-logo-mark {
+  background-color: #ffffff;
+}
+
+#main-nav.scrolled .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+#main-nav.scrolled .nav-link:hover {
+  color: #ffffff;
+}
+
+#main-nav.scrolled .nav-link.active {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+#main-nav.scrolled .nav-github-pill {
+  color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+#main-nav.scrolled .nav-github-pill:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+#main-nav.scrolled #mobile-menu-btn {
+  color: #ffffff;
+}
+
+#main-nav.scrolled #mobile-menu-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Hover — scrolled (teal AppBar): wordmark and logo flip to black. */
+#main-nav.scrolled .nav-brand:hover {
+  color: #000000;
+}
+
+#main-nav.scrolled .nav-brand:hover .nav-logo-mark {
+  background-color: #000000;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========================================
+   Print styles
+   ======================================== */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  .card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+}
+

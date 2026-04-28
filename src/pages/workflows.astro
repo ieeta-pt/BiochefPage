@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import WorkflowMock from '../components/WorkflowMock';
+import UseCaseCards from '../components/UseCaseCards';
+import { LightningIcon } from '../components/Icons';
+// fl-session.mdx and the MonitorIcon/CloudIcon are intentionally not imported in
+// production: Agent / WES / TES / Federated runtimes are roadmap items, not shipped.
+---
+
+<BaseLayout title="Workflows | BioChef">
+  <PageHero
+    kicker="Workflows"
+    title="Build workflows"
+    subtitle="Drag bioinformatics tools into a DAG inside your browser tab. Outputs flow live, parameters re-execute on the fly, and the whole thing is just a static page that runs WebAssembly."
+    crumbs={[{ label: 'Workflows' }]}
+    meta={[
+      { label: 'Editor', value: 'Drag-and-drop DAG with type filtering' },
+      { label: 'Runtime', value: 'WebAssembly via biowasm' },
+      { label: 'Persistence', value: 'Recipes saved as JSON' }
+    ]}
+  />
+
+  <!-- Workflow Mock -->
+  <section class="section">
+    <div class="container-main">
+      <SectionHeader
+        kicker="Editor preview"
+        title="Drag, drop, and watch outputs flow"
+        subtitle="A four-node sketch of what the Workflow page looks like in the BioChef app. Click a node to see what feeds it and what it produces."
+      />
+      <WorkflowMock client:load />
+    </div>
+  </section>
+
+  <!-- Example Scenarios -->
+  <section class="section">
+    <div class="container-main">
+      <SectionHeader
+        kicker="In practice"
+        title="Example scenarios"
+        subtitle="Three things people actually do with the Workflow page today."
+      />
+      <UseCaseCards
+        client:visible
+        cases={[
+          {
+            title: 'FASTA/FASTQ QC and inspection',
+            description: 'Chain inspection and statistics tools to triage a sequencing file in seconds, no upload needed.',
+            audience: 'Triage',
+            tone: 'brand'
+          },
+          {
+            title: 'Format conversion pipeline',
+            description: 'Convert between FASTA, FASTQ, and SEQ; reverse, complement, and slice. All in one signed recipe.',
+            audience: 'Data prep',
+            tone: 'accent'
+          },
+          {
+            title: 'Teaching demo',
+            description: 'Share a recipe link with a class. Anyone can open it in the browser and walk through the same DAG step by step.',
+            audience: 'Education',
+            tone: 'tertiary'
+          }
+        ]}
+      />
+    </div>
+  </section>
+
+  <!-- Tool catalogue snapshot -->
+  <section class="section">
+    <div class="container-main">
+      <SectionHeader
+        kicker="Catalogue"
+        title="What you can chain together"
+        subtitle="A snapshot of the tool families currently available in the BioChef catalogue. Every tool runs as WebAssembly in your browser tab."
+      />
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+        {[
+          { name: 'Sequence manipulation', items: 'extract · reverse · complement · slice', count: '12+' },
+          { name: 'Format conversion', items: 'FASTA ↔ FASTQ · FASTA ↔ SEQ · packaged FASTQ', count: '8+' },
+          { name: 'Genomic operations', items: 'random DNA · genomic complement · GC-content', count: '10+' },
+          { name: 'Amino acid', items: 'translate · reverse-translate · stats', count: '6+' },
+          { name: 'Information & analysis', items: 'entropy · k-mer counts · summary stats', count: '9+' },
+          { name: 'Mathematical', items: 'distance metrics · transformations', count: '5+' },
+          { name: 'Text processing', items: 'filter · split · join · diff', count: '7+' },
+          { name: 'And growing', items: 'New recipes added by the community', count: '+' }
+        ].map((cat) => (
+          <article class="bg-surface rounded-xl border border-border border-l-2 border-l-brand/40 p-5 hover:shadow-card-hover transition-shadow duration-200">
+            <div class="flex items-baseline justify-between mb-2">
+              <h3 class="text-sm font-medium text-text tracking-tight">{cat.name}</h3>
+              <span class="font-mono text-xs font-semibold text-brand">{cat.count}</span>
+            </div>
+            <p class="font-mono text-[11px] text-text-tertiary leading-relaxed">{cat.items}</p>
+          </article>
+        ))}
+      </div>
+
+      <p class="text-center text-xs text-text-tertiary mt-8">
+        Tool families and counts include those provided by GTO and other catalogues.
+        <a class="text-brand hover:text-brand-dark ml-1" href="https://ieeta-pt.github.io/Biochef/" target="_blank" rel="noreferrer">See the full catalogue in the app →</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- How execution works -->
+  <section class="section">
+    <div class="container-main">
+      <SectionHeader
+        kicker="Runtime"
+        title="One runtime today"
+        subtitle="Every step runs in the browser via WebAssembly. Server-side runtimes are on the roadmap."
+      />
+
+      <article class="bg-surface rounded-xl border border-border border-l-4 border-l-brand max-w-3xl mx-auto p-8 md:p-10 shadow-card">
+        <div class="flex items-start gap-4 mb-6">
+          <div class="flex-shrink-0 text-brand">
+            <LightningIcon className="w-8 h-8" />
+          </div>
+          <div>
+            <p class="text-[10px] font-semibold tracking-[0.12em] text-brand uppercase mb-2">Live runtime</p>
+            <h3 class="text-xl font-medium text-text tracking-tight mb-2">Browser WebAssembly</h3>
+            <p class="text-sm text-text-secondary leading-relaxed">
+              Every shipped tool runs entirely in your browser tab. No upload, no install, no server.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-5 pt-5 border-t border-border">
+          <div>
+            <p class="text-[10px] font-semibold tracking-[0.12em] text-text-tertiary uppercase mb-1">Where</p>
+            <p class="text-sm text-text">Your browser tab</p>
+          </div>
+          <div>
+            <p class="text-[10px] font-semibold tracking-[0.12em] text-text-tertiary uppercase mb-1">Compiled with</p>
+            <p class="text-sm text-text">Emscripten · biowasm</p>
+          </div>
+          <div>
+            <p class="text-[10px] font-semibold tracking-[0.12em] text-text-tertiary uppercase mb-1">Loaded by</p>
+            <p class="text-sm text-text">Signed digest from registry</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,56 @@
+---
+import '../styles/global.css';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+
+const {
+  title = 'BioChef',
+  description = 'Signed bioinformatics tools that run in your browser via WebAssembly. Recipes signed by the Hub CI and served from the BioChef Registry.'
+} = Astro.props;
+
+const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href={withBase('/img/biochef-logo.png')} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={withBase('/img/biochef-logo.png')} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#0A7D73" />
+
+    <!-- Preconnect to external resources if needed -->
+    <link rel="dns-prefetch" href="https://github.com" />
+
+    <!-- Premium Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    {/* Roboto matches the live BioChef app exactly. JetBrains Mono is kept only for code blocks. */}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body class="min-h-screen flex flex-col bg-background text-text antialiased">
+    <Navigation />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

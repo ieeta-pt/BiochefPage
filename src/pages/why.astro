@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import UseCaseCards from '../components/UseCaseCards';
+
+const cases = [
+  {
+    title: 'Standardize sequence analysis',
+    description: 'Run signed tools for FASTA/FASTQ manipulation, format conversion, and statistics with reproducible parameters.',
+    audience: 'Researchers',
+    icon: 'dna',
+    tone: 'accent'
+  },
+  {
+    title: 'No installs, nothing uploaded',
+    description: 'The whole BioChef app is a static page. Tools are compiled to WebAssembly and execute on your sequence inside the browser tab.',
+    audience: 'Privacy',
+    icon: 'shield',
+    tone: 'brand'
+  },
+  {
+    title: 'Build and share workflows',
+    description: 'Drag tools into a DAG, configure parameters, and re-run live as you iterate. Save and reload recipes in one click.',
+    audience: 'Workflow authors',
+    icon: 'bolt',
+    tone: 'tertiary'
+  }
+];
+---
+
+<BaseLayout title="Why BioChef | BioChef">
+  <PageHero
+    kicker="Motivation"
+    title="Why BioChef"
+    subtitle="BioChef democratizes access to bioinformatics tools, bridging biologists, healthcare professionals, and computational tools by running C-based genomic utilities directly in the browser via WebAssembly."
+    crumbs={[{ label: 'Why BioChef' }]}
+    meta={[
+      { label: 'Designed for', value: 'Researchers · clinicians · students' },
+      { label: 'Privacy model', value: 'No upload, no server, no install' },
+      { label: 'Source of trust', value: 'Signed bundles in the Registry' }
+    ]}
+  />
+
+  <!-- Problem / Solution -->
+  <section class="section">
+    <div class="container-main">
+      <SectionHeader
+        kicker="The case for BioChef"
+        title="A tool every reviewer can re-run"
+        subtitle="Most genomic tools require local installs and trust in opaque container images. BioChef closes that gap with a signed, browser-native pipeline."
+      />
+      <div class="grid-2">
+        <article class="bg-surface rounded-xl border border-border border-l-4 border-l-accent p-6 md:p-7 shadow-card hover:shadow-card-hover transition-shadow duration-200">
+          <p class="text-[10px] font-semibold tracking-[0.12em] text-accent uppercase mb-3">The problem</p>
+          <h3 class="text-xl font-medium text-text mb-3 tracking-tight">Tools are hard to share and trust</h3>
+          <p class="text-text-secondary leading-relaxed">
+            Most bioinformatics tools require local installs, native toolchains, and trust in opaque
+            container images. End users like clinicians, students, and reviewers can't easily inspect
+            or run them, and reproducibility suffers.
+          </p>
+        </article>
+        <article class="bg-surface rounded-xl border border-border border-l-4 border-l-brand p-6 md:p-7 shadow-card hover:shadow-card-hover transition-shadow duration-200">
+          <p class="text-[10px] font-semibold tracking-[0.12em] text-brand uppercase mb-3">The solution</p>
+          <h3 class="text-xl font-medium text-text mb-3 tracking-tight">Recipe → Hub → Registry → browser</h3>
+          <p class="text-text-secondary leading-relaxed">
+            A YAML recipe declares the tool. <code>biochef-hub</code> validates, builds (WASM via
+            Emscripten/biowasm), tests, generates SBOM + SLSA, signs with cosign, and publishes a
+            signed bundle to <code>registry.biochef.app</code>. The static BioChef web app then
+            loads it by digest and runs it client-side. No servers, no uploads.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Use Cases -->
+  <section class="section">
+    <div class="container-main">
+      <SectionHeader
+        kicker="In practice"
+        title="Use cases"
+        subtitle="See how BioChef helps different teams solve real problems."
+      />
+      <UseCaseCards client:visible cases={cases} />
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="section">
+    <div class="container-main">
+      <SectionHeader
+        kicker="Side by side"
+        title="Traditional toolchain vs BioChef"
+        subtitle="A quick comparison of how each task changes when tools live in a signed registry and run as WebAssembly."
+      />
+      <div class="overflow-x-auto rounded-xl border border-border bg-surface" style="box-shadow: var(--shadow-card);">
+        <table class="w-full" style="min-width: 720px;">
+          <thead>
+            <tr class="border-b border-border">
+              <th class="w-1/4 px-5 py-4 text-left text-[10px] font-semibold tracking-[0.12em] uppercase text-text-tertiary">Aspect</th>
+              <th class="px-5 py-4 text-left text-[10px] font-semibold tracking-[0.12em] uppercase text-text-tertiary">Traditional toolchain</th>
+              <th class="px-5 py-4 text-left text-[10px] font-semibold tracking-[0.12em] uppercase text-brand-dark bg-brand-light/40 border-l-2 border-brand">
+                With BioChef
+              </th>
+            </tr>
+          </thead>
+          <tbody class="text-sm">
+            {[
+              ['Tool provenance', 'Opaque containers, ad-hoc signing', 'Signed recipes → Hub → Registry with SBOM and SLSA'],
+              ['Getting started', 'Install toolchain, build from source, manage dependencies', 'Open the BioChef app in a browser tab'],
+              ['Data handling', 'Upload sequences to a server you have to trust', 'WASM execution keeps every byte inside the browser tab'],
+              ['Iterating on a workflow', 'Edit shell script, re-run, hope for reproducibility', 'DAG editor with live re-execution; recipes are signed and replayable'],
+              ['Sharing a result', 'Send a tarball plus a README', 'Share the recipe. Anyone can re-run it from the registry']
+            ].map(([aspect, before, after], i) => (
+              <tr class={`border-b border-border ${i === 4 ? 'border-b-0' : ''}`}>
+                <td class="px-5 py-4 font-semibold text-text align-top">{aspect}</td>
+                <td class="px-5 py-4 text-text-tertiary align-top leading-relaxed">{before}</td>
+                <td class="px-5 py-4 align-top bg-brand-light/30 border-l-2 border-brand">
+                  <div class="flex items-start gap-2.5">
+                    <svg class="w-4 h-4 mt-0.5 flex-shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span class="text-text leading-relaxed">{after}</span>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

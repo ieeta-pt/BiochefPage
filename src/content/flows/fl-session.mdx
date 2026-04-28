@@ -1,0 +1,14 @@
+#### Federated learning session
+1. Aggregator defines session, trainer, and DP/policy settings.
+2. Silo Agents join with capability manifests; eligibility checked.
+3. Trainers pulled from registry, verified, and executed locally.
+4. Updates aggregated; new model published to registry with lineage.
+
+```json
+{
+  "session": "fl-001",
+  "trainer": "oci://ghcr.io/org/biochef/trainers/model@sha256:...",
+  "dp": { "epsilon": 4, "delta": 1e-5 },
+  "policy": { "minSilos": 3, "secureAggregation": true }
+}
+```

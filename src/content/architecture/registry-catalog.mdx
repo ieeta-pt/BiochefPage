@@ -1,0 +1,64 @@
+### What it covers
+The BioChef Registry, live at <a href="https://registry.biochef.app" target="_blank" rel="noreferrer"><code>registry.biochef.app</code></a>, stores signed OCI artifacts (bundle.json + WASM/JS layers + SBOM) and the signed <code>index.json</code> that lists every published tool by digest.
+
+<svg viewBox="0 0 340 180" class="w-full h-auto block my-4" aria-hidden="true">
+  <defs>
+    <filter id="rc-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.5" />
+      <feOffset dx="0" dy="2" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.06" /></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  {/* Registry vault */}
+  <g>
+    <rect x="20" y="20" width="300" height="140" rx="14" fill="#FFFFFF" stroke="#80CBC4" stroke-width="1.3" filter="url(#rc-shadow)" />
+    <rect x="20" y="20" width="300" height="3" fill="#004D40" />
+
+    {/* Header */}
+    <text x="34" y="48" font-family="JetBrains Mono, monospace" font-size="9" font-weight="500" fill="#94A3B8">index.json (signed)</text>
+
+    {/* Lock icon */}
+    <g transform="translate(290 38)">
+      <path d="M 4 8 V 5 a 4 4 0 0 1 8 0 V 8" fill="none" stroke="#004D40" stroke-width="1.5" stroke-linecap="round" />
+      <rect x="2" y="8" width="12" height="9" rx="1.6" fill="#004D40" />
+      <circle cx="8" cy="12" r="1.2" fill="white" />
+    </g>
+
+    {/* Layer 1 */}
+    <g>
+      <rect x="34" y="64" width="272" height="28" rx="8" fill="#E0F2F1" stroke="#80CBC4" stroke-width="1" />
+      <circle cx="50" cy="78" r="3" fill="#009688" />
+      <text x="62" y="76" font-family="Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#1A1A1A">bundle.json</text>
+      <text x="62" y="88" font-family="JetBrains Mono, monospace" font-size="8" fill="#94A3B8">application/vnd.biochef.bundle+json</text>
+      <text x="294" y="82" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" font-weight="500" fill="#009688">v1.0.0</text>
+    </g>
+
+    {/* Layer 2 */}
+    <g>
+      <rect x="34" y="98" width="272" height="28" rx="8" fill="#E0F2F1" stroke="#80CBC4" stroke-width="1" />
+      <circle cx="50" cy="112" r="3" fill="#009688" />
+      <text x="62" y="110" font-family="Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#1A1A1A">aligner.wasm</text>
+      <text x="62" y="122" font-family="JetBrains Mono, monospace" font-size="8" fill="#94A3B8">sha256:e3b0c44298fc1c149afbf4c8996fb924…</text>
+    </g>
+
+    {/* Layer 3 */}
+    <g>
+      <rect x="34" y="132" width="272" height="22" rx="8" fill="#E0F2F1" stroke="#80CBC4" stroke-width="1" />
+      <circle cx="50" cy="143" r="3" fill="#009688" />
+      <text x="62" y="147" font-family="Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="600" fill="#1A1A1A">SBOM <tspan fill="#94A3B8" dx="2">·</tspan> cosign signature</text>
+      <text x="294" y="147" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="8" fill="#94A3B8">.sig</text>
+    </g>
+  </g>
+</svg>
+
+### Key behaviors
+- Each tool version is content-addressable: pulled by digest, not by mutable tag.
+- The Hub signs every bundle and the top-level <code>index.json</code> with cosign.
+- WASM and JS assets are served as plain HTTPS so the browser app can stream them.
+
+### Practical tips
+- Treat each version as immutable; promote new builds, never overwrite digests.
+- Verify the cosign signature before serving a tool to the browser.
+- Use the signed <code>index.json</code> as the source of truth for what is publishable.

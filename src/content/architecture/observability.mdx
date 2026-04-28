@@ -1,0 +1,44 @@
+### What it covers
+Event, metrics, and lineage pipeline across runtimes.
+
+<svg viewBox="0 0 140 28" class="w-full max-w-xs mx-auto" aria-hidden="true">
+  <defs>
+    <marker id="ob-b" markerWidth="4" markerHeight="3" refX="3" refY="1.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L4,1.5 L0,3 L0.8,1.5 Z" fill="#40B3A7" />
+    </marker>
+    <marker id="ob-s" markerWidth="3" markerHeight="2" refX="2" refY="1" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L3,1 L0,2 L0.5,1 Z" fill="#6E6E73" />
+    </marker>
+  </defs>
+  <path d="M4,14 L12,5 L30,5 L38,14 L30,23 L12,23 Z" fill="#E8F5F3" stroke="#40B3A7" stroke-width="0.8" />
+  <text x="21" y="14" text-anchor="middle" dominant-baseline="middle" font-size="4" font-weight="600" fill="#1D1D1F">Runtimes</text>
+  <circle cx="58" cy="11" r="6" fill="#FAFAFA" stroke="#6E6E73" stroke-width="0.6" />
+  <circle cx="62" cy="15" r="6" fill="#FAFAFA" stroke="#6E6E73" stroke-width="0.6" />
+  <text x="62" y="15" text-anchor="middle" dominant-baseline="middle" font-size="3.5" font-weight="500" fill="#1D1D1F">Events</text>
+  <path d="M90,7 Q86,7 86,11 Q83,10 84,14 Q81,14 84,18 Q84,22 89,22 L113,22 Q117,22 117,18 Q120,17 118,14 Q120,11 117,9 Q118,5 112,6 Q109,4 104,6 Q98,4 90,7 Z" fill="#FAFAFA" stroke="#1D1D1F" stroke-width="0.6" />
+  <text x="101" y="14" text-anchor="middle" dominant-baseline="middle" font-size="3.5" font-weight="600" fill="#1D1D1F">Dashboards</text>
+  <line x1="40" y1="14" x2="50" y2="13" stroke="#40B3A7" stroke-width="0.8" marker-end="url(#ob-b)" />
+  <line x1="70" y1="14" x2="82" y2="14" stroke="#6E6E73" stroke-width="0.6" marker-end="url(#ob-s)" />
+</svg>
+
+### Key behaviors
+- Structured events for start/stop/error plus custom metrics.
+- Lineage links artifacts to recipe version, runtime, and dataset.
+- Feeds dashboards and alerts for Ops/DS teams.
+
+### Practical tips
+- Emit structured JSON; avoid freeform logs for key signals.
+- Redact PII at source; enforce per-tenant sinks for silos.
+- Correlate runs with registry digests for reproducibility.
+```json
+{
+  "runId": "uuid",
+  "artifactDigest": "sha256:...",
+  "runtime": "agent",
+  "events": [
+    { "type": "start", "ts": "..." },
+    { "type": "metric", "name": "cpu_pct", "value": 72 },
+    { "type": "end", "status": "success", "ts": "..." }
+  ]
+}
+```

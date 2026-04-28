@@ -1,0 +1,4 @@
+1. A developer opens a PR on `biochef-recipes` adding `recipes/<tool>/biochef.yaml` and tiny golden tests.
+2. The reusable workflow from `biochef-hub` runs in CI: `hub validate` → `hub build` (Emscripten/biowasm) → `hub test --golden` → `hub sbom && hub attest` → `hub sign` (cosign) → `hub publish` to the BioChef Registry.
+3. `hub index --sign` regenerates and re-signs the top-level `index.json`, recording the new digest.
+4. The next time the BioChef web app loads, it sees the new tool in the catalog and can fetch its WebAssembly bundle by digest.

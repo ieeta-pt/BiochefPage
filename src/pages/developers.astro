@@ -1,0 +1,196 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CodeTabs from '../components/CodeTabs';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+
+const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
+---
+
+<BaseLayout title="For Developers | BioChef">
+  <PageHero
+    kicker="Developers"
+    title="For Developers"
+    subtitle="Write a YAML recipe, push it through the Hub CI, and your tool ends up signed in registry.biochef.app and runnable from the BioChef web app."
+    crumbs={[{ label: 'For Developers' }]}
+    meta={[
+      { label: 'Hub CLI', value: 'Go binary, reusable GitHub workflow' },
+      { label: 'Recipes', value: '<code class="font-mono text-sm">biochef.yaml</code> in Git' },
+      { label: 'Local dev', value: 'Clone the SPA, <code class="font-mono text-sm">npm start</code>' }
+    ]}
+  />
+
+  <!-- Choose Your Role -->
+  <!-- Quickstart Paths (the role-tile section was redundant; the quickstarts already
+       say who each path is for) -->
+  <section class="section">
+    <div class="container-main">
+      <SectionHeader
+        kicker="Quickstarts"
+        title="Three ways in"
+        subtitle="Pick a path and get to a running BioChef in under five minutes."
+      />
+
+      <div class="grid-3">
+        <article class="bg-surface rounded-xl border border-border border-l-4 border-l-accent p-6 md:p-7 shadow-card hover:shadow-card-hover transition-shadow duration-200 flex flex-col">
+          <p class="text-[10px] font-semibold tracking-[0.12em] text-accent uppercase mb-3">Step 01 · Author</p>
+          <h3 class="text-lg font-medium text-text mb-2 tracking-tight">Write a new recipe</h3>
+          <p class="text-sm text-text-secondary mb-5 leading-relaxed">Author a YAML recipe in your own repo. The Hub workflow validates, signs, and publishes it for you.</p>
+          <ol class="text-sm text-text-secondary space-y-2.5 mb-5">
+            <li class="flex items-start gap-3">
+              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-accent/10 text-accent text-[11px] flex items-center justify-center font-semibold">1</span>
+              <span class="leading-snug">Fork <code>biochef-recipes</code> and create <code>recipes/&lt;tool&gt;/biochef.yaml</code>.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-accent/10 text-accent text-[11px] flex items-center justify-center font-semibold">2</span>
+              <span class="leading-snug">Run <code>hub validate</code> and add tiny golden fixtures under <code>tests/</code>.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-accent/10 text-accent text-[11px] flex items-center justify-center font-semibold">3</span>
+              <span class="leading-snug">Open a PR. The reusable Hub workflow runs validate → build → SBOM → cosign → publish.</span>
+            </li>
+          </ol>
+          <a
+            class="mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:text-accent-dark transition-colors"
+            href="https://github.com/ieeta-pt/biochef-hub#reusable-workflow-called-by-biochef-recipes"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Hub setup guide
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 17 17 7" />
+              <path d="M7 7h10v10" />
+            </svg>
+          </a>
+        </article>
+
+        <article class="bg-surface rounded-xl border border-border border-l-4 border-l-tertiary p-6 md:p-7 shadow-card hover:shadow-card-hover transition-shadow duration-200 flex flex-col">
+          <p class="text-[10px] font-semibold tracking-[0.12em] text-tertiary uppercase mb-3">Step 02 · Run</p>
+          <h3 class="text-lg font-medium text-text mb-2 tracking-tight">Run the BioChef app locally</h3>
+          <p class="text-sm text-text-secondary mb-5 leading-relaxed">Clone the SPA, install deps, and serve it with the dev server. No backend required.</p>
+          <ol class="text-sm text-text-secondary space-y-2.5 mb-5">
+            <li class="flex items-start gap-3">
+              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-tertiary/10 text-tertiary text-[11px] flex items-center justify-center font-semibold">1</span>
+              <span class="leading-snug"><code>git clone https://github.com/ieeta-pt/Biochef</code> and <code>npm install</code>.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-tertiary/10 text-tertiary text-[11px] flex items-center justify-center font-semibold">2</span>
+              <span class="leading-snug">(Optional) install Emscripten 3.1.65 and run <code>npm run build-wasm</code> to rebuild WASM modules from source.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-tertiary/10 text-tertiary text-[11px] flex items-center justify-center font-semibold">3</span>
+              <span class="leading-snug"><code>npm start</code> and open <code>http://localhost:8082</code>.</span>
+            </li>
+          </ol>
+          <a
+            class="mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-tertiary hover:text-tertiary-dark transition-colors"
+            href="https://github.com/ieeta-pt/Biochef"
+            target="_blank"
+            rel="noreferrer"
+          >
+            ieeta-pt/Biochef
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 17 17 7" />
+              <path d="M7 7h10v10" />
+            </svg>
+          </a>
+        </article>
+
+        <article class="bg-surface rounded-xl border border-border border-l-4 border-l-brand p-6 md:p-7 shadow-card hover:shadow-card-hover transition-shadow duration-200 flex flex-col">
+          <p class="text-[10px] font-semibold tracking-[0.12em] text-brand uppercase mb-3">Step 03 · Inspect</p>
+          <h3 class="text-lg font-medium text-text mb-2 tracking-tight">Pull a signed bundle</h3>
+          <p class="text-sm text-text-secondary mb-5 leading-relaxed">Tools live in the BioChef Registry as content-addressable OCI bundles. The web app fetches them by digest at runtime; you can pull and verify them locally with the Hub CLI or ORAS.</p>
+          <ol class="text-sm text-text-secondary space-y-2.5 mb-5">
+            <li class="flex items-start gap-3">
+              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-brand/10 text-brand text-[11px] flex items-center justify-center font-semibold">1</span>
+              <span class="leading-snug">Resolve a tool by digest in the signed <code>index.json</code>.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-brand/10 text-brand text-[11px] flex items-center justify-center font-semibold">2</span>
+              <span class="leading-snug">Pull the OCI bundle (<code>bundle.json</code> + WASM/JS layers + SBOM) with the Hub CLI or ORAS.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-brand/10 text-brand text-[11px] flex items-center justify-center font-semibold">3</span>
+              <span class="leading-snug">Verify the cosign signature before loading the tool.</span>
+            </li>
+          </ol>
+          <a
+            class="mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-brand hover:text-brand-dark transition-colors"
+            href="https://github.com/ieeta-pt/biochef-hub"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Hub CLI on GitHub
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 17 17 7" />
+              <path d="M7 7h10v10" />
+            </svg>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Snippet Gallery -->
+  <section class="section">
+    <div class="container-main">
+      <SectionHeader
+        kicker="Snippets"
+        title="What the code looks like"
+        subtitle="A recipe in YAML, the Hub CLI run, and a saved workflow."
+      />
+
+      <div class="max-w-3xl mx-auto">
+        <CodeTabs
+          client:load
+          tabs={[
+            {
+              id: 'yaml',
+              label: 'YAML recipe',
+              language: 'yaml',
+              code: `name: aligner
+version: 1.0.0
+inputs:
+  - id: reads
+    type: File
+    format: fastq
+steps:
+  - id: qc
+    uses: biochef/qc@1.2.0
+  - id: align
+    uses: biochef/bwa@0.7
+outputs:
+  - id: bam
+    from: align`
+            },
+            {
+              id: 'cli',
+              label: 'CLI usage',
+              language: 'bash',
+              code: `$ hub validate recipe.yaml
+$ hub build recipe.yaml --out dist/
+$ hub sbom && hub attest
+$ hub sign --key cosign.key
+$ hub publish dist/ --registry https://registry.biochef.app
+$ hub index --sign`
+            },
+            {
+              id: 'workflow',
+              label: 'Workflow JSON',
+              language: 'json',
+              code: `{
+  "name": "fastq-triage",
+  "steps": [
+    { "id": "stats",   "runtime": "wasm", "tool": "fastq-stats@1.0.0" },
+    { "id": "tofasta", "runtime": "wasm", "tool": "fastq2fasta@1.0.0" },
+    { "id": "rev",     "runtime": "wasm", "tool": "fasta-reverse@1.0.0" }
+  ]
+}`
+            }
+          ]}
+        />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,33 @@
+### What it covers
+Gateway that exposes BioChef tools and catalog to MCP-compatible agents.
+
+<svg viewBox="0 0 140 28" class="w-full max-w-xs mx-auto" aria-hidden="true">
+  <defs>
+    <marker id="mc-b" markerWidth="4" markerHeight="3" refX="3" refY="1.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L4,1.5 L0,3 L0.8,1.5 Z" fill="#0A7D73" />
+    </marker>
+    <marker id="mc-s" markerWidth="3" markerHeight="2" refX="2" refY="1" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L3,1 L0,2 L0.5,1 Z" fill="#6E6E73" />
+    </marker>
+  </defs>
+  <ellipse cx="18" cy="8" rx="12" ry="3" fill="#E8F5F3" stroke="#0A7D73" stroke-width="0.8" />
+  <path d="M6,8 L6,20 A12,3 0 0 0 30,20 L30,8" fill="#E8F5F3" stroke="#0A7D73" stroke-width="0.8" />
+  <ellipse cx="18" cy="20" rx="12" ry="3" fill="#E8F5F3" stroke="#0A7D73" stroke-width="0.8" />
+  <text x="18" y="15" text-anchor="middle" dominant-baseline="middle" font-size="4" font-weight="600" fill="#1D1D1F">Registry</text>
+  <path d="M48,14 L56,5 L74,5 L82,14 L74,23 L56,23 Z" fill="#FAFAFA" stroke="#6E6E73" stroke-width="0.8" />
+  <text x="65" y="14" text-anchor="middle" dominant-baseline="middle" font-size="5" font-weight="600" fill="#1D1D1F">MCP</text>
+  <path d="M98,7 Q94,7 94,11 Q91,10 92,14 Q89,14 92,18 Q92,22 97,22 L117,22 Q121,22 121,18 Q124,17 122,14 Q124,11 121,9 Q122,5 116,6 Q113,4 108,6 Q102,4 98,7 Z" fill="#FAFAFA" stroke="#6E6E73" stroke-width="0.6" />
+  <text x="107" y="14" text-anchor="middle" dominant-baseline="middle" font-size="4" font-weight="600" fill="#1D1D1F">LLM</text>
+  <line x1="32" y1="14" x2="46" y2="14" stroke="#0A7D73" stroke-width="0.8" marker-end="url(#mc-b)" />
+  <line x1="84" y1="14" x2="92" y2="14" stroke="#6E6E73" stroke-width="0.6" marker-end="url(#mc-s)" />
+</svg>
+
+### Key behaviors
+- Serves capabilities from registry catalog with signatures.
+- Provides actions for run/describe/publish guarded by policy.
+- Streams observability summaries back to the calling agent.
+
+### Practical tips
+- Keep scopes narrow; map agent roles to BioChef policies.
+- Cache catalog responses but re-verify signatures periodically.
+- Surface redaction rules so LLMs avoid sensitive fields.

@@ -1,0 +1,16 @@
+1. Open the BioChef web app. The Tools page lists every signed tool currently in the catalog.
+2. Drag tools onto the Workflow page; the editor only offers tools whose input type matches the previous step's output.
+3. Each step boots its WebAssembly module on demand and streams output to the next step. Parameter changes re-execute downstream steps live.
+4. Save the workflow as a recipe; reload it later or share the JSON with someone else.
+
+```json
+{
+  "workflow": "fastq-triage",
+  "steps": [
+    { "id": "stats",   "runtime": "wasm", "tool": "fastq-stats@1.0.0" },
+    { "id": "tofasta", "runtime": "wasm", "tool": "fastq2fasta@1.0.0" },
+    { "id": "rev",     "runtime": "wasm", "tool": "fasta-reverse@1.0.0" }
+  ],
+  "verify": true
+}
+```

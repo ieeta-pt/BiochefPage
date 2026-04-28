@@ -1,0 +1,44 @@
+### What it covers
+Aggregator plus silo-mode Agents for privacy-preserving training.
+
+<svg viewBox="0 0 140 32" class="w-full max-w-xs mx-auto" aria-hidden="true">
+  <defs>
+    <marker id="fd-a" markerWidth="4" markerHeight="3" refX="3" refY="1.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L4,1.5 L0,3 L0.8,1.5 Z" fill="#D14E1C" />
+    </marker>
+    <marker id="fd-b" markerWidth="4" markerHeight="3" refX="3" refY="1.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L4,1.5 L0,3 L0.8,1.5 Z" fill="#0A7D73" />
+    </marker>
+  </defs>
+  <path d="M6,16 L12,6 L26,6 L32,16 L26,26 L12,26 Z" fill="#E8F5F3" stroke="#0A7D73" stroke-width="0.8" />
+  <path d="M9,17 L14,9 L24,9 L29,17 L24,25 L14,25 Z" fill="#E8F5F3" stroke="#0A7D73" stroke-width="0.5" opacity="0.4" transform="translate(2,-1)" />
+  <text x="19" y="17" text-anchor="middle" dominant-baseline="middle" font-size="4" font-weight="600" fill="#1D1D1F">Silos</text>
+  <path d="M48,16 L56,6 L80,6 L88,16 L80,26 L56,26 Z" fill="#FFF4F0" stroke="#D14E1C" stroke-width="0.8" />
+  <text x="68" y="14" text-anchor="middle" dominant-baseline="middle" font-size="4" font-weight="600" fill="#1D1D1F">Aggregator</text>
+  <text x="68" y="20" text-anchor="middle" dominant-baseline="middle" font-size="3" fill="#6E6E73">FL Hub</text>
+  <ellipse cx="116" cy="9" rx="14" ry="3" fill="#E8F5F3" stroke="#0A7D73" stroke-width="0.8" />
+  <path d="M102,9 L102,21 A14,3 0 0 0 130,21 L130,9" fill="#E8F5F3" stroke="#0A7D73" stroke-width="0.8" />
+  <ellipse cx="116" cy="21" rx="14" ry="3" fill="#E8F5F3" stroke="#0A7D73" stroke-width="0.8" />
+  <text x="116" y="16" text-anchor="middle" dominant-baseline="middle" font-size="4" font-weight="600" fill="#1D1D1F">Registry</text>
+  <line x1="34" y1="16" x2="46" y2="16" stroke="#D14E1C" stroke-width="0.8" marker-end="url(#fd-a)" />
+  <line x1="90" y1="13" x2="100" y2="12" stroke="#0A7D73" stroke-width="0.8" marker-end="url(#fd-b)" />
+</svg>
+
+### Key behaviors
+- Aggregator orchestrates rounds, eligibility, and scoring.
+- Agents train locally; only updates/metrics leave the silo.
+- Models published back to registry with signed lineage.
+
+### Practical tips
+- Define DP/aggregation policies per session.
+- Provide capability manifests per silo (GPU, data domains).
+- Use Observability to detect stragglers or outliers early.
+```json
+{
+  "session": "fl-cnv-001",
+  "aggregator": "https://agg.bio/fl",
+  "trainer": "oci://ghcr.io/org/biochef/trainers/cnv@sha256:...",
+  "dp": { "epsilon": 4, "delta": 1e-5 },
+  "policy": { "minSilos": 3, "secureAggregation": true }
+}
+```

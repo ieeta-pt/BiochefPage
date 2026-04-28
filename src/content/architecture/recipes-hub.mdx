@@ -1,0 +1,88 @@
+### What it covers
+Recipes declare tools/workflows; Hub validates, signs, and bundles them for Registry.
+
+<svg viewBox="0 0 340 160" class="w-full h-auto block my-4" aria-hidden="true">
+  <defs>
+    <marker id="rh-arr" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0 0 L7 3.5 L0 7 L1.8 3.5 Z" fill="#FF5722" />
+    </marker>
+    <filter id="rh-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.5" />
+      <feOffset dx="0" dy="2" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.06" /></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  {/* YAML recipe card */}
+  <g>
+    <rect x="20" y="22" width="120" height="116" rx="12" fill="#FFFFFF" stroke="#FFAB91" stroke-width="1.2" filter="url(#rh-shadow)" />
+    <rect x="20" y="22" width="120" height="3" fill="#FF5722" />
+    <path d="M 122 22 L 140 22 L 140 40 Z" fill="#FFCCBC" />
+    <path d="M 122 22 L 140 40 L 122 40 Z" fill="#FFAB91" />
+    <text x="32" y="50" font-family="JetBrains Mono, monospace" font-size="8" font-weight="500" fill="#94A3B8">biochef.yaml</text>
+    <g font-family="JetBrains Mono, monospace" font-size="9">
+      <text x="32" y="72"><tspan font-weight="700" fill="#FF5722">name</tspan><tspan fill="#525252">:</tspan><tspan dx="4" fill="#1A1A1A">aligner</tspan></text>
+      <text x="32" y="88"><tspan font-weight="700" fill="#FF5722">runtime</tspan><tspan fill="#525252">:</tspan><tspan dx="4" fill="#1A1A1A">wasm</tspan></text>
+      <text x="32" y="104"><tspan font-weight="700" fill="#FF5722">inputs</tspan><tspan fill="#525252">:</tspan></text>
+      <text x="32" y="118" fill="#525252"><tspan>  - </tspan><tspan fill="#1A1A1A">reads.fastq</tspan></text>
+    </g>
+  </g>
+
+  {/* Edge */}
+  <text x="170" y="68" text-anchor="middle" font-family="Roboto, Helvetica, Arial, sans-serif" font-size="9" font-weight="600" fill="#E64A19" letter-spacing="0.06em">PR · push</text>
+  <circle cx="143" cy="80" r="2.6" fill="#FF5722" />
+  <line x1="148" y1="80" x2="194" y2="80" stroke="#FF5722" stroke-width="1.6" stroke-linecap="round" marker-end="url(#rh-arr)" />
+  <text x="170" y="98" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#94A3B8">workflow_call</text>
+
+  {/* CI pipeline */}
+  <g>
+    <rect x="200" y="22" width="120" height="116" rx="12" fill="#FFFFFF" stroke="#80CBC4" stroke-width="1.2" filter="url(#rh-shadow)" />
+    <rect x="200" y="22" width="120" height="3" fill="#009688" />
+    <text x="212" y="50" font-family="JetBrains Mono, monospace" font-size="8" font-weight="500" fill="#94A3B8">build.yml</text>
+    <line x1="222" y1="68" x2="222" y2="124" stroke="#009688" stroke-width="1.3" stroke-linecap="round" opacity="0.4" />
+    <g font-family="Roboto, Helvetica, Arial, sans-serif" font-size="9.5" font-weight="500" fill="#1A1A1A">
+      <circle cx="222" cy="68" r="4.5" fill="#009688" />
+      <path d="M 219.5 68 L 221.5 70 L 224.5 66.5" stroke="white" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="232" y="72">validate</text>
+      <circle cx="222" cy="82" r="4.5" fill="#009688" />
+      <path d="M 219.5 82 L 221.5 84 L 224.5 80.5" stroke="white" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="232" y="86">build <tspan font-family="JetBrains Mono, monospace" font-size="9" fill="#009688" dx="2">.wasm</tspan></text>
+      <circle cx="222" cy="96" r="4.5" fill="#009688" />
+      <path d="M 219.5 96 L 221.5 98 L 224.5 94.5" stroke="white" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="232" y="100">test · golden</text>
+      <circle cx="222" cy="110" r="4.5" fill="#009688" />
+      <path d="M 219.5 110 L 221.5 112 L 224.5 108.5" stroke="white" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="232" y="114">SBOM · SLSA</text>
+      <circle cx="222" cy="124" r="4.5" fill="#009688" />
+      <path d="M 219.5 124 L 221.5 126 L 224.5 122.5" stroke="white" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="232" y="128">cosign · publish</text>
+    </g>
+  </g>
+</svg>
+
+### Key behaviors
+- Schema validation against <code>biochef.schema.json</code>; linting; tiny golden tests.
+- Builds with Emscripten/biowasm (WASM) or as a native tarball; generates SBOM and SLSA attestation.
+- Signs the bundle with cosign and pushes to the BioChef Registry, then re-signs <code>index.json</code>.
+
+### Practical tips
+- Author YAML in <code>biochef-recipes</code>; run <code>hub validate</code> before opening a PR.
+- Keep inputs/outputs typed; add small fixtures so CI can prove the tool still works.
+- The reusable workflow lives in <code>biochef-hub/.github/workflows/build-recipe.yml</code>.
+```yaml
+name: aligner
+version: 1.0.0
+inputs:
+  - id: reads
+    type: File
+    format: fastq
+steps:
+  - id: qc
+    uses: biochef/qc@1.2.0
+  - id: align
+    uses: biochef/bwa@0.7
+outputs:
+  - id: bam
+    from: align
+```

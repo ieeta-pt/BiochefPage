@@ -1,0 +1,37 @@
+---
+interface Props {
+  /** Optional small uppercase label above the title (no mono, no §, no decoration). */
+  kicker?: string;
+  /** Section title. */
+  title: string;
+  /** Lede paragraph below the title (plain text). */
+  subtitle?: string;
+  /** Lede paragraph as HTML (rendered with set:html). Wins over subtitle if both are provided. */
+  subtitleHtml?: string;
+  /** Layout: "center" (default) for marketing-style sections, "left" for documentation-style. */
+  align?: 'center' | 'left';
+}
+
+const { kicker, title, subtitle, subtitleHtml, align = 'center' } = Astro.props;
+const isCenter = align === 'center';
+---
+
+{/*
+  Clean MUI-style section header. Optional small uppercase label above
+  the title (plain Roboto, brand teal, no §-marks, no mono affectation),
+  H2 in regular weight, then a subtitle paragraph. Mirrors the
+  Material/MUI docs aesthetic used by the live app.
+*/}
+<header class={`${isCenter ? 'text-center' : ''} mb-12 md:mb-16`}>
+  {kicker && (
+    <p class={`text-xs font-semibold uppercase tracking-[0.12em] text-brand mb-3 ${isCenter ? '' : ''}`}>
+      {kicker}
+    </p>
+  )}
+  <h2 class="text-3xl md:text-4xl font-medium text-text tracking-tight mb-3">{title}</h2>
+  {subtitleHtml ? (
+    <p class={`text-base md:text-lg text-text-secondary max-w-2xl leading-relaxed ${isCenter ? 'mx-auto' : ''}`} set:html={subtitleHtml}></p>
+  ) : subtitle ? (
+    <p class={`text-base md:text-lg text-text-secondary max-w-2xl leading-relaxed ${isCenter ? 'mx-auto' : ''}`}>{subtitle}</p>
+  ) : null}
+</header>
