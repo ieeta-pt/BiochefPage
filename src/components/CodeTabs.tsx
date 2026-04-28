@@ -50,8 +50,9 @@ export default function CodeTabs({ tabs }: { tabs: Tab[] }) {
     <div className="rounded-xl bg-[#0F172A] shadow-lg overflow-hidden ring-1 ring-black/5">
       {/* Tab strip + window chrome */}
       <div className="flex items-end pl-3 pt-3 bg-[#0B1424] border-b border-white/[0.06] gap-0.5 overflow-x-auto">
-        {/* faux traffic lights, dialled down so they don't shout */}
-        <div className="flex items-center gap-1.5 pr-3 pb-2.5 self-end opacity-70">
+        {/* faux traffic lights, dialled down so they don't shout. Hidden on
+            mobile so the three tabs + Copy button fit without horizontal scroll. */}
+        <div className="hidden sm:flex items-center gap-1.5 pr-3 pb-2.5 self-end opacity-70">
           <span className="w-2.5 h-2.5 rounded-full bg-[#FF6B6B]" />
           <span className="w-2.5 h-2.5 rounded-full bg-[#FFD166]" />
           <span className="w-2.5 h-2.5 rounded-full bg-[#06D6A0]" />

@@ -59,8 +59,8 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand" />
             </span>
             <span className="uppercase tracking-[0.12em]">Peer-reviewed</span>
-            <span className="text-text-tertiary">·</span>
-            <span>BMC Bioinformatics, 2026</span>
+            <span className="hidden sm:inline text-text-tertiary">·</span>
+            <span className="hidden sm:inline">BMC Bioinformatics, 2026</span>
             <svg className="w-3 h-3 text-text-tertiary group-hover:text-text transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M7 17 17 7" />
               <path d="M7 7h10v10" />
@@ -70,7 +70,7 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
           {/* Title */}
           <motion.h1
             {...fadeUp(0.05)}
-            className="text-5xl sm:text-6xl md:text-7xl font-medium text-text tracking-tight leading-[1.05] mb-5 md:mb-6"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-text tracking-tight leading-[1.05] mb-5 md:mb-6"
             style={{ textWrap: 'balance' } as React.CSSProperties}
           >
             <span className="block">{title}</span>

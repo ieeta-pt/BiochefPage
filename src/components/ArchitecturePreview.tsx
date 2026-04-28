@@ -27,9 +27,31 @@ export default function ArchitecturePreview() {
         </a>
       </div>
 
+      {/* Mobile compact alternative — the SVG below renders at viewBox 1080x280
+          and shrinks ~2.9× on a 375px phone, making its 8–14px text unreadable.
+          Below md:, render a 4-step pipeline as text chips. */}
+      <ol className="md:hidden flex flex-col gap-2.5">
+        {[
+          { num: '01', label: 'Recipes', detail: 'YAML source', tone: 'border-l-accent text-accent' },
+          { num: '02', label: 'Hub', detail: 'CI · sign · publish', tone: 'border-l-brand text-brand' },
+          { num: '03', label: 'Registry', detail: 'Signed OCI bundles', tone: 'border-l-brand-800 text-brand-800' },
+          { num: '04', label: 'Browser', detail: 'WebAssembly runtime', tone: 'border-l-tertiary text-tertiary' }
+        ].map((step) => {
+          const [borderClass, textClass] = step.tone.split(' ');
+          return (
+            <li key={step.num} className={`bg-background rounded-md border-l-2 ${borderClass} pl-3 py-2 flex items-center gap-3`}>
+              <span className={`text-[10px] font-semibold tracking-[0.12em] uppercase ${textClass} w-6`}>{step.num}</span>
+              <span className="text-sm font-medium text-text">{step.label}</span>
+              <span className="text-xs text-text-tertiary ml-auto">{step.detail}</span>
+            </li>
+          );
+        })}
+      </ol>
+
+      {/* Desktop / tablet — the full inline SVG pipeline. */}
       <svg
         viewBox="0 0 1080 280"
-        className="w-full h-auto block"
+        className="hidden md:block w-full h-auto"
         role="img"
         aria-label="Compact BioChef pipeline: a YAML recipe is built and signed by biochef-hub, published to the BioChef Registry as a content-addressable bundle, then fetched by digest and run as WebAssembly inside the BioChef web app."
       >

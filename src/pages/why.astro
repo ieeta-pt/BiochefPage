@@ -4,6 +4,14 @@ import PageHero from '../components/PageHero.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import UseCaseCards from '../components/UseCaseCards';
 
+const comparison: [string, string, string][] = [
+  ['Tool provenance', 'Opaque containers, ad-hoc signing', 'Signed recipes → Hub → Registry with SBOM and SLSA'],
+  ['Getting started', 'Install toolchain, build from source, manage dependencies', 'Open the BioChef app in a browser tab'],
+  ['Data handling', 'Upload sequences to a server you have to trust', 'WASM execution keeps every byte inside the browser tab'],
+  ['Iterating on a workflow', 'Edit shell script, re-run, hope for reproducibility', 'DAG editor with live re-execution; recipes are signed and replayable'],
+  ['Sharing a result', 'Send a tarball plus a README', 'Share the recipe. Anyone can re-run it from the registry']
+];
+
 const cases = [
   {
     title: 'Standardize sequence analysis',
@@ -94,7 +102,8 @@ const cases = [
         title="Traditional toolchain vs BioChef"
         subtitle="A quick comparison of how each task changes when tools live in a signed registry and run as WebAssembly."
       />
-      <div class="overflow-x-auto rounded-xl border border-border bg-surface" style="box-shadow: var(--shadow-card);">
+      {/* Desktop / tablet view — full table with side-by-side columns */}
+      <div class="hidden md:block overflow-x-auto rounded-xl border border-border bg-surface" style="box-shadow: var(--shadow-card);">
         <table class="w-full" style="min-width: 720px;">
           <thead>
             <tr class="border-b border-border">
@@ -106,14 +115,8 @@ const cases = [
             </tr>
           </thead>
           <tbody class="text-sm">
-            {[
-              ['Tool provenance', 'Opaque containers, ad-hoc signing', 'Signed recipes → Hub → Registry with SBOM and SLSA'],
-              ['Getting started', 'Install toolchain, build from source, manage dependencies', 'Open the BioChef app in a browser tab'],
-              ['Data handling', 'Upload sequences to a server you have to trust', 'WASM execution keeps every byte inside the browser tab'],
-              ['Iterating on a workflow', 'Edit shell script, re-run, hope for reproducibility', 'DAG editor with live re-execution; recipes are signed and replayable'],
-              ['Sharing a result', 'Send a tarball plus a README', 'Share the recipe. Anyone can re-run it from the registry']
-            ].map(([aspect, before, after], i) => (
-              <tr class={`border-b border-border ${i === 4 ? 'border-b-0' : ''}`}>
+            {comparison.map(([aspect, before, after], i) => (
+              <tr class={`border-b border-border ${i === comparison.length - 1 ? 'border-b-0' : ''}`}>
                 <td class="px-5 py-4 font-semibold text-text align-top">{aspect}</td>
                 <td class="px-5 py-4 text-text-tertiary align-top leading-relaxed">{before}</td>
                 <td class="px-5 py-4 align-top bg-brand-light/30 border-l-2 border-brand">
@@ -128,6 +131,29 @@ const cases = [
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile view — each row becomes a stacked card so users don't have to
+          horizontally scroll a wide table on a 375px viewport. */}
+      <div class="md:hidden space-y-3">
+        {comparison.map(([aspect, before, after]) => (
+          <article class="bg-surface rounded-xl border border-border shadow-card overflow-hidden">
+            <p class="text-[10px] font-semibold tracking-[0.12em] uppercase text-text-tertiary px-4 pt-4 pb-3">{aspect}</p>
+            <div class="px-4 pb-3">
+              <p class="text-[10px] font-semibold tracking-[0.12em] uppercase text-text-tertiary mb-1.5">Traditional</p>
+              <p class="text-sm text-text-secondary leading-relaxed">{before}</p>
+            </div>
+            <div class="px-4 py-3 bg-brand-light/30 border-t-2 border-brand">
+              <p class="text-[10px] font-semibold tracking-[0.12em] uppercase text-brand-dark mb-1.5">With BioChef</p>
+              <div class="flex items-start gap-2.5">
+                <svg class="w-4 h-4 mt-0.5 flex-shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span class="text-sm text-text leading-relaxed">{after}</span>
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   </section>
