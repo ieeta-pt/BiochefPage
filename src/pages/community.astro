@@ -3,6 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import RoadmapTimeline from '../components/RoadmapTimeline';
+
+const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
 ---
 
 <BaseLayout title="Community · BioChef">
@@ -140,14 +143,14 @@ import RoadmapTimeline from '../components/RoadmapTimeline';
           {
             kicker: 'Project leadership',
             members: [
-              { initials: 'JS', name: 'Jorge Miguel Silva', role: 'Project lead · IEETA', tone: 'accent', active: false, url: 'https://jorgemfs.com' },
-              { initials: 'JO', name: 'José Luis Oliveira', role: 'Supervisor · IEETA', tone: 'accent', active: false }
+              { initials: 'JS', name: 'Jorge Miguel Silva', role: 'Project lead · IEETA', tone: 'accent', active: false, url: 'https://jorgemfs.com', photo: '/img/team/jorge-miguel-silva.webp' },
+              { initials: 'JO', name: 'José Luis Oliveira', role: 'Supervisor · IEETA', tone: 'accent', active: false, photo: '/img/team/jose-luis-oliveira.png' }
             ]
           },
           {
             kicker: 'Past contributors',
             members: [
-              { initials: 'JR', name: 'Joaquim Rosa', role: 'Original author of the BioChef SPA', tone: 'neutral', active: false }
+              { initials: 'JR', name: 'Joaquim Rosa', role: 'Original author of the BioChef SPA', tone: 'neutral', active: false, url: 'https://github.com/JakeRosa', photo: '/img/team/joaquim-rosa.png' }
             ]
           }
         ].map((group) => (
@@ -172,11 +175,27 @@ import RoadmapTimeline from '../components/RoadmapTimeline';
                     <div class={`absolute top-0 left-0 right-0 h-[3px] ${ruleClass} ${isNeutral ? 'opacity-60' : 'opacity-90'}`}></div>
 
                     <div class="flex items-center gap-5 p-5 md:p-6">
-                      {/* monogram */}
+                      {/* Photo (when supplied) or monogram fallback. The dashed
+                          tone-tinted ring stays in both cases for visual continuity. */}
                       <div class="relative flex-shrink-0 w-16 h-16 flex items-center justify-center">
                         <div class={`absolute inset-0 rounded-full border border-dashed ${ringClass}`}></div>
-                        <div class={`absolute inset-1.5 rounded-full ${tileClass}`}></div>
-                        <span class={`relative font-mono text-lg font-semibold tracking-tight ${monoClass}`}>{person.initials}</span>
+                        {person.photo ? (
+                          <div class="absolute inset-1.5 rounded-full overflow-hidden bg-background">
+                            <img
+                              src={withBase(person.photo)}
+                              alt={person.name}
+                              class="w-full h-full object-cover"
+                              width="52"
+                              height="52"
+                              loading="lazy"
+                            />
+                          </div>
+                        ) : (
+                          <>
+                            <div class={`absolute inset-1.5 rounded-full ${tileClass}`}></div>
+                            <span class={`relative font-mono text-lg font-semibold tracking-tight ${monoClass}`}>{person.initials}</span>
+                          </>
+                        )}
                         {person.active && (
                           <span class="absolute -top-0.5 -right-0.5 inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 ring-2 ring-surface" title="Active developer"></span>
                         )}
