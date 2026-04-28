@@ -5,7 +5,7 @@ import SectionHeader from '../components/SectionHeader.astro';
 import RoadmapTimeline from '../components/RoadmapTimeline';
 ---
 
-<BaseLayout title="Community & Roadmap | BioChef">
+<BaseLayout title="Community · BioChef">
   <PageHero
     kicker="Community"
     title="Community & Roadmap"
@@ -140,7 +140,7 @@ import RoadmapTimeline from '../components/RoadmapTimeline';
           {
             kicker: 'Project leadership',
             members: [
-              { initials: 'JS', name: 'Jorge Miguel Silva', role: 'Project lead · IEETA', tone: 'accent', active: false },
+              { initials: 'JS', name: 'Jorge Miguel Silva', role: 'Project lead · IEETA', tone: 'accent', active: false, url: 'https://jorgemfs.com' },
               { initials: 'JO', name: 'José Luis Oliveira', role: 'Supervisor · IEETA', tone: 'accent', active: false }
             ]
           },
@@ -184,7 +184,24 @@ import RoadmapTimeline from '../components/RoadmapTimeline';
 
                       {/* identity + role */}
                       <div class="min-w-0 flex-1">
-                        <h3 class="font-semibold text-text text-base md:text-lg tracking-tight mb-1 leading-tight">{person.name}</h3>
+                        <h3 class="font-semibold text-text text-base md:text-lg tracking-tight mb-1 leading-tight">
+                          {person.url ? (
+                            <a
+                              href={person.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              class="inline-flex items-center gap-1.5 hover:text-brand transition-colors group/link"
+                            >
+                              {person.name}
+                              <svg class="w-3.5 h-3.5 text-text-tertiary group-hover/link:text-brand transition-colors flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M7 17 17 7" />
+                                <path d="M7 7h10v10" />
+                              </svg>
+                            </a>
+                          ) : (
+                            person.name
+                          )}
+                        </h3>
                         <p class={`text-sm leading-snug ${isNeutral ? 'text-text-tertiary' : 'text-text-secondary'}`}>{person.role}</p>
                       </div>
                     </div>

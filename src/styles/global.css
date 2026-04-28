@@ -378,7 +378,10 @@
    ======================================== */
 @layer utilities {
   .safe-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
+    /* Always at least 1rem of breathing room; more on iPhones with a home
+       indicator. Without max(), env() resolves to 0 on devices that don't
+       have a safe area, clipping content against the viewport edge. */
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 }
 

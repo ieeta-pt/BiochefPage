@@ -20,22 +20,28 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
     <title>{title}</title>
     <meta name="description" content={description} />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href={withBase('/img/biochef-logo.png')} />
+    {/* Favicon stack — same logo PNG served at multiple sizes the browser
+        and OS hosts will pick from. apple-touch-icon is what Safari iOS uses
+        when a user adds the page to their home screen. */}
+    <link rel="icon" type="image/png" sizes="any" href={withBase('/img/biochef-logo.png')} />
+    <link rel="apple-touch-icon" href={withBase('/img/biochef-logo.png')} />
+    <link rel="shortcut icon" href={withBase('/img/biochef-logo.png')} />
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={withBase('/img/biochef-logo.png')} />
+    <meta property="og:site_name" content="BioChef" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
 
-    <!-- Theme color for mobile browsers -->
-    <meta name="theme-color" content="#0A7D73" />
+    {/* Theme color for mobile browser chrome — Material Teal 500, matches the
+        live app's MUI primary color and the scrolled-state nav AppBar. */}
+    <meta name="theme-color" content="#009688" />
 
     <!-- Preconnect to external resources if needed -->
     <link rel="dns-prefetch" href="https://github.com" />
