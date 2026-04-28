@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ieeta-pt.github.io/BiochefPage/sitemap-index.xml

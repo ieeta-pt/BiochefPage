@@ -1,0 +1,42 @@
+# BioChef
+
+> A signed catalogue of bioinformatics tools that run end-to-end in your browser via WebAssembly. From a YAML recipe in Git to a signed bundle in the BioChef Registry, then executed client-side. No installs, no uploads, no servers.
+
+BioChef is an open project from IEETA at the University of Aveiro. Tools are declared as YAML recipes; the `biochef-hub` reusable GitHub Actions workflow validates, builds (Emscripten/biowasm to WASM), tests against golden fixtures, generates SBOM + SLSA provenance, signs with cosign, and publishes content-addressable OCI bundles to the BioChef Registry. The static BioChef web app fetches tools by digest at runtime and runs them as WebAssembly inside the browser tab.
+
+The marketing/docs site at <https://ieeta-pt.github.io/BiochefPage/> is what this `llms.txt` indexes. The actual web app users run lives at <https://ieeta-pt.github.io/Biochef/> in a separate repo.
+
+## Pages
+
+- [Why BioChef](https://ieeta-pt.github.io/BiochefPage/why): The case for a signed, browser-native bioinformatics catalogue. Problem, solution, use cases, and a side-by-side comparison with traditional toolchains.
+- [Architecture](https://ieeta-pt.github.io/BiochefPage/architecture): The four-station pipeline (recipes → Hub → Registry → browser web app) with deep-dive accordions for each component.
+- [Workflows](https://ieeta-pt.github.io/BiochefPage/workflows): The in-browser DAG editor; example scenarios; snapshot of the tool families currently available.
+- [Developers](https://ieeta-pt.github.io/BiochefPage/developers): Three quickstart paths (author a recipe, run the SPA locally, pull a signed bundle). Code snippets in YAML, Bash, JSON.
+- [Community](https://ieeta-pt.github.io/BiochefPage/community): Project status, roadmap, team, citation.
+
+## Live components (shipped today)
+
+- BioChef web app (the SPA users run): <https://ieeta-pt.github.io/Biochef/>
+- biochef-hub (CI / signing): <https://github.com/ieeta-pt/biochef-hub>
+- BioChef Registry (signed OCI bundles): <https://registry.biochef.app>
+
+## Source code
+
+- BioChef SPA: <https://github.com/ieeta-pt/Biochef>
+- This marketing site: <https://github.com/ieeta-pt/BiochefPage>
+
+## Roadmap (in progress)
+
+- Agent mode: server-side and desktop runtime that executes signed bundles outside the browser, with the same provenance guarantees.
+- Workflow aggregation: package multi-step DAGs as first-class signed artifacts in the Registry.
+- Federated learning + server runtimes (GA4GH connectors, WES/TES, MCP gateway, observability) — designed but not yet shipped.
+
+## Citation
+
+Rosa, J., Andrade, J., Silva, J. M., & Oliveira, J. L. (2026). Biochef: a client-side WebAssembly-based workflow builder for genomic data analysis. *BMC Bioinformatics*. DOI: [10.1186/s12859-026-06431-1](https://doi.org/10.1186/s12859-026-06431-1). CC-BY 4.0.
+
+## Optional
+
+- [Full-content version of this index](https://ieeta-pt.github.io/BiochefPage/llms-full.txt): every page's prose inlined, for LLMs that want the whole site in one fetch.
+- [robots.txt](https://ieeta-pt.github.io/BiochefPage/robots.txt)
+- [sitemap-index.xml](https://ieeta-pt.github.io/BiochefPage/sitemap-index.xml)

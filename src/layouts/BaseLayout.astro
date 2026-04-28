@@ -27,17 +27,22 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
     <link rel="apple-touch-icon" href={withBase('/img/biochef-logo.png')} />
     <link rel="shortcut icon" href={withBase('/img/biochef-logo.png')} />
 
-    <!-- Open Graph -->
+    {/* Open Graph — uses the dedicated 1200x630 social card so link previews
+        on Twitter, LinkedIn, Slack, Discord etc. render full-size, not a tiny
+        favicon. */}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content={withBase('/img/biochef-logo.png')} />
+    <meta property="og:image" content={`https://ieeta-pt.github.io${withBase('/img/og-image.png')}`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="BioChef" />
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary" />
+    <!-- Twitter Card — large image variant so the OG image renders full-bleed -->
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`https://ieeta-pt.github.io${withBase('/img/og-image.png')}`} />
 
     {/* Theme color for mobile browser chrome — Material Teal 500, matches the
         live app's MUI primary color and the scrolled-state nav AppBar. */}

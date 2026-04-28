@@ -1,0 +1,268 @@
+# BioChef · full content
+
+> A signed catalogue of bioinformatics tools that run end-to-end in your browser via WebAssembly. From a YAML recipe in Git to a signed bundle in the BioChef Registry, then executed client-side. No installs, no uploads, no servers.
+
+This is the full-content companion to <https://ieeta-pt.github.io/BiochefPage/llms.txt>. It inlines the prose of every public page so an LLM can ingest the whole marketing/docs site in one fetch.
+
+The site at <https://ieeta-pt.github.io/BiochefPage/> documents BioChef, an open project from IEETA at the University of Aveiro. The actual BioChef web app users run lives at <https://ieeta-pt.github.io/Biochef/>; this site is the marketing/docs front door.
+
+---
+
+## Home (/)
+
+**Headline:** Genomics tools in a browser tab.
+
+An open catalogue of bioinformatics tools that run end-to-end in your browser. No installs, no uploads.
+
+Peer-reviewed in BMC Bioinformatics, 2026. DOI: 10.1186/s12859-026-06431-1.
+
+### Platform pillars (what you get)
+
+- **Recipes → Hub → Registry.** Tools are declared as YAML recipes, validated and built by biochef-hub (SBOM, SLSA, cosign), then published as signed bundles to the BioChef Registry.
+- **Browser-native WebAssembly.** Every published tool runs client-side in WebAssembly. Open the BioChef app, drop in a sequence, and execute. No installs, no uploads, no servers.
+- **Drag-and-drop DAGs.** A DAG editor chains tools end-to-end. Tools are filtered by data type, parameters re-execute live, and recipes can be saved and shared.
+
+### Architecture at a glance
+
+A YAML recipe in Git, signed by the Hub CI, served from the BioChef Registry, and run as WebAssembly in your browser. Four stations: Recipes (orange) → Hub (teal) → Registry (dark teal) → Browser (blue). Every artifact is content-addressable; every step is signed.
+
+### Ecosystem fit
+
+- **WebAssembly runtime.** Bioinformatics tools compiled with Emscripten and biowasm; everything runs in the browser.
+- **OCI Registry distribution.** Signed bundles published to `registry.biochef.app` with SBOM and SLSA provenance.
+- **Sigstore cosign provenance.** Every recipe is built, tested, signed, and an immutable digest is recorded in the signed `index.json`.
+
+---
+
+## Why BioChef (/why)
+
+**Headline:** Why BioChef.
+
+BioChef democratizes access to bioinformatics tools, bridging biologists, healthcare professionals, and computational tools by running C-based genomic utilities directly in the browser via WebAssembly.
+
+Designed for: researchers, clinicians, students.
+Privacy model: no upload, no server, no install.
+Source of trust: signed bundles in the Registry.
+
+### The case: a tool every reviewer can re-run
+
+**The problem — tools are hard to share and trust.** Most bioinformatics tools require local installs, native toolchains, and trust in opaque container images. End users like clinicians, students, and reviewers can't easily inspect or run them, and reproducibility suffers.
+
+**The solution — Recipe → Hub → Registry → browser.** A YAML recipe declares the tool. `biochef-hub` validates, builds (WASM via Emscripten/biowasm), tests, generates SBOM + SLSA, signs with cosign, and publishes a signed bundle to `registry.biochef.app`. The static BioChef web app then loads it by digest and runs it client-side. No servers, no uploads.
+
+### Use cases
+
+- **Standardize sequence analysis (researchers).** Run signed tools for FASTA/FASTQ manipulation, format conversion, and statistics with reproducible parameters.
+- **No installs, nothing uploaded (privacy).** The whole BioChef app is a static page. Tools are compiled to WebAssembly and execute on your sequence inside the browser tab.
+- **Build and share workflows (workflow authors).** Drag tools into a DAG, configure parameters, and re-run live as you iterate. Save and reload recipes in one click.
+
+### Traditional toolchain vs BioChef
+
+| Aspect | Traditional toolchain | With BioChef |
+|---|---|---|
+| Tool provenance | Opaque containers, ad-hoc signing | Signed recipes → Hub → Registry with SBOM and SLSA |
+| Getting started | Install toolchain, build from source, manage dependencies | Open the BioChef app in a browser tab |
+| Data handling | Upload sequences to a server you have to trust | WASM execution keeps every byte inside the browser tab |
+| Iterating on a workflow | Edit shell script, re-run, hope for reproducibility | DAG editor with live re-execution; recipes are signed and replayable |
+| Sharing a result | Send a tarball plus a README | Share the recipe. Anyone can re-run it from the registry |
+
+---
+
+## Architecture (/architecture)
+
+**Headline:** Anatomy of a BioChef tool.
+
+Three pieces ship today: recipes in Git, the Hub CI that signs and publishes, and the BioChef Registry that serves the WebAssembly app.
+
+Live components: Recipes · Hub · Registry · Web app.
+Build chain: Emscripten · biowasm · cosign.
+Distribution: `registry.biochef.app`.
+
+### The path a tool travels (four stations, left to right)
+
+**01 · Source — biochef-recipes.** YAML source of truth. Each tool is a `biochef.yaml` file declaring inputs, runtime, and version. → push.
+
+**02 · Build — biochef-hub.** CI on GitHub Actions: validate, build to WASM, run golden tests, generate SBOM and SLSA, sign with cosign. → publish (ORAS · cosign).
+
+**03 · Distribute — BioChef Registry.** Content-addressable OCI bundles at `registry.biochef.app`: `bundle.json`, WASM/JS layers, SBOM, signature. → fetch by digest (dashed = runtime).
+
+**04 · Runtime — BioChef web app.** Static SPA fetches tools by digest, verifies the signature, and runs them as WebAssembly inside your browser tab.
+
+Every artifact is content-addressable · every step is signed.
+
+### Component details
+
+**Recipes & Hub.** Recipes declare tools/workflows; Hub validates, signs, and bundles them for Registry. Schema validation against `biochef.schema.json`; linting; tiny golden tests. Builds with Emscripten/biowasm (WASM) or as a native tarball; generates SBOM and SLSA attestation. Signs the bundle with cosign and pushes to the BioChef Registry, then re-signs `index.json`. Author YAML in `biochef-recipes`; run `hub validate` before opening a PR. Keep inputs/outputs typed; add small fixtures so CI can prove the tool still works. The reusable workflow lives in `biochef-hub/.github/workflows/build-recipe.yml`.
+
+**Registry & Catalog.** The BioChef Registry, live at `registry.biochef.app`, stores signed OCI artifacts (`bundle.json` + WASM/JS layers + SBOM) and the signed `index.json` that lists every published tool by digest. Each tool version is content-addressable: pulled by digest, not by mutable tag. The Hub signs every bundle and the top-level `index.json` with cosign. WASM and JS assets are served as plain HTTPS so the browser app can stream them. Treat each version as immutable; promote new builds, never overwrite digests. Verify the cosign signature before serving a tool to the browser. Use the signed `index.json` as the source of truth for what is publishable.
+
+**UI & WASM Runtime.** The BioChef web app, a static React/Webpack SPA, runs every published bioinformatics tool entirely in the browser via WebAssembly. Has a Tools page for single-tool runs and a Workflow page for DAG-style chains. Loads tools by digest from the BioChef Registry; aioli/biowasm boots them in a Web Worker. Detects input data type (FASTA, FASTQ, packaged FASTQ, amino acids, …) and filters compatible tools. DAG editor re-executes downstream steps on parameter change; recipes can be saved and reloaded. Tools are compiled with Emscripten (3.1.65); rebuild with `npm run build-wasm`. Outputs stream live to the Output panel; inspect intermediate steps without re-running the whole pipeline. The whole app is static. Host it from any CDN or GitHub Pages.
+
+---
+
+## Workflows (/workflows)
+
+**Headline:** Build workflows.
+
+Drag bioinformatics tools into a DAG inside your browser tab. Outputs flow live, parameters re-execute on the fly, and the whole thing is just a static page that runs WebAssembly.
+
+Editor: drag-and-drop DAG with type filtering.
+Runtime: WebAssembly via biowasm.
+Persistence: recipes saved as JSON.
+
+### Editor preview (drag, drop, watch outputs flow)
+
+A four-node sketch of what the Workflow page looks like in the BioChef app. Click a node to see what feeds it and what it produces. Default WASM pipeline today: input FASTQ → fastq-stats / fastq2fasta → fasta-reverse → output.
+
+### Example scenarios
+
+- **FASTA/FASTQ QC and inspection (triage).** Chain inspection and statistics tools to triage a sequencing file in seconds, no upload needed.
+- **Format conversion pipeline (data prep).** Convert between FASTA, FASTQ, and SEQ; reverse, complement, and slice. All in one signed recipe.
+- **Teaching demo (education).** Share a recipe link with a class. Anyone can open it in the browser and walk through the same DAG step by step.
+
+### Tool catalogue snapshot
+
+- Sequence manipulation (12+): extract · reverse · complement · slice
+- Format conversion (8+): FASTA ↔ FASTQ · FASTA ↔ SEQ · packaged FASTQ
+- Genomic operations (10+): random DNA · genomic complement · GC-content
+- Amino acid (6+): translate · reverse-translate · stats
+- Information & analysis (9+): entropy · k-mer counts · summary stats
+- Mathematical (5+): distance metrics · transformations
+- Text processing (7+): filter · split · join · diff
+- And growing: new recipes added by the community
+
+Tool families and counts include those provided by GTO and other catalogues.
+
+### How execution works (one runtime today)
+
+Every step runs in the browser via WebAssembly. Server-side runtimes are on the roadmap.
+
+Live runtime — Browser WebAssembly. Every shipped tool runs entirely in your browser tab. No upload, no install, no server. Where: your browser tab. Compiled with: Emscripten · biowasm. Loaded by: signed digest from registry.
+
+---
+
+## Developers (/developers)
+
+**Headline:** For Developers.
+
+Write a YAML recipe, push it through the Hub CI, and your tool ends up signed in `registry.biochef.app` and runnable from the BioChef web app.
+
+Hub CLI: Go binary, reusable GitHub workflow.
+Recipes: `biochef.yaml` in Git.
+Local dev: clone the SPA, `npm start`.
+
+### Three ways in (pick a path, get to a running BioChef in under five minutes)
+
+**Step 01 · Author — write a new recipe.** Author a YAML recipe in your own repo. The Hub workflow validates, signs, and publishes it for you.
+1. Fork `biochef-recipes` and create `recipes/<tool>/biochef.yaml`.
+2. Run `hub validate` and add tiny golden fixtures under `tests/`.
+3. Open a PR. The reusable Hub workflow runs validate → build → SBOM → cosign → publish.
+Hub setup guide: <https://github.com/ieeta-pt/biochef-hub#reusable-workflow-called-by-biochef-recipes>
+
+**Step 02 · Run — run the BioChef app locally.** Clone the SPA, install deps, and serve it with the dev server. No backend required.
+1. `git clone https://github.com/ieeta-pt/Biochef` and `npm install`.
+2. (Optional) install Emscripten 3.1.65 and run `npm run build-wasm` to rebuild WASM modules from source.
+3. `npm start` and open `http://localhost:8082`.
+
+**Step 03 · Inspect — pull a signed bundle.** Tools live in the BioChef Registry as content-addressable OCI bundles. The web app fetches them by digest at runtime; you can pull and verify them locally with the Hub CLI or ORAS.
+1. Resolve a tool by digest in the signed `index.json`.
+2. Pull the OCI bundle (`bundle.json` + WASM/JS layers + SBOM) with the Hub CLI or ORAS.
+3. Verify the cosign signature before loading the tool.
+Hub CLI on GitHub: <https://github.com/ieeta-pt/biochef-hub>
+
+### Snippets (what the code looks like)
+
+A recipe in YAML, the Hub CLI run, and a saved workflow.
+
+**YAML recipe:**
+```yaml
+name: aligner
+version: 1.0.0
+inputs:
+  - id: reads
+    type: File
+    format: fastq
+steps:
+  - id: qc
+    uses: biochef/qc@1.2.0
+  - id: align
+    uses: biochef/bwa@0.7
+outputs:
+  - id: bam
+    from: align
+```
+
+**CLI usage:**
+```bash
+$ hub validate recipe.yaml
+$ hub build recipe.yaml --out dist/
+$ hub sbom && hub attest
+$ hub sign --key cosign.key
+$ hub publish dist/ --registry https://registry.biochef.app
+$ hub index --sign
+```
+
+**Workflow JSON:**
+```json
+{
+  "name": "fastq-triage",
+  "steps": [
+    { "id": "stats",   "runtime": "wasm", "tool": "fastq-stats@1.0.0" },
+    { "id": "tofasta", "runtime": "wasm", "tool": "fastq2fasta@1.0.0" },
+    { "id": "rev",     "runtime": "wasm", "tool": "fasta-reverse@1.0.0" }
+  ]
+}
+```
+
+---
+
+## Community & Roadmap (/community)
+
+**Headline:** Community & Roadmap.
+
+Track project progress, explore what is coming next, and meet the team behind BioChef.
+
+Live since: 2024 (web app) · 2025 (Hub).
+Built by: IEETA · University of Aveiro.
+License: MIT (code) · CC-BY 4.0 (paper).
+
+### Project status
+
+The web app, Hub CI, and Registry are live today. Agent mode and workflow aggregation are in active development. Federated learning is on the longer roadmap.
+
+- **Live — BioChef web app.** Tools page + Workflow page; bioinformatics tools (GTO and others) running in WebAssembly via biowasm.
+- **Live — biochef-hub + Registry.** Reusable GitHub workflow signs and publishes recipes to `registry.biochef.app`.
+- **In development — Agent mode & workflow aggregation.** Server-side execution of signed bundles outside the browser, plus packaging multi-step workflows as first-class registry artifacts.
+
+### Roadmap
+
+- BioChef web app: Tools + Workflow pages [done]. A growing catalogue of bioinformatics tools (GTO and others) compiled to WebAssembly, in-browser DAG editor, recipe persistence. Live at ieeta-pt.github.io/Biochef.
+- biochef-hub CI + signed Registry [done]. Reusable GitHub workflow that validates, builds, signs (cosign), and publishes bundles to registry.biochef.app.
+- biochef-recipes catalog growth [in progress]. Expand the public recipe catalogue with more tools, more contributors, and richer metadata.
+- Agent mode [in progress]. Server-side and desktop runtime that executes signed bundles outside the browser, with the same provenance guarantees.
+- Workflow aggregation [planned]. Package multi-step workflows as first-class signed artifacts in the registry, alongside individual tools, so a whole pipeline becomes a single shareable recipe.
+- Federated learning + server runtimes [planned]. Federated Aggregator + Silo Agents, GA4GH connectors, WES/TES, MCP gateway, observability. All designed but not yet shipped.
+
+### Team (research team at IEETA, University of Aveiro)
+
+- **João Andrade** — Lead developer (active).
+- **Miguel Reis** — Developer.
+- **Jorge Miguel Silva** — Project lead · IEETA. <https://jorgemfs.com>
+- **José Luis Oliveira** — Supervisor · IEETA.
+- **Joaquim Rosa** — Original author of the BioChef SPA. <https://github.com/JakeRosa>
+
+### Citation
+
+Published in BMC Bioinformatics · 2026. Rosa, J., Andrade, J., Silva, J. M., & Oliveira, J. L. (2026). *Biochef: a client-side WebAssembly-based workflow builder for genomic data analysis.* BMC Bioinformatics. DOI: [10.1186/s12859-026-06431-1](https://doi.org/10.1186/s12859-026-06431-1). Open access. CC-BY 4.0. BioChef code is released under the MIT License.
+
+### Get involved
+
+- **Repositories.** ieeta-pt/Biochef · ieeta-pt/biochef-hub · registry.biochef.app
+- **Issues & Discussions.** BioChef issues · biochef-hub issues
+- **Contributing.** See `CONTRIBUTING.md` in the BioChef repo for code style, build, and test guidance.
+
+---
+
+## End of full content
+
+Source files for the marketing site itself live at <https://github.com/ieeta-pt/BiochefPage>. The actual BioChef SPA users run is in <https://github.com/ieeta-pt/Biochef>. Hub CI is in <https://github.com/ieeta-pt/biochef-hub>. The signed Registry is at <https://registry.biochef.app>.

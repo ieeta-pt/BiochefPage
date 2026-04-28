@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
+
+const links = [
+  { label: 'Home',          href: '/' },
+  { label: 'Why BioChef',   href: '/why' },
+  { label: 'Architecture',  href: '/architecture' },
+  { label: 'Workflows',     href: '/workflows' },
+  { label: 'Developers',    href: '/developers' },
+  { label: 'Community',     href: '/community' }
+];
+---
+
+<BaseLayout title="Not found · BioChef" description="The page you are looking for does not exist on BioChef.">
+  <section class="min-h-[70vh] flex items-center">
+    <div class="container-main py-20 md:py-28">
+      <div class="max-w-2xl">
+        <p class="text-[10px] font-semibold tracking-[0.12em] uppercase text-brand mb-4">404 · Not found</p>
+        <h1 class="text-4xl md:text-5xl font-medium text-text tracking-tight leading-[1.1] mb-5">
+          That page slipped out of the registry.
+        </h1>
+        <p class="text-base md:text-lg text-text-secondary leading-relaxed mb-8 max-w-xl">
+          The URL you followed does not match anything on this site. Try one of these instead, or open the live BioChef app.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-3 mb-10">
+          <a
+            class="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-brand text-white text-sm font-medium uppercase tracking-[0.06em] rounded-md transition-all hover:bg-brand-dark hover:shadow-button focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+            href={withBase('/')}
+          >
+            Back to home
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
+          <a
+            class="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-brand text-sm font-medium uppercase tracking-[0.06em] rounded-md border border-brand/40 hover:border-brand hover:bg-brand/[0.04] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+            href="https://ieeta-pt.github.io/Biochef/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open the app
+          </a>
+        </div>
+
+        <p class="text-[10px] font-semibold tracking-[0.12em] uppercase text-text-tertiary mb-3">Pages</p>
+        <ul class="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+          {links.map((link) => (
+            <li>
+              <a
+                class="text-text-secondary hover:text-brand transition-colors"
+                href={withBase(link.href)}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
