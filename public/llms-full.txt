@@ -2,9 +2,9 @@
 
 > A signed catalogue of bioinformatics tools that run end-to-end in your browser via WebAssembly. From a YAML recipe in Git to a signed bundle in the BioChef Registry, then executed client-side. No installs, no uploads, no servers.
 
-This is the full-content companion to <https://ieeta-pt.github.io/BiochefPage/llms.txt>. It inlines the prose of every public page so an LLM can ingest the whole marketing/docs site in one fetch.
+This is the full-content companion to <https://home.biochef.app/llms.txt>. It inlines the prose of every public page so an LLM can ingest the whole marketing/docs site in one fetch.
 
-The site at <https://ieeta-pt.github.io/BiochefPage/> documents BioChef, an open project from IEETA at the University of Aveiro. The actual BioChef web app users run lives at <https://ieeta-pt.github.io/Biochef/>; this site is the marketing/docs front door.
+The site at <https://home.biochef.app/> documents BioChef, an open project from IEETA at the University of Aveiro. The actual BioChef web app users run lives at <https://ieeta-pt.github.io/Biochef/>; this site is the marketing/docs front door.
 
 ---
 

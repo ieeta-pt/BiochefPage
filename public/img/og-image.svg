@@ -23,5 +23,5 @@
   <line x1="100" y1="480" x2="160" y2="480" stroke="#009688" stroke-width="4"/>
   <text x="100" y="540" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="500" fill="#525252">Signed bioinformatics tools that run as WebAssembly &#183; no installs</text>
 
-  <text x="1100" y="555" text-anchor="end" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="500" fill="#6B6B6B">ieeta-pt.github.io/BiochefPage</text>
+  <text x="1100" y="555" text-anchor="end" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="500" fill="#6B6B6B">home.biochef.app</text>
 </svg>

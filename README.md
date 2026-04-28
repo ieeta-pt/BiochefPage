@@ -2,7 +2,7 @@
 
 Documentation and marketing site for the [BioChef](https://github.com/ieeta-pt/Biochef) project — a catalogue of signed bioinformatics tools that run end-to-end in your browser via WebAssembly.
 
-**Live:** https://ieeta-pt.github.io/BiochefPage/
+**Live:** https://home.biochef.app/
 
 The actual BioChef web app (the SPA users run) lives at https://ieeta-pt.github.io/Biochef/ in a separate repo.
 
@@ -29,7 +29,7 @@ Requires Node 20 +.
 
 ```bash
 npm install
-npm run dev      # serves at http://localhost:4321/BiochefPage
+npm run dev      # serves at http://localhost:4321/
 npm run build    # static build to dist/
 npm run preview  # serve the production build
 ```
