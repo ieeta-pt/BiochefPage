@@ -116,22 +116,22 @@ A four-node sketch of what the Workflow page looks like in the BioChef app. Clic
 
 ### Example scenarios
 
-- **FASTA/FASTQ QC and inspection (triage).** Chain inspection and statistics tools to triage a sequencing file in seconds, no upload needed.
-- **Format conversion pipeline (data prep).** Convert between FASTA, FASTQ, and SEQ; reverse, complement, and slice. All in one signed recipe.
+- **Sequencing data triage.** Run fastp for QC and adapter trimming, then chain samtools view/stats/flagstat or GTO statistics to triage FASTQ or BAM/CRAM in seconds, no upload needed.
+- **Format conversion pipeline (data prep).** Convert between FASTA, FASTQ, SEQ, BAM ↔ SAM (samtools), GTF ↔ GFF (gffread); reverse, complement, slice. All in one signed recipe.
 - **Teaching demo (education).** Share a recipe link with a class. Anyone can open it in the browser and walk through the same DAG step by step.
 
 ### Tool catalogue snapshot
 
-- Sequence manipulation (12+): extract · reverse · complement · slice
-- Format conversion (8+): FASTA ↔ FASTQ · FASTA ↔ SEQ · packaged FASTQ
-- Genomic operations (10+): random DNA · genomic complement · GC-content
-- Amino acid (6+): translate · reverse-translate · stats
-- Information & analysis (9+): entropy · k-mer counts · summary stats
-- Mathematical (5+): distance metrics · transformations
-- Text processing (7+): filter · split · join · diff
+- GTO suite (57+): sequence · format · genomic · amino acid · info · text
+- seqtk (20+): FASTA/FASTQ — subseq · sample · trim · convert · stats
+- samtools (15+): BAM/SAM/CRAM — view · sort · index · mpileup · flagstat · stats
+- gffread (4+): GFF/GTF — convert · extract · filter · validate
+- MSA & phylogenetics (5+): muscle align · fasttree phylogenetic tree
+- fastp (3+): FASTQ QC · adapter trim · per-base report
+- Text & JSON utilities (4+): gawk · grep · jq — filter · pattern match · JSON query
 - And growing: new recipes added by the community
 
-Tool families and counts include those provided by GTO and other catalogues.
+Counts approximate. Workflows can pipe FASTA, FASTQ, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST and more between tools.
 
 ### How execution works (one runtime today)
 
@@ -248,13 +248,13 @@ License: MIT (code) · CC-BY 4.0 (paper).
 
 The web app, Hub CI, and Registry are live today. Agent mode and workflow aggregation are in active development. Federated learning is on the longer roadmap.
 
-- **Live — BioChef web app.** Tools page + Workflow page; bioinformatics tools (GTO and others) running in WebAssembly via biowasm.
+- **Live — BioChef web app.** Tools page + Workflow page; bioinformatics tools (GTO, samtools, seqtk, muscle, fastp, fasttree, gffread, jq, gawk, grep) running in WebAssembly via biowasm.
 - **Live — biochef-hub + Registry.** Reusable GitHub workflow signs and publishes recipes to `registry.biochef.app`.
 - **In development — Agent mode & workflow aggregation.** Server-side execution of signed bundles outside the browser, plus packaging multi-step workflows as first-class registry artifacts.
 
 ### Roadmap
 
-- BioChef web app: Tools + Workflow pages [done]. A growing catalogue of bioinformatics tools (GTO and others) compiled to WebAssembly, in-browser DAG editor, recipe persistence. Live at ieeta-pt.github.io/Biochef.
+- BioChef web app: Tools + Workflow pages [done]. A growing catalogue of bioinformatics tools (GTO, samtools, seqtk, muscle, fastp, fasttree, gffread, jq, gawk, grep) compiled to WebAssembly, in-browser DAG editor, recipe persistence. Live at ieeta-pt.github.io/Biochef.
 - biochef-hub CI + signed Registry [done]. Reusable GitHub workflow that validates, builds, signs (cosign), and publishes bundles to registry.biochef.app.
 - biochef-recipes catalog growth [in progress]. Expand the public recipe catalogue with more tools, more contributors, and richer metadata.
 - Agent mode [in progress]. Server-side and desktop runtime that executes signed bundles outside the browser, with the same provenance guarantees.
