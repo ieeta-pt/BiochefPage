@@ -92,7 +92,7 @@ Every artifact is content-addressable · every step is signed.
 
 ### Component details
 
-**Recipes & Hub.** Recipes declare tools/workflows; Hub validates, signs, and bundles them for Registry. Schema validation against `biochef.schema.json`; linting; tiny golden tests. Builds with Emscripten/biowasm (WASM) or as a native tarball; generates SBOM and SLSA attestation. Signs the bundle with cosign and pushes to the BioChef Registry, then re-signs `index.json`. Author YAML in `biochef-recipes`; run `hub validate` before opening a PR. Keep inputs/outputs typed; add small fixtures so CI can prove the tool still works. The reusable workflow lives in `biochef-hub/.github/workflows/build-recipe.yml`.
+**Recipes & Hub.** Recipes declare tools/workflows; Hub validates, signs, and bundles them for Registry. Schema validation against the BioChef recipe schema; linting; tiny golden tests. Builds with Emscripten/biowasm (WASM) or as a native tarball; generates SBOM and SLSA attestation. Signs the bundle with cosign and pushes to the BioChef Registry, then re-signs `index.json`. Author YAML in `biochef-recipes` under `recipes/<tool>/biochef.yaml`; validate before opening a PR. Keep inputs/outputs typed; add small fixtures so CI can prove the tool still works. The reusable workflows live in `biochef-hub/.github/workflows/validate-recipes.yml` (PR validation) and `publish-recipes.yml` (build + publish on merge).
 
 **Registry & Catalog.** The BioChef Registry, live at `registry.biochef.app`, stores signed OCI artifacts (`bundle.json` + WASM/JS layers + SBOM) and the signed `index.json` that lists every published tool by digest. Each tool version is content-addressable: pulled by digest, not by mutable tag. The Hub signs every bundle and the top-level `index.json` with cosign. WASM and JS assets are served as plain HTTPS so the browser app can stream them. Treat each version as immutable; promote new builds, never overwrite digests. Verify the cosign signature before serving a tool to the browser. Use the signed `index.json` as the source of truth for what is publishable.
 
@@ -157,7 +157,7 @@ Local dev: clone the SPA, `npm start`.
 1. Fork `biochef-recipes` and create `recipes/<tool>/biochef.yaml`.
 2. Run `hub validate` and add tiny golden fixtures under `tests/`.
 3. Open a PR. The reusable Hub workflow runs validate → build → SBOM → cosign → publish.
-Hub setup guide: <https://github.com/ieeta-pt/biochef-hub#reusable-workflow-called-by-biochef-recipes>
+Recipes repo: <https://github.com/ieeta-pt/biochef-recipes> · Hub CI: <https://github.com/ieeta-pt/biochef-hub>
 
 **Step 02 · Run — run the BioChef app locally.** Clone the SPA, install deps, and serve it with the dev server. No backend required.
 1. `git clone https://github.com/ieeta-pt/Biochef` and `npm install`.
@@ -257,7 +257,7 @@ Published in BMC Bioinformatics · 2026. Rosa, J., Andrade, J., Silva, J. M., & 
 
 ### Get involved
 
-- **Repositories.** ieeta-pt/Biochef · ieeta-pt/biochef-hub · registry.biochef.app
+- **Repositories.** ieeta-pt/Biochef · ieeta-pt/biochef-hub · ieeta-pt/biochef-recipes · registry.biochef.app
 - **Issues & Discussions.** BioChef issues · biochef-hub issues
 - **Contributing.** See `CONTRIBUTING.md` in the BioChef repo for code style, build, and test guidance.
 
@@ -265,4 +265,4 @@ Published in BMC Bioinformatics · 2026. Rosa, J., Andrade, J., Silva, J. M., & 
 
 ## End of full content
 
-Source files for the marketing site itself live at <https://github.com/ieeta-pt/BiochefPage>. The actual BioChef SPA users run is in <https://github.com/ieeta-pt/Biochef>. Hub CI is in <https://github.com/ieeta-pt/biochef-hub>. The signed Registry is at <https://registry.biochef.app>.
+Source files for the marketing site itself live at <https://github.com/ieeta-pt/BiochefPage>. The actual BioChef SPA users run is in <https://github.com/ieeta-pt/Biochef>. YAML recipes are in <https://github.com/ieeta-pt/biochef-recipes>. Hub CI is in <https://github.com/ieeta-pt/biochef-hub>. The signed Registry is at <https://registry.biochef.app>.

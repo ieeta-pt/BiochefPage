@@ -15,7 +15,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
     subtitle="Write a YAML recipe, push it through the Hub CI, and your tool ends up signed in registry.biochef.app and runnable from the BioChef web app."
     crumbs={[{ label: 'For Developers' }]}
     meta={[
-      { label: 'Hub CLI', value: 'Go binary, reusable GitHub workflow' },
+      { label: 'Hub CLI', value: 'Python, reusable GitHub workflow' },
       { label: 'Recipes', value: '<code class="font-mono text-sm">biochef.yaml</code> in Git' },
       { label: 'Local dev', value: 'Clone the SPA, <code class="font-mono text-sm">npm start</code>' }
     ]}
@@ -53,11 +53,11 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
           </ol>
           <a
             class="mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:text-accent-dark transition-colors"
-            href="https://github.com/ieeta-pt/biochef-hub#reusable-workflow-called-by-biochef-recipes"
+            href="https://github.com/ieeta-pt/biochef-recipes"
             target="_blank"
             rel="noreferrer"
           >
-            Hub setup guide
+            ieeta-pt/biochef-recipes
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M7 17 17 7" />
               <path d="M7 7h10v10" />

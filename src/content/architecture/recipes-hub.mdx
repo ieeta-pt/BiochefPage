@@ -62,27 +62,45 @@ Recipes declare tools/workflows; Hub validates, signs, and bundles them for Regi
 </svg>
 
 ### Key behaviors
-- Schema validation against <code>biochef.schema.json</code>; linting; tiny golden tests.
+- Schema validation against the BioChef recipe schema; linting; tiny golden tests.
 - Builds with Emscripten/biowasm (WASM) or as a native tarball; generates SBOM and SLSA attestation.
 - Signs the bundle with cosign and pushes to the BioChef Registry, then re-signs <code>index.json</code>.
 
 ### Practical tips
-- Author YAML in <code>biochef-recipes</code>; run <code>hub validate</code> before opening a PR.
+- Author YAML in <code>biochef-recipes</code> under <code>recipes/&lt;tool&gt;/biochef.yaml</code>; validate before opening a PR.
 - Keep inputs/outputs typed; add small fixtures so CI can prove the tool still works.
-- The reusable workflow lives in <code>biochef-hub/.github/workflows/build-recipe.yml</code>.
+- The reusable workflows live in <code>biochef-hub/.github/workflows/validate-recipes.yml</code> (PR validation) and <code>publish-recipes.yml</code> (build + publish on merge).
 ```yaml
-name: aligner
-version: 1.0.0
-inputs:
-  - id: reads
-    type: File
-    format: fastq
-steps:
-  - id: qc
-    uses: biochef/qc@1.2.0
-  - id: align
-    uses: biochef/bwa@0.7
-outputs:
-  - id: bam
-    from: align
+apiVersion: v1
+id: app.biochef.wgsim
+name: wgsim
+description: Simulate NGS reads from a reference FASTA.
+version: 0.3.1-bc.1
+homepage: https://github.com/lh3/wgsim
+license:
+  spdx: MIT
+  files: [LICENSE]
+source:
+  repo: https://github.com/lh3/wgsim
+  version: "0.3.1"
+status: experimental
+build:
+  wasm:
+    strategy: emscripten
+runtime:
+  modes: [wasm, remote]
+operations:
+  - id: wgsim.simulate
+    name: Simulate (wgsim)
+    bin: wgsim
+    description: Simulate paired-end reads
+    io:
+      inputs:
+        - { name: ref, types: [FASTA], mode: file }
+      outputs:
+        - { name: out1, types: [FASTQ], mode: file }
+        - { name: out2, types: [FASTQ], mode: file }
+    parameters:
+      - { name: num_pairs, type: integer, flag: -N }
+      - { name: seed, type: integer, flag: -S }
 ```

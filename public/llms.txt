@@ -23,6 +23,8 @@ The marketing/docs site at <https://home.biochef.app/> is what this `llms.txt` i
 ## Source code
 
 - BioChef SPA: <https://github.com/ieeta-pt/Biochef>
+- biochef-recipes (YAML recipes): <https://github.com/ieeta-pt/biochef-recipes>
+- biochef-hub (CI / signing): <https://github.com/ieeta-pt/biochef-hub>
 - This marketing site: <https://github.com/ieeta-pt/BiochefPage>
 
 ## Roadmap (in progress)
