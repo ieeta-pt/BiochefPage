@@ -18,6 +18,7 @@ import { LightningIcon } from '../components/Icons';
     meta={[
       { label: 'Editor', value: 'Drag-and-drop DAG with type filtering' },
       { label: 'Runtime', value: 'WebAssembly via biowasm' },
+      { label: 'Formats', value: 'FASTA · FASTQ · BAM · CRAM · VCF · GFF · BED · JSON · …' },
       { label: 'Persistence', value: 'Recipes saved as JSON' }
     ]}
   />
@@ -46,14 +47,14 @@ import { LightningIcon } from '../components/Icons';
         client:visible
         cases={[
           {
-            title: 'FASTA/FASTQ QC and inspection',
-            description: 'Chain inspection and statistics tools to triage a sequencing file in seconds, no upload needed.',
+            title: 'Sequencing data triage',
+            description: 'Run fastp for QC and adapter trimming, then chain samtools view/stats/flagstat or GTO statistics to triage FASTQ or BAM/CRAM in seconds, no upload needed.',
             audience: 'Triage',
             tone: 'brand'
           },
           {
             title: 'Format conversion pipeline',
-            description: 'Convert between FASTA, FASTQ, and SEQ; reverse, complement, and slice. All in one signed recipe.',
+            description: 'Convert between FASTA, FASTQ, SEQ, BAM ↔ SAM (samtools), GTF ↔ GFF (gffread); reverse, complement, slice. All in one signed recipe.',
             audience: 'Data prep',
             tone: 'accent'
           },
@@ -79,13 +80,13 @@ import { LightningIcon } from '../components/Icons';
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
         {[
-          { name: 'Sequence manipulation', items: 'extract · reverse · complement · slice', count: '12+' },
-          { name: 'Format conversion', items: 'FASTA ↔ FASTQ · FASTA ↔ SEQ · packaged FASTQ', count: '8+' },
-          { name: 'Genomic operations', items: 'random DNA · genomic complement · GC-content', count: '10+' },
-          { name: 'Amino acid', items: 'translate · reverse-translate · stats', count: '6+' },
-          { name: 'Information & analysis', items: 'entropy · k-mer counts · summary stats', count: '9+' },
-          { name: 'Mathematical', items: 'distance metrics · transformations', count: '5+' },
-          { name: 'Text processing', items: 'filter · split · join · diff', count: '7+' },
+          { name: 'GTO suite', items: 'sequence · format · genomic · amino acid · info · text', count: '57+' },
+          { name: 'seqtk', items: 'FASTA/FASTQ — subseq · sample · trim · convert · stats', count: '20+' },
+          { name: 'samtools', items: 'BAM/SAM/CRAM — view · sort · index · mpileup · flagstat · stats', count: '15+' },
+          { name: 'gffread', items: 'GFF/GTF — convert · extract · filter · validate', count: '4+' },
+          { name: 'MSA & phylogenetics', items: 'muscle align · fasttree phylogenetic tree', count: '5+' },
+          { name: 'fastp', items: 'FASTQ QC · adapter trim · per-base report', count: '3+' },
+          { name: 'Text & JSON utilities', items: 'gawk · grep · jq — filter · pattern match · JSON query', count: '4+' },
           { name: 'And growing', items: 'New recipes added by the community', count: '+' }
         ].map((cat) => (
           <article class="bg-surface rounded-xl border border-border border-l-2 border-l-brand/40 p-5 hover:shadow-card-hover transition-shadow duration-200">
@@ -99,7 +100,7 @@ import { LightningIcon } from '../components/Icons';
       </div>
 
       <p class="text-center text-xs text-text-tertiary mt-8">
-        Tool families and counts include those provided by GTO and other catalogues.
+        Counts approximate. Workflows can pipe FASTA, FASTQ, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST and more between tools.
         <a class="text-brand hover:text-brand-dark ml-1" href="https://ieeta-pt.github.io/Biochef/" target="_blank" rel="noreferrer">See the full catalogue in the app →</a>
       </p>
     </div>
