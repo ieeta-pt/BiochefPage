@@ -54,7 +54,7 @@ The BioChef web app, a static React/Webpack SPA, runs every published bioinforma
 - DAG editor re-executes downstream steps on parameter change; recipes can be saved and reloaded.
 
 ### Practical tips
-- The BioChef SPA's bundled GTO modules are built with Emscripten 3.1.65 (rebuild locally with <code>npm run build-wasm</code>). Hub CI compiles new recipes with Emscripten 4.0.18.
+- The SPA ships pre-built WASM modules for GTO (Emscripten 3.1.65). New tools are added via <code>biochef-recipes</code> and compiled by Hub CI with Emscripten 4.0.18.
 - Outputs stream live to the Output panel; inspect intermediate steps without re-running the whole pipeline.
 - The whole app is static. Host it from any CDN or GitHub Pages.
 ```json

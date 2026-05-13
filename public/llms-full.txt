@@ -96,7 +96,7 @@ Every artifact is content-addressable · every step is signed.
 
 **Registry & Catalog.** The BioChef Registry, live at `registry.biochef.app`, stores signed OCI artifacts (`bundle.json` + WASM/JS layers + SBOM) and the signed `index.json` that lists every published tool by digest. Each tool version is content-addressable: pulled by digest, not by mutable tag. The Hub signs every bundle and the top-level `index.json` with cosign. WASM and JS assets are served as plain HTTPS so the browser app can stream them. Treat each version as immutable; promote new builds, never overwrite digests. Verify the cosign signature before serving a tool to the browser. Use the signed `index.json` as the source of truth for what is publishable.
 
-**UI & WASM Runtime.** The BioChef web app, a static React/Webpack SPA, runs every published bioinformatics tool entirely in the browser via WebAssembly. Has a Tools page for single-tool runs and a Workflow page for DAG-style chains. Loads tools by digest from the BioChef Registry; aioli/biowasm boots them in a Web Worker. Detects input data type (FASTA, FASTQ, Multi-FASTA, DNA, RNA, amino acids, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST, …) and filters compatible tools. DAG editor re-executes downstream steps on parameter change; recipes can be saved and reloaded. The SPA's bundled GTO modules are built with Emscripten 3.1.65 (rebuild locally with `npm run build-wasm`); Hub CI compiles new recipes with Emscripten 4.0.18. Outputs stream live to the Output panel; inspect intermediate steps without re-running the whole pipeline. The whole app is static. Host it from any CDN or GitHub Pages.
+**UI & WASM Runtime.** The BioChef web app, a static React/Webpack SPA, runs every published bioinformatics tool entirely in the browser via WebAssembly. Has a Tools page for single-tool runs and a Workflow page for DAG-style chains. Loads tools by digest from the BioChef Registry; aioli/biowasm boots them in a Web Worker. Detects input data type (FASTA, FASTQ, Multi-FASTA, DNA, RNA, amino acids, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST, …) and filters compatible tools. DAG editor re-executes downstream steps on parameter change; recipes can be saved and reloaded. The SPA ships pre-built WASM modules for GTO (Emscripten 3.1.65); new tools are added via biochef-recipes and compiled by Hub CI with Emscripten 4.0.18. Outputs stream live to the Output panel; inspect intermediate steps without re-running the whole pipeline. The whole app is static. Host it from any CDN or GitHub Pages.
 
 ---
 
@@ -161,7 +161,7 @@ Recipes repo: <https://github.com/ieeta-pt/biochef-recipes> · Hub CI: <https://
 
 **Step 02 · Run — run the BioChef app locally.** Clone the SPA, install deps, and serve it with the dev server. No backend required.
 1. `git clone https://github.com/ieeta-pt/Biochef` and `npm install`.
-2. (Optional) install Emscripten 3.1.65 and run `npm run build-wasm` to rebuild WASM modules from source.
+2. The SPA ships pre-built WASM modules for GTO; new tools are added via biochef-recipes and compiled by Hub CI (Emscripten 4.0.18).
 3. `npm start` and open `http://localhost:8082`.
 
 **Step 03 · Inspect — pull a signed bundle.** Tools live in the BioChef Registry as content-addressable OCI bundles. The web app fetches them by digest at runtime; you can pull and verify them locally with the Hub CLI or ORAS.

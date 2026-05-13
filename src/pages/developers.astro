@@ -76,7 +76,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
             </li>
             <li class="flex items-start gap-3">
               <span class="flex-shrink-0 w-5 h-5 rounded-full bg-tertiary/10 text-tertiary text-[11px] flex items-center justify-center font-semibold">2</span>
-              <span class="leading-snug">(Optional) install Emscripten 3.1.65 and run <code>npm run build-wasm</code> to rebuild the SPA's bundled GTO modules from source. Hub CI uses Emscripten 4.0.18 for new recipes.</span>
+              <span class="leading-snug">The SPA ships pre-built WASM modules for GTO. New tools are added via <code>biochef-recipes</code> and compiled by Hub CI (Emscripten 4.0.18).</span>
             </li>
             <li class="flex items-start gap-3">
               <span class="flex-shrink-0 w-5 h-5 rounded-full bg-tertiary/10 text-tertiary text-[11px] flex items-center justify-center font-semibold">3</span>
