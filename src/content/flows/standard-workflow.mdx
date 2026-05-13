@@ -7,9 +7,9 @@
 {
   "workflow": "fastq-triage",
   "steps": [
-    { "id": "stats",   "runtime": "wasm", "tool": "fastq-stats@1.0.0" },
-    { "id": "tofasta", "runtime": "wasm", "tool": "fastq2fasta@1.0.0" },
-    { "id": "rev",     "runtime": "wasm", "tool": "fasta-reverse@1.0.0" }
+    { "id": "stats",   "runtime": "wasm", "tool": "gto.fastq.info@1.6.3-bc.1" },
+    { "id": "tofasta", "runtime": "wasm", "tool": "gto.fastq.to.fasta@1.6.3-bc.1" },
+    { "id": "rev",     "runtime": "wasm", "tool": "gto.fasta.reverse@1.6.3-bc.1" }
   ],
   "verify": true
 }

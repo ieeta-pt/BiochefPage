@@ -38,7 +38,7 @@ A YAML recipe in Git, signed by the Hub CI, served from the BioChef Registry, an
 
 **Headline:** Why BioChef.
 
-BioChef democratizes access to bioinformatics tools, bridging biologists, healthcare professionals, and computational tools by running C-based genomic utilities directly in the browser via WebAssembly.
+BioChef democratizes access to bioinformatics tools, bridging biologists, healthcare professionals, and computational tools by running compiled bioinformatics utilities directly in the browser via WebAssembly.
 
 Designed for: researchers, clinicians, students.
 Privacy model: no upload, no server, no install.
@@ -72,7 +72,7 @@ Source of trust: signed bundles in the Registry.
 
 **Headline:** Anatomy of a BioChef tool.
 
-Three pieces ship today: recipes in Git, the Hub CI that signs and publishes, and the BioChef Registry that serves the WebAssembly app.
+Four pieces ship today: YAML recipes in Git, the Hub CI that signs and publishes, the BioChef Registry, and the static web app that runs every tool as WebAssembly in your browser.
 
 Live components: Recipes · Hub · Registry · Web app.
 Build chain: Emscripten · biowasm · cosign.
@@ -96,7 +96,7 @@ Every artifact is content-addressable · every step is signed.
 
 **Registry & Catalog.** The BioChef Registry, live at `registry.biochef.app`, stores signed OCI artifacts (`bundle.json` + WASM/JS layers + SBOM) and the signed `index.json` that lists every published tool by digest. Each tool version is content-addressable: pulled by digest, not by mutable tag. The Hub signs every bundle and the top-level `index.json` with cosign. WASM and JS assets are served as plain HTTPS so the browser app can stream them. Treat each version as immutable; promote new builds, never overwrite digests. Verify the cosign signature before serving a tool to the browser. Use the signed `index.json` as the source of truth for what is publishable.
 
-**UI & WASM Runtime.** The BioChef web app, a static React/Webpack SPA, runs every published bioinformatics tool entirely in the browser via WebAssembly. Has a Tools page for single-tool runs and a Workflow page for DAG-style chains. Loads tools by digest from the BioChef Registry; aioli/biowasm boots them in a Web Worker. Detects input data type (FASTA, FASTQ, packaged FASTQ, amino acids, …) and filters compatible tools. DAG editor re-executes downstream steps on parameter change; recipes can be saved and reloaded. Tools are compiled with Emscripten (3.1.65); rebuild with `npm run build-wasm`. Outputs stream live to the Output panel; inspect intermediate steps without re-running the whole pipeline. The whole app is static. Host it from any CDN or GitHub Pages.
+**UI & WASM Runtime.** The BioChef web app, a static React/Webpack SPA, runs every published bioinformatics tool entirely in the browser via WebAssembly. Has a Tools page for single-tool runs and a Workflow page for DAG-style chains. Loads tools by digest from the BioChef Registry; aioli/biowasm boots them in a Web Worker. Detects input data type (FASTA, FASTQ, Multi-FASTA, DNA, RNA, amino acids, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST, …) and filters compatible tools. DAG editor re-executes downstream steps on parameter change; recipes can be saved and reloaded. The SPA's bundled GTO modules are built with Emscripten 3.1.65 (rebuild locally with `npm run build-wasm`); Hub CI compiles new recipes with Emscripten 4.0.18. Outputs stream live to the Output panel; inspect intermediate steps without re-running the whole pipeline. The whole app is static. Host it from any CDN or GitHub Pages.
 
 ---
 
@@ -112,7 +112,7 @@ Persistence: recipes saved as JSON.
 
 ### Editor preview (drag, drop, watch outputs flow)
 
-A four-node sketch of what the Workflow page looks like in the BioChef app. Click a node to see what feeds it and what it produces. Default WASM pipeline today: input FASTQ → fastq-stats / fastq2fasta → fasta-reverse → output.
+A four-node sketch of what the Workflow page looks like in the BioChef app. Click a node to see what feeds it and what it produces. Default WASM pipeline today: input FASTQ → gto.fastq.info / gto.fastq.to.fasta → gto.fasta.reverse → output.
 
 ### Example scenarios
 
@@ -225,9 +225,9 @@ $ hub index --sign
 {
   "name": "fastq-triage",
   "steps": [
-    { "id": "stats",   "runtime": "wasm", "tool": "fastq-stats@1.0.0" },
-    { "id": "tofasta", "runtime": "wasm", "tool": "fastq2fasta@1.0.0" },
-    { "id": "rev",     "runtime": "wasm", "tool": "fasta-reverse@1.0.0" }
+    { "id": "stats",   "runtime": "wasm", "tool": "gto.fastq.info@1.6.3-bc.1" },
+    { "id": "tofasta", "runtime": "wasm", "tool": "gto.fastq.to.fasta@1.6.3-bc.1" },
+    { "id": "rev",     "runtime": "wasm", "tool": "gto.fasta.reverse@1.6.3-bc.1" }
   ]
 }
 ```
