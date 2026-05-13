@@ -16,9 +16,9 @@ interface WorkflowNode {
 // but are intentionally absent from `typeConfig` so the legend stays honest.
 const nodes: WorkflowNode[] = [
   { id: 'input', label: 'Input FASTQ', type: 'UI', description: 'Drop or paste a FASTQ sequence', col: 0, row: 1 },
-  { id: 'stats', label: 'fastq-stats', type: 'WASM', description: 'Statistics on the input sequence', col: 1, row: 0 },
-  { id: 'tofasta', label: 'fastq2fasta', type: 'WASM', description: 'Convert FASTQ to FASTA', col: 1, row: 2 },
-  { id: 'reverse', label: 'fasta-reverse', type: 'WASM', description: 'Reverse the resulting FASTA', col: 2, row: 2 },
+  { id: 'stats', label: 'gto.fastq.info', type: 'WASM', description: 'Statistics on the input FASTQ', col: 1, row: 0 },
+  { id: 'tofasta', label: 'gto.fastq.to.fasta', type: 'WASM', description: 'Convert FASTQ to FASTA', col: 1, row: 2 },
+  { id: 'reverse', label: 'gto.fasta.reverse', type: 'WASM', description: 'Reverse the resulting FASTA', col: 2, row: 2 },
   { id: 'output', label: 'Output', type: 'UI', description: 'Live results in the Output panel', col: 3, row: 1 }
 ];
 

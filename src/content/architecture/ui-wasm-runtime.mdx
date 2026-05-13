@@ -50,17 +50,17 @@ The BioChef web app, a static React/Webpack SPA, runs every published bioinforma
 
 ### Key behaviors
 - Loads tools by digest from the BioChef Registry; aioli/biowasm boots them in a Web Worker.
-- Detects input data type (FASTA, FASTQ, packaged FASTQ, amino acids, …) and filters compatible tools.
+- Detects input data type (FASTA, FASTQ, Multi-FASTA, DNA, RNA, amino acids, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST, …) and filters compatible tools.
 - DAG editor re-executes downstream steps on parameter change; recipes can be saved and reloaded.
 
 ### Practical tips
-- Tools are compiled with Emscripten (3.1.65); rebuild with <code>npm run build-wasm</code>.
+- The BioChef SPA's bundled GTO modules are built with Emscripten 3.1.65 (rebuild locally with <code>npm run build-wasm</code>). Hub CI compiles new recipes with Emscripten 4.0.18.
 - Outputs stream live to the Output panel; inspect intermediate steps without re-running the whole pipeline.
 - The whole app is static. Host it from any CDN or GitHub Pages.
 ```json
 {
   "runtime": "wasm",
-  "tool": "fastq2fasta@1.0.0",
+  "tool": "gto.fastq.to.fasta@1.6.3-bc.1",
   "verify": true,
   "source": "https://registry.biochef.app/.../sha256:..."
 }

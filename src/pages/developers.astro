@@ -76,7 +76,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
             </li>
             <li class="flex items-start gap-3">
               <span class="flex-shrink-0 w-5 h-5 rounded-full bg-tertiary/10 text-tertiary text-[11px] flex items-center justify-center font-semibold">2</span>
-              <span class="leading-snug">(Optional) install Emscripten 3.1.65 and run <code>npm run build-wasm</code> to rebuild WASM modules from source.</span>
+              <span class="leading-snug">(Optional) install Emscripten 3.1.65 and run <code>npm run build-wasm</code> to rebuild the SPA's bundled GTO modules from source. Hub CI uses Emscripten 4.0.18 for new recipes.</span>
             </li>
             <li class="flex items-start gap-3">
               <span class="flex-shrink-0 w-5 h-5 rounded-full bg-tertiary/10 text-tertiary text-[11px] flex items-center justify-center font-semibold">3</span>
@@ -200,9 +200,9 @@ $ hub index --sign`
               code: `{
   "name": "fastq-triage",
   "steps": [
-    { "id": "stats",   "runtime": "wasm", "tool": "fastq-stats@1.0.0" },
-    { "id": "tofasta", "runtime": "wasm", "tool": "fastq2fasta@1.0.0" },
-    { "id": "rev",     "runtime": "wasm", "tool": "fasta-reverse@1.0.0" }
+    { "id": "stats",   "runtime": "wasm", "tool": "gto.fastq.info@1.6.3-bc.1" },
+    { "id": "tofasta", "runtime": "wasm", "tool": "gto.fastq.to.fasta@1.6.3-bc.1" },
+    { "id": "rev",     "runtime": "wasm", "tool": "gto.fasta.reverse@1.6.3-bc.1" }
   ]
 }`
             }
