@@ -10,6 +10,12 @@ const {
 
 const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
+
+// Umami analytics — privacy-friendly, cookieless. Driven by env vars so the
+// website id is never hardcoded and the tag is simply omitted when unset
+// (e.g. local dev with no .env). Defaults to Umami Cloud's script host.
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC || 'https://cloud.umami.is/script.js';
 ---
 
 <!DOCTYPE html>
@@ -56,6 +62,12 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     {/* Roboto matches the live BioChef app exactly. JetBrains Mono is kept only for code blocks. */}
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    {/* Umami — cookieless analytics. Only emitted when PUBLIC_UMAMI_WEBSITE_ID
+        is set at build time; otherwise no tracking script ships at all. */}
+    {umamiWebsiteId && (
+      <script defer src={umamiSrc} data-website-id={umamiWebsiteId}></script>
+    )}
   </head>
   <body class="min-h-screen flex flex-col bg-background text-text antialiased">
     <Navigation />
