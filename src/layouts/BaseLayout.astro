@@ -11,11 +11,10 @@ const {
 const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
 
-// Umami analytics — privacy-friendly, cookieless. Driven by env vars so the
-// website id is never hardcoded and the tag is simply omitted when unset
-// (e.g. local dev with no .env). Defaults to Umami Cloud's script host.
-const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
-const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC || 'https://cloud.umami.is/script.js';
+// Cloudflare Web Analytics — privacy-friendly, cookieless, no consent banner
+// needed. Driven by an env var so the beacon token is never hardcoded and the
+// tag is simply omitted when unset (e.g. local dev with no .env).
+const cfBeaconToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
 ---
 
 <!DOCTYPE html>
@@ -63,10 +62,15 @@ const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC || 'https://cloud.umami.is/scr
     {/* Roboto matches the live BioChef app exactly. JetBrains Mono is kept only for code blocks. */}
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
-    {/* Umami — cookieless analytics. Only emitted when PUBLIC_UMAMI_WEBSITE_ID
-        is set at build time; otherwise no tracking script ships at all. */}
-    {umamiWebsiteId && (
-      <script defer src={umamiSrc} data-website-id={umamiWebsiteId}></script>
+    {/* Cloudflare Web Analytics — cookieless. Only emitted when
+        PUBLIC_CF_BEACON_TOKEN is set at build time; otherwise no tracking
+        script ships at all. */}
+    {cfBeaconToken && (
+      <script
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={`{"token": "${cfBeaconToken}"}`}
+      ></script>
     )}
   </head>
   <body class="min-h-screen flex flex-col bg-background text-text antialiased">
