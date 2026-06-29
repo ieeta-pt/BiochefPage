@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import WorkflowMock from '../components/WorkflowMock';
+import WorkflowDemo from '../components/WorkflowDemo.astro';
 import UseCaseCards from '../components/UseCaseCards';
 import { LightningIcon } from '../components/Icons';
 // fl-session.mdx and the MonitorIcon/CloudIcon are intentionally not imported in
@@ -22,6 +23,18 @@ import { LightningIcon } from '../components/Icons';
       { label: 'Persistence', value: 'Recipes saved as JSON' }
     ]}
   />
+
+  <!-- Demo video -->
+  <section class="section">
+    <div class="container-main">
+      <SectionHeader
+        kicker="See it in action"
+        title="Watch a workflow run in the browser"
+        subtitle="A short, silent preview of the BioChef app building and running a DAG. Press play for the full walkthrough with audio."
+      />
+      <WorkflowDemo />
+    </div>
+  </section>
 
   <!-- Workflow Mock -->
   <section class="section">
