@@ -1,8 +1,9 @@
 ---
 // Demo player for the Workflow page. Shows a short, light, silent loop as an
-// ambient preview (autoplays, ~1.2 MB) and swaps to the full 2:41 walkthrough
-// with sound + controls when the visitor clicks. Two files in public/video:
-//   demo-loop.mp4  — 720p/30fps, muted, ~67s, web-optimized loop
+// ambient preview (autoplays, ~1 MB) and swaps to the full 1:58 walkthrough
+// with sound + controls when the visitor clicks. Both cropped to start at
+// 0:44 of the original recording. Two files in public/video:
+//   demo-loop.mp4  — 720p/30fps, muted, ~49s sped-up loop, web-optimized
 //   demo.mp4       — full 1080p/60fps walkthrough with audio
 const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
@@ -53,7 +54,7 @@ const poster = withBase('/video/demo-poster.jpg');
           <path d="M8 5v14l11-7z" />
         </svg>
         <span class="text-sm font-medium tracking-tight">Watch full demo</span>
-        <span class="font-mono text-xs text-text-tertiary">2:41</span>
+        <span class="font-mono text-xs text-text-tertiary">1:58</span>
       </span>
     </button>
   </div>
