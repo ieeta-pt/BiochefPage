@@ -60,14 +60,14 @@ import { LightningIcon } from '../components/Icons';
         client:visible
         cases={[
           {
-            title: 'Sequencing data triage',
-            description: 'Run fastp for QC and adapter trimming, then chain samtools view/stats/flagstat or GTO statistics to triage FASTQ or BAM/CRAM in seconds, no upload needed.',
-            audience: 'Triage',
+            title: 'Map reads & call variants',
+            description: 'Align reads with minimap2, sort and index with samtools, then call variants with bcftools — or go viral: minimap2 → ivar / viralconsensus for a consensus genome. A full mapping-to-variants pipeline, no upload needed.',
+            audience: 'Variant calling',
             tone: 'brand'
           },
           {
-            title: 'Format conversion pipeline',
-            description: 'Convert between FASTA, FASTQ, SEQ, BAM ↔ SAM (samtools), GTF ↔ GFF (gffread); reverse, complement, slice. All in one signed recipe.',
+            title: 'QC, triage & conversion',
+            description: 'Run fastp for QC and adapter trimming, chain samtools view/stats/flagstat or GTO statistics to triage FASTQ/BAM/CRAM, and convert between FASTA, FASTQ, SEQ, BAM ↔ SAM, GTF ↔ GFF (gffread). All in one signed recipe.',
             audience: 'Data prep',
             tone: 'accent'
           },
@@ -88,18 +88,20 @@ import { LightningIcon } from '../components/Icons';
       <SectionHeader
         kicker="Catalogue"
         title="What you can chain together"
-        subtitle="A snapshot of the tool families currently available in the BioChef catalogue. Every tool runs as WebAssembly in your browser tab."
+        subtitle="A snapshot of the 31 signed recipes currently in the public BioChef catalogue, grouped by what they do. Every tool runs as WebAssembly in your browser tab."
       />
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
         {[
-          { name: 'GTO suite', items: 'sequence · format · genomic · amino acid · info · text', count: '57+' },
-          { name: 'seqtk', items: 'FASTA/FASTQ — subseq · sample · trim · convert · stats', count: '20+' },
-          { name: 'samtools', items: 'BAM/SAM/CRAM — view · sort · index · mpileup · flagstat · stats', count: '15+' },
-          { name: 'gffread', items: 'GFF/GTF — convert · extract · filter · validate', count: '4+' },
-          { name: 'MSA & phylogenetics', items: 'muscle align · fasttree phylogenetic tree', count: '5+' },
-          { name: 'fastp', items: 'FASTQ QC · adapter trim · per-base report', count: '3+' },
-          { name: 'Text & JSON utilities', items: 'gawk · grep · jq — filter · pattern match · JSON query', count: '4+' },
+          { name: 'GTO suite', items: 'sequence · format · genomic · amino acid · info · text', count: '57+ ops' },
+          { name: 'Alignment & mapping', items: 'minimap2 · lastz · mummer4/nucmer · ssw · ksw2 · edlib', count: '6' },
+          { name: 'Variants & consensus', items: 'bcftools · ivar · viralconsensus', count: '3' },
+          { name: 'BAM/SAM & QC', items: 'samtools view/sort/stats · fastp · samblaster', count: '3' },
+          { name: 'MSA & phylogenetics', items: 'muscle · kalign · abPOA · fasttree · ASTER · tn93', count: '6' },
+          { name: 'Genome intervals', items: 'bedtools intersect · cgranges coverage', count: '2' },
+          { name: 'Assembly, ORFs & methylation', items: 'fermi-lite assemble · prodigal · modbam2bed', count: '3' },
+          { name: 'Sequence toolkits', items: 'seqtk · gffread — subseq · convert · filter', count: '2' },
+          { name: 'Text, JSON & shell', items: 'gawk · grep · sed · jq · coreutils', count: '5' },
           { name: 'And growing', items: 'New recipes added by the community', count: '+' }
         ].map((cat) => (
           <article class="bg-surface rounded-xl border border-border border-l-2 border-l-brand/40 p-5 hover:shadow-card-hover transition-shadow duration-200">
@@ -113,7 +115,7 @@ import { LightningIcon } from '../components/Icons';
       </div>
 
       <p class="text-center text-xs text-text-tertiary mt-8">
-        Counts approximate. Workflows can pipe FASTA, FASTQ, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST and more between tools.
+        Badges count recipes per family (GTO counts operations). Workflows can pipe FASTA, FASTQ, BAM, SAM, CRAM, VCF, BCF, BED, GFF, PAF, JSON, LIST and more between tools.
         <a class="text-brand hover:text-brand-dark ml-1" href="https://ieeta-pt.github.io/Biochef/" target="_blank" rel="noreferrer">See the full catalogue in the app →</a>
       </p>
     </div>
