@@ -122,13 +122,15 @@ A four-node sketch of what the Workflow page looks like in the BioChef app. Clic
 
 ### Tool catalogue snapshot
 
-- GTO suite (57+): sequence · format · genomic · amino acid · info · text
-- seqtk (20+): FASTA/FASTQ — subseq · sample · trim · convert · stats
-- samtools (15+): BAM/SAM/CRAM — view · sort · index · mpileup · flagstat · stats
-- gffread (4+): GFF/GTF — convert · extract · filter · validate
-- MSA & phylogenetics (5+): muscle align · fasttree phylogenetic tree
-- fastp (3+): FASTQ QC · adapter trim · per-base report
-- Text & JSON utilities (4+): gawk · grep · jq — filter · pattern match · JSON query
+- GTO suite (57+ ops): sequence · format · genomic · amino acid · info · text
+- Alignment & mapping (6): minimap2 · lastz · mummer4/nucmer · ssw · ksw2 · edlib
+- Variants & consensus (3): bcftools · ivar · viralconsensus
+- BAM/SAM & QC (3): samtools view/sort/stats · fastp · samblaster
+- MSA & phylogenetics (6): muscle · kalign · abPOA · fasttree · ASTER · tn93
+- Genome intervals (2): bedtools intersect · cgranges coverage
+- Assembly, ORFs & methylation (3): fermi-lite assemble · prodigal · modbam2bed
+- Sequence toolkits (2): seqtk · gffread — subseq · convert · filter
+- Text, JSON & shell (5): gawk · grep · sed · jq · coreutils
 - And growing: new recipes added by the community
 
 Counts approximate. Workflows can pipe FASTA, FASTQ, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST and more between tools.
@@ -248,13 +250,13 @@ License: MIT (code) · CC-BY 4.0 (paper).
 
 The web app, Hub CI, and Registry are live today. Agent mode and workflow aggregation are in active development. Federated learning is on the longer roadmap.
 
-- **Live — BioChef web app.** Tools page + Workflow page; bioinformatics tools (GTO, samtools, seqtk, muscle, fastp, fasttree, gffread, jq, gawk, grep) running in WebAssembly via biowasm.
+- **Live — BioChef web app.** Tools page + Workflow page; bioinformatics tools (GTO, minimap2, samtools, bcftools, bedtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) running in WebAssembly via biowasm.
 - **Live — biochef-hub + Registry.** Reusable GitHub workflow signs and publishes recipes to `registry.biochef.app`.
 - **In development — Agent mode & workflow aggregation.** Server-side execution of signed bundles outside the browser, plus packaging multi-step workflows as first-class registry artifacts.
 
 ### Roadmap
 
-- BioChef web app: Tools + Workflow pages [done]. A growing catalogue of bioinformatics tools (GTO, samtools, seqtk, muscle, fastp, fasttree, gffread, jq, gawk, grep) compiled to WebAssembly, in-browser DAG editor, recipe persistence. Live at ieeta-pt.github.io/Biochef.
+- BioChef web app: Tools + Workflow pages [done]. A growing catalogue of bioinformatics tools (GTO, minimap2, samtools, bcftools, bedtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) compiled to WebAssembly, in-browser DAG editor, recipe persistence. Live at ieeta-pt.github.io/Biochef.
 - biochef-hub CI + signed Registry [done]. Reusable GitHub workflow that validates, builds, signs (cosign), and publishes bundles to registry.biochef.app.
 - biochef-recipes catalog growth [in progress]. Expand the public recipe catalogue with more tools, more contributors, and richer metadata.
 - Agent mode [in progress]. Server-side and desktop runtime that executes signed bundles outside the browser, with the same provenance guarantees.
