@@ -4,7 +4,7 @@
 
 This is the full-content companion to <https://home.biochef.app/llms.txt>. It inlines the prose of every public page so an LLM can ingest the whole marketing/docs site in one fetch.
 
-The site at <https://home.biochef.app/> documents BioChef, an open project from IEETA at the University of Aveiro. The actual BioChef web app users run lives at <https://ieeta-pt.github.io/Biochef/>; this site is the marketing/docs front door.
+The site at <https://home.biochef.app/> documents BioChef, an open project from IEETA at the University of Aveiro. The actual BioChef web app users run lives at <https://biochef.app/>; this site is the marketing/docs front door.
 
 ---
 
@@ -82,7 +82,7 @@ Distribution: `registry.biochef.app`.
 
 **01 · Source — biochef-recipes.** YAML source of truth. Each tool is a `biochef.yaml` file declaring inputs, runtime, and version. → push.
 
-**02 · Build — biochef-hub.** CI on GitHub Actions: validate, build to WASM, run golden tests, generate SBOM and SLSA, sign with cosign. → publish (ORAS · cosign).
+**02 · Build — biochef-hub.** CI on GitHub Actions: validate, build to WASM or native, test on example inputs, generate SBOM and SLSA, sign with cosign. → publish (ORAS · cosign).
 
 **03 · Distribute — BioChef Registry.** Content-addressable OCI bundles at `registry.biochef.app`: `bundle.json`, WASM/JS layers, SBOM, signature. → fetch by digest (dashed = runtime).
 
@@ -92,11 +92,11 @@ Every artifact is content-addressable · every step is signed.
 
 ### Component details
 
-**Recipes & Hub.** Recipes declare tools/workflows; Hub validates, signs, and bundles them for Registry. Schema validation against the BioChef recipe schema; linting; tiny golden tests. Builds with Emscripten/biowasm (WASM) or as a native tarball; generates SBOM and SLSA attestation. Signs the bundle with cosign and pushes to the BioChef Registry, then re-signs `index.json`. Author YAML in `biochef-recipes` under `recipes/<tool>/biochef.yaml`; validate before opening a PR. Keep inputs/outputs typed; add small fixtures so CI can prove the tool still works. The reusable workflows live in `biochef-hub/.github/workflows/validate-recipes.yml` (PR validation) and `publish-recipes.yml` (build + publish on merge).
+**Recipes & Hub.** Recipes declare tools/workflows; Hub validates, signs, and bundles them for Registry. Schema validation against the BioChef recipe schema; each built tool is run on the example input of its data types. Builds with Emscripten/biowasm (WASM) or as a native tarball; generates SBOM and SLSA attestation. Pushes the bundle to the BioChef Registry, signs it with keyless cosign and attaches SLSA provenance, then republishes the signed `index.json` catalogue. Author YAML in `biochef-recipes` under `recipes/<tool>/biochef.yaml`; validate before opening a PR. Keep inputs/outputs typed; CI runs each tool on the example input of its data types. The reusable workflows live in `biochef-hub/.github/workflows/validate-recipes.yml` (PR validation) and `publish-recipes.yml` (build + publish on merge).
 
-**Registry & Catalog.** The BioChef Registry, live at `registry.biochef.app`, stores signed OCI artifacts (`bundle.json` + WASM/JS layers + SBOM) and the signed `index.json` that lists every published tool by digest. Each tool version is content-addressable: pulled by digest, not by mutable tag. The Hub signs every bundle and the top-level `index.json` with cosign. WASM and JS assets are served as plain HTTPS so the browser app can stream them. Treat each version as immutable; promote new builds, never overwrite digests. Verify the cosign signature before serving a tool to the browser. Use the signed `index.json` as the source of truth for what is publishable.
+**Registry & Catalog.** The BioChef Registry, live at `registry.biochef.app`, stores signed OCI artifacts (`bundle.json` + WASM/JS layers + SBOM) and the signed `index.json` that lists every published tool by digest. Each tool version is content-addressable: pulled by digest, not by mutable tag. The Hub signs every bundle with keyless cosign, and signs the top-level `index.json` catalogue (ES256) only after verifying those signatures and the SLSA provenance. WASM and JS assets are served as plain HTTPS so the browser app can stream them. Treat each version as immutable; promote new builds, never overwrite digests. The browser checks the catalogue signature and every digest itself before running a tool; cosign and SLSA are verified by the Hub before the catalogue is signed. Use the signed `index.json` as the source of truth for what is publishable.
 
-**UI & WASM Runtime.** The BioChef web app, a static React/Webpack SPA, runs every published bioinformatics tool entirely in the browser via WebAssembly. Has a Tools page for single-tool runs and a Workflow page for DAG-style chains. Loads tools by digest from the BioChef Registry; aioli/biowasm boots them in a Web Worker. Detects input data type (FASTA, FASTQ, Multi-FASTA, DNA, RNA, amino acids, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST, …) and filters compatible tools. DAG editor re-executes downstream steps on parameter change; recipes can be saved and reloaded. The SPA's bundled GTO modules are built with Emscripten 3.1.65 (rebuild locally with `npm run build-wasm`); Hub CI compiles new recipes with Emscripten 4.0.18. Outputs stream live to the Output panel; inspect intermediate steps without re-running the whole pipeline. The whole app is static. Host it from any CDN or GitHub Pages.
+**UI & WASM Runtime.** The BioChef web app, a static React/Webpack SPA, runs every published bioinformatics tool entirely in the browser via WebAssembly. Has a Tools page for single-tool runs and a Workflow page for DAG-style chains. Loads tools by digest from the BioChef Registry; aioli/biowasm boots them in a Web Worker. Before showing any tool, the app checks the catalogue's signature against a public key pinned in the app and keeps only entries that passed the publication checks; before running one, it checks the SHA-256 of the OCI manifest, the bundle, the JavaScript and the WebAssembly. A tool that fails is not offered. Detects input data type (FASTA, FASTQ, Multi-FASTA, DNA, RNA, amino acids, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST, …) and filters compatible tools. DAG editor re-executes downstream steps on parameter change; recipes can be saved and reloaded. The SPA's bundled GTO modules are built with Emscripten 3.1.65 (rebuild locally with `npm run build-wasm`); Hub CI compiles new recipes with Emscripten 4.0.18. Outputs stream live to the Output panel; inspect intermediate steps without re-running the whole pipeline. The whole app is static. Host it from any CDN or GitHub Pages.
 
 ---
 
@@ -149,7 +149,7 @@ Live runtime — Browser WebAssembly. Every shipped tool runs entirely in your b
 
 Write a YAML recipe, push it through the Hub CI, and your tool ends up signed in `registry.biochef.app` and runnable from the BioChef web app.
 
-Hub CLI: Go binary, reusable GitHub workflow.
+Hub CLI: Python, reusable GitHub workflow.
 Recipes: `biochef.yaml` in Git.
 Local dev: clone the SPA, `npm start`.
 
@@ -157,8 +157,8 @@ Local dev: clone the SPA, `npm start`.
 
 **Step 01 · Author — write a new recipe.** Author a YAML recipe in your own repo. The Hub workflow validates, signs, and publishes it for you.
 1. Fork `biochef-recipes` and create `recipes/<tool>/biochef.yaml`.
-2. Run `hub validate` and add tiny golden fixtures under `tests/`.
-3. Open a PR. The reusable Hub workflow runs validate → build → SBOM → cosign → publish.
+2. Run `hub validate` on it. CI also runs each built tool on the example input of its data types, so declare the types carefully.
+3. Open a PR. The reusable Hub workflow runs validate → build → test → SBOM. After merge it publishes, signs with cosign, attaches SLSA provenance and republishes the signed catalogue.
 Recipes repo: <https://github.com/ieeta-pt/biochef-recipes> · Hub CI: <https://github.com/ieeta-pt/biochef-hub>
 
 **Step 02 · Run — run the BioChef app locally.** Clone the SPA, install deps, and serve it with the dev server. No backend required.
@@ -167,9 +167,9 @@ Recipes repo: <https://github.com/ieeta-pt/biochef-recipes> · Hub CI: <https://
 3. `npm start` and open `http://localhost:8082`.
 
 **Step 03 · Inspect — pull a signed bundle.** Tools live in the BioChef Registry as content-addressable OCI bundles. The web app fetches them by digest at runtime; you can pull and verify them locally with the Hub CLI or ORAS.
-1. Resolve a tool by digest in the signed `index.json`.
-2. Pull the OCI bundle (`bundle.json` + WASM/JS layers + SBOM) with the Hub CLI or ORAS.
-3. Verify the cosign signature before loading the tool.
+1. Resolve a tool by digest in the signed `index.json` catalogue.
+2. Pull the OCI bundle (`bundle.json` + WASM/JS layers + SBOM) with ORAS.
+3. Verify the bundle's cosign signature and SLSA provenance; the web app itself checks the catalogue signature and every digest before running it.
 Hub CLI on GitHub: <https://github.com/ieeta-pt/biochef-hub>
 
 ### Snippets (what the code looks like)
@@ -186,27 +186,37 @@ version: 0.3.1-bc.1
 homepage: https://github.com/lh3/wgsim
 license:
   spdx: MIT
-  files: [LICENSE]
+  files: [wgsim.c]
+maintainers:
+  - name: Biochef
 source:
   repo: https://github.com/lh3/wgsim
+  commit: "a12da3375ff3b51a5594d4b6fa35591173ecc229"
   version: "0.3.1"
 status: experimental
 build:
   wasm:
     strategy: emscripten
+    emscripten:
+      emscriptenVersion: 4.0.18
+      buildScript: build-wasm.sh
+  native:
+    buildScript: build-native.sh
+    buildTools: [gcc]
 runtime:
-  modes: [wasm, remote]
+  modes: [wasm, native]
 operations:
   - id: wgsim.simulate
     name: Simulate (wgsim)
+    category: Genomic Operations
     bin: wgsim
     description: Simulate paired-end reads
     io:
       inputs:
         - { name: ref, types: [FASTA], mode: file }
       outputs:
-        - { name: out1, types: [FASTQ], mode: file }
-        - { name: out2, types: [FASTQ], mode: file }
+        - { name: out1, types: [FASTQ], mode: file, flag: "", filename: "read1.fq" }
+        - { name: out2, types: [FASTQ], mode: file, flag: "", filename: "read2.fq" }
     parameters:
       - { name: num_pairs, type: integer, flag: -N }
       - { name: seed, type: integer, flag: -S }
@@ -214,12 +224,17 @@ operations:
 
 **CLI usage:**
 ```bash
-$ hub validate recipe.yaml
-$ hub build recipe.yaml --out dist/
-$ hub sbom && hub attest
-$ hub sign --key cosign.key
-$ hub publish dist/ --registry https://registry.biochef.app
-$ hub index --sign
+# On every pull request
+$ python hub/hub.py validate recipes/wgsim/biochef.yaml
+$ python hub/hub.py build
+$ python hub/hub.py test
+$ python hub/hub.py sbom && python hub/hub.py sbom-check
+
+# After merge, in CI only (keyless cosign, SLSA, signed catalogue)
+$ python hub/hub.py publish --registry registry.biochef.app
+$ python hub/hub.py sign-attest --policy … --expected-hub-commit …
+$ python hub/hub.py verify-attestations --policy … --expected-hub-commit …
+$ python hub/hub.py publish-catalog --registry registry.biochef.app --policy … --slsa-verification-report …
 ```
 
 **Workflow JSON:**
@@ -252,16 +267,17 @@ The web app, Hub CI, and Registry are live today. Agent mode and workflow aggreg
 
 - **Live — BioChef web app.** Tools page + Workflow page; bioinformatics tools (GTO, minimap2, samtools, bcftools, bedtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) running in WebAssembly via biowasm.
 - **Live — biochef-hub + Registry.** Reusable GitHub workflow signs and publishes recipes to `registry.biochef.app`.
-- **In development — Agent mode & workflow aggregation.** Server-side execution of signed bundles outside the browser, plus packaging multi-step workflows as first-class registry artifacts.
+- **In development — Agent mode & workflow aggregation.** BioChef Agent runs signed bundles outside the browser, next to the data. Already working: every step runs in a container; a bundle is refused unless its signature, SBOM, SLSA provenance and blob digests check out; requests are authenticated; runs can be stopped and outlive the request; logs stream live; large files stream instead of being held in memory; each run records how it was produced. Workflow aggregation comes next.
 
 ### Roadmap
 
-- BioChef web app: Tools + Workflow pages [done]. A growing catalogue of bioinformatics tools (GTO, minimap2, samtools, bcftools, bedtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) compiled to WebAssembly, in-browser DAG editor, recipe persistence. Live at ieeta-pt.github.io/Biochef.
-- biochef-hub CI + signed Registry [done]. Reusable GitHub workflow that validates, builds, signs (cosign), and publishes bundles to registry.biochef.app.
-- biochef-recipes catalog growth [in progress]. Expand the public recipe catalogue with more tools, more contributors, and richer metadata.
-- Agent mode [in progress]. Server-side and desktop runtime that executes signed bundles outside the browser, with the same provenance guarantees.
+- BioChef web app: Tools + Workflow pages [done]. A growing catalogue of bioinformatics tools (GTO, minimap2, samtools, bcftools, bedtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) compiled to WebAssembly, in-browser DAG editor, recipe persistence. Live at biochef.app.
+- biochef-hub CI + signed Registry [done]. Reusable GitHub workflow that validates, builds and tests recipes, generates and checks an SBOM, publishes bundles to registry.biochef.app, signs them with cosign, attaches SLSA provenance, and publishes a signed catalogue that the web app verifies.
+- biochef-recipes catalog growth [in progress]. Expand the public recipe catalogue with more tools, more contributors, and richer metadata. 12 of the 31 recipes also build natively, so the agent can run them outside the browser.
+- Agent mode [in progress]. Runtime that executes signed bundles outside the browser, next to the data, with the same provenance guarantees. Working today: containerised steps, refusal of any bundle whose signature, SBOM, SLSA provenance or blob digests do not check out, authenticated requests, stoppable runs, live logs, streamed large files and a provenance record per run.
 - Workflow aggregation [planned]. Package multi-step workflows as first-class signed artifacts in the registry, alongside individual tools, so a whole pipeline becomes a single shareable recipe.
-- Federated learning + server runtimes [planned]. Federated Aggregator + Silo Agents, GA4GH connectors, WES/TES, MCP gateway, observability. All designed but not yet shipped.
+- GA4GH standards and audit in the agent [in progress]. The agent speaks GA4GH: runs submitted through the WES API, researchers identified by GA4GH Passports, data fetched by DRS URI from hosts named in advance, plus an audit log of who ran what over which data. Implemented and in review.
+- Federated learning + server runtimes [planned]. Federated Aggregator + Silo Agents, TES, htsget/refget connectors, MCP gateway, observability. Designed, not yet built.
 
 ### Team (research team at IEETA, University of Aveiro)
 

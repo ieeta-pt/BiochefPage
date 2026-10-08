@@ -4,7 +4,7 @@ Documentation and marketing site for the [BioChef](https://github.com/ieeta-pt/B
 
 **Live:** https://home.biochef.app/
 
-The actual BioChef web app (the SPA users run) lives at https://ieeta-pt.github.io/Biochef/ in a separate repo.
+The actual BioChef web app (the SPA users run) lives at https://biochef.app/ in a separate repo.
 
 ## What's here
 

@@ -2,9 +2,9 @@
 
 > A signed catalogue of bioinformatics tools that run end-to-end in your browser via WebAssembly. From a YAML recipe in Git to a signed bundle in the BioChef Registry, then executed client-side. No installs, no uploads, no servers.
 
-BioChef is an open project from IEETA at the University of Aveiro. Tools are declared as YAML recipes; the `biochef-hub` reusable GitHub Actions workflow validates, builds (Emscripten/biowasm to WASM), tests against golden fixtures, generates SBOM + SLSA provenance, signs with cosign, and publishes content-addressable OCI bundles to the BioChef Registry. The static BioChef web app fetches tools by digest at runtime and runs them as WebAssembly inside the browser tab.
+BioChef is an open project from IEETA at the University of Aveiro. Tools are declared as YAML recipes; the `biochef-hub` reusable GitHub Actions workflow validates, builds (Emscripten/biowasm to WASM), tests each tool on the example input of its data types, generates SBOM + SLSA provenance, signs with cosign, and publishes content-addressable OCI bundles to the BioChef Registry. The static BioChef web app fetches tools by digest at runtime and runs them as WebAssembly inside the browser tab.
 
-The marketing/docs site at <https://home.biochef.app/> is what this `llms.txt` indexes. The actual web app users run lives at <https://ieeta-pt.github.io/Biochef/> in a separate repo.
+The marketing/docs site at <https://home.biochef.app/> is what this `llms.txt` indexes. The actual web app users run lives at <https://biochef.app/> in a separate repo.
 
 ## Pages
 
@@ -16,7 +16,7 @@ The marketing/docs site at <https://home.biochef.app/> is what this `llms.txt` i
 
 ## Live components (shipped today)
 
-- BioChef web app (the SPA users run): <https://ieeta-pt.github.io/Biochef/>
+- BioChef web app (the SPA users run): <https://biochef.app/>
 - biochef-hub (CI / signing): <https://github.com/ieeta-pt/biochef-hub>
 - BioChef Registry (signed OCI bundles): <https://registry.biochef.app>
 
@@ -29,7 +29,7 @@ The marketing/docs site at <https://home.biochef.app/> is what this `llms.txt` i
 
 ## Roadmap (in progress)
 
-- Agent mode: server-side and desktop runtime that executes signed bundles outside the browser, with the same provenance guarantees.
+- Agent mode: Runtime that executes signed bundles outside the browser, next to the data, with the same provenance guarantees. Working today: containerised steps, refusal of any bundle whose signature, SBOM, SLSA provenance or blob digests do not check out, authenticated requests, stoppable runs, live logs, streamed large files and a provenance record per run.
 - Workflow aggregation: package multi-step DAGs as first-class signed artifacts in the Registry.
 - Federated learning + server runtimes (GA4GH connectors, WES/TES, MCP gateway, observability) — designed but not yet shipped.
 

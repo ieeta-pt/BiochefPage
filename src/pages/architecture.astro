@@ -56,7 +56,7 @@ import UiWasm from '../content/architecture/ui-wasm-runtime.mdx';
         <article class="bg-surface rounded-xl border border-border border-l-4 border-l-brand p-5 shadow-card">
           <p class="text-[10px] font-semibold tracking-[0.12em] uppercase text-brand mb-2">02 · Build</p>
           <h3 class="text-base font-semibold text-text mb-1">biochef-hub</h3>
-          <p class="text-sm text-text-secondary">CI on GitHub Actions: validate, build to WASM, run golden tests, generate SBOM and SLSA, sign with cosign.</p>
+          <p class="text-sm text-text-secondary">CI on GitHub Actions: validate, build to WASM or native, test on example inputs, generate SBOM and SLSA, sign with cosign.</p>
         </article>
         <div class="flex items-center justify-center gap-2 text-[10px] font-semibold tracking-[0.12em] uppercase text-brand-dark">
           <span class="h-px w-6 bg-brand/40"></span>
@@ -207,7 +207,7 @@ import UiWasm from '../content/architecture/ui-wasm-runtime.mdx';
             <!-- Step 3 -->
             <circle cx="412" cy="264" r="6.5" fill="#009688" />
             <path d="M 408.5 264.2 L 411 267 L 416 261.4" stroke="white" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-            <text x="430" y="268" font-family="Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1A1A1A">test <tspan fill="#94A3B8" dx="2">(golden)</tspan></text>
+            <text x="430" y="268" font-family="Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="500" fill="#1A1A1A">test <tspan fill="#94A3B8" dx="2">(examples)</tspan></text>
 
             <!-- Step 4 -->
             <circle cx="412" cy="291" r="6.5" fill="#009688" />
@@ -293,7 +293,7 @@ import UiWasm from '../content/architecture/ui-wasm-runtime.mdx';
             <circle cx="1031" cy="178" r="3.6" fill="#FFD166" />
             <circle cx="1044" cy="178" r="3.6" fill="#06D6A0" />
             <rect x="1060" y="170" width="124" height="18" rx="9" fill="#F8FAFC" stroke="#DBEAFE" stroke-width="1" />
-            <text x="1122" y="183" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#525252">ieeta-pt.github.io</text>
+            <text x="1122" y="183" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#525252">biochef.app</text>
             <line x1="1000" y1="200" x2="1200" y2="200" stroke="#DBEAFE" stroke-width="1" />
 
             <!-- Loaded WASM module pill -->

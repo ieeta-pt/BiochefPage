@@ -207,7 +207,7 @@ export default function ArchitecturePreview() {
           <circle cx="804" cy="91" r="2.8" fill="#FFD166" />
           <circle cx="814" cy="91" r="2.8" fill="#06D6A0" />
           <rect x="826" y="84" width="118" height="14" rx="7" fill="#F8FAFC" stroke="#DBEAFE" strokeWidth="1" />
-          <text x="885" y="94" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="8" fill="#525252">ieeta-pt.github.io</text>
+          <text x="885" y="94" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="8" fill="#525252">biochef.app</text>
           <line x1="780" y1="106" x2="960" y2="106" stroke="#DBEAFE" strokeWidth="1" />
           {/* WASM module pill */}
           <rect x="800" y="118" width="140" height="24" rx="12" fill="#EFF6FF" stroke="#93C5FD" strokeWidth="1" />
