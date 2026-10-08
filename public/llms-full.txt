@@ -281,7 +281,7 @@ The web app, Hub CI, and Registry are live today. Agent mode and workflow aggreg
 
 ### Team (research team at IEETA, University of Aveiro)
 
-- **João Andrade** — Lead developer (active).
+- **João Andrade** — Project manager (active).
 - **Miguel Reis** — Developer.
 - **João Roldão** — Developer.
 - **André Alves** — MSc student · Developer.
