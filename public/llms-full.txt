@@ -4,7 +4,7 @@
 
 This is the full-content companion to <https://home.biochef.app/llms.txt>. It inlines the prose of every public page so an LLM can ingest the whole marketing/docs site in one fetch.
 
-The site at <https://home.biochef.app/> documents BioChef, an open project from IEETA at the University of Aveiro. The actual BioChef web app users run lives at <https://ieeta-pt.github.io/Biochef/>; this site is the marketing/docs front door.
+The site at <https://home.biochef.app/> documents BioChef, an open project from IEETA at the University of Aveiro. The actual BioChef web app users run lives at <https://biochef.app/>; this site is the marketing/docs front door.
 
 ---
 
@@ -256,7 +256,7 @@ The web app, Hub CI, and Registry are live today. Agent mode and workflow aggreg
 
 ### Roadmap
 
-- BioChef web app: Tools + Workflow pages [done]. A growing catalogue of bioinformatics tools (GTO, minimap2, samtools, bcftools, bedtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) compiled to WebAssembly, in-browser DAG editor, recipe persistence. Live at ieeta-pt.github.io/Biochef.
+- BioChef web app: Tools + Workflow pages [done]. A growing catalogue of bioinformatics tools (GTO, minimap2, samtools, bcftools, bedtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) compiled to WebAssembly, in-browser DAG editor, recipe persistence. Live at biochef.app.
 - biochef-hub CI + signed Registry [done]. Reusable GitHub workflow that validates, builds, signs (cosign), and publishes bundles to registry.biochef.app.
 - biochef-recipes catalog growth [in progress]. Expand the public recipe catalogue with more tools, more contributors, and richer metadata.
 - Agent mode [in progress]. Server-side and desktop runtime that executes signed bundles outside the browser, with the same provenance guarantees.

@@ -4,7 +4,7 @@
 
 BioChef is an open project from IEETA at the University of Aveiro. Tools are declared as YAML recipes; the `biochef-hub` reusable GitHub Actions workflow validates, builds (Emscripten/biowasm to WASM), tests against golden fixtures, generates SBOM + SLSA provenance, signs with cosign, and publishes content-addressable OCI bundles to the BioChef Registry. The static BioChef web app fetches tools by digest at runtime and runs them as WebAssembly inside the browser tab.
 
-The marketing/docs site at <https://home.biochef.app/> is what this `llms.txt` indexes. The actual web app users run lives at <https://ieeta-pt.github.io/Biochef/> in a separate repo.
+The marketing/docs site at <https://home.biochef.app/> is what this `llms.txt` indexes. The actual web app users run lives at <https://biochef.app/> in a separate repo.
 
 ## Pages
 
@@ -16,7 +16,7 @@ The marketing/docs site at <https://home.biochef.app/> is what this `llms.txt` i
 
 ## Live components (shipped today)
 
-- BioChef web app (the SPA users run): <https://ieeta-pt.github.io/Biochef/>
+- BioChef web app (the SPA users run): <https://biochef.app/>
 - biochef-hub (CI / signing): <https://github.com/ieeta-pt/biochef-hub>
 - BioChef Registry (signed OCI bundles): <https://registry.biochef.app>
 
