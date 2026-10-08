@@ -186,27 +186,37 @@ version: 0.3.1-bc.1
 homepage: https://github.com/lh3/wgsim
 license:
   spdx: MIT
-  files: [LICENSE]
+  files: [wgsim.c]
+maintainers:
+  - name: Biochef
 source:
   repo: https://github.com/lh3/wgsim
+  commit: "a12da3375ff3b51a5594d4b6fa35591173ecc229"
   version: "0.3.1"
 status: experimental
 build:
   wasm:
     strategy: emscripten
+    emscripten:
+      emscriptenVersion: 4.0.18
+      buildScript: build-wasm.sh
+  native:
+    buildScript: build-native.sh
+    buildTools: [gcc]
 runtime:
-  modes: [wasm, remote]
+  modes: [wasm, native]
 operations:
   - id: wgsim.simulate
     name: Simulate (wgsim)
+    category: Genomic Operations
     bin: wgsim
     description: Simulate paired-end reads
     io:
       inputs:
         - { name: ref, types: [FASTA], mode: file }
       outputs:
-        - { name: out1, types: [FASTQ], mode: file }
-        - { name: out2, types: [FASTQ], mode: file }
+        - { name: out1, types: [FASTQ], mode: file, flag: "", filename: "read1.fq" }
+        - { name: out2, types: [FASTQ], mode: file, flag: "", filename: "read2.fq" }
     parameters:
       - { name: num_pairs, type: integer, flag: -N }
       - { name: seed, type: integer, flag: -S }
