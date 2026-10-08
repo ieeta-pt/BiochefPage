@@ -87,7 +87,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
               {
                 id: 'hub',
                 label: 'biochef-hub CI + signed Registry',
-                description: 'Reusable GitHub workflow that validates, builds, signs (cosign), and publishes bundles to registry.biochef.app.',
+                description: 'Reusable GitHub workflow that validates, builds and tests recipes, generates and checks an SBOM, publishes bundles to registry.biochef.app, signs them with cosign, attaches SLSA provenance, and publishes a signed catalogue that the web app verifies.',
                 status: 'done'
               },
               {
@@ -109,9 +109,15 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
                 status: 'planned'
               },
               {
+                id: 'ga4gh',
+                label: 'GA4GH standards and audit in the agent',
+                description: 'The agent speaks GA4GH: runs submitted through the WES API, researchers identified by GA4GH Passports, data fetched by DRS URI from hosts named in advance, plus an audit log of who ran what over which data. Implemented and in review.',
+                status: 'in-progress'
+              },
+              {
                 id: 'fl',
                 label: 'Federated learning + server runtimes',
-                description: 'Federated Aggregator + Silo Agents, GA4GH connectors, WES/TES, MCP gateway, observability. All designed but not yet shipped.',
+                description: 'Federated Aggregator + Silo Agents, TES, htsget/refget connectors, MCP gateway, observability. Designed, not yet built.',
                 status: 'planned'
               }
             ]}
