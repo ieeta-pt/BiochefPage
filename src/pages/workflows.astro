@@ -10,7 +10,7 @@ import { LightningIcon } from '../components/Icons';
 // production: Agent / WES / TES / Federated runtimes are roadmap items, not shipped.
 ---
 
-<BaseLayout title="Workflows · BioChef">
+<BaseLayout title="Workflows · BioChef" description="Chain bioinformatics tools into a DAG in your browser: examples, the tool catalogue, and how workflows run.">
   <PageHero
     kicker="Workflows"
     title="Build workflows"
@@ -20,7 +20,7 @@ import { LightningIcon } from '../components/Icons';
       { label: 'Editor', value: 'Drag-and-drop DAG with type filtering' },
       { label: 'Runtime', value: 'WebAssembly via biowasm' },
       { label: 'Formats', value: 'FASTA · FASTQ · BAM · CRAM · VCF · GFF · BED · JSON · …' },
-      { label: 'Persistence', value: 'Recipes saved as JSON' }
+      { label: 'Persistence', value: 'Workflows exported as JSON' }
     ]}
   />
 
@@ -67,13 +67,13 @@ import { LightningIcon } from '../components/Icons';
           },
           {
             title: 'QC, triage & conversion',
-            description: 'Run fastp for QC and adapter trimming, chain samtools view/stats/flagstat or GTO statistics to triage FASTQ/BAM/CRAM, and convert between FASTA, FASTQ, SEQ, BAM ↔ SAM, GTF ↔ GFF (gffread). All in one signed recipe.',
+            description: 'Run fastp for QC and adapter trimming, chain samtools view/stats/flagstat or GTO statistics to triage FASTQ/BAM/CRAM, and convert between FASTA, FASTQ, SEQ, BAM ↔ SAM, GTF ↔ GFF (gffread). All in one workflow.',
             audience: 'Data prep',
             tone: 'accent'
           },
           {
             title: 'Teaching demo',
-            description: 'Share a recipe link with a class. Anyone can open it in the browser and walk through the same DAG step by step.',
+            description: 'Send a workflow file to a class. Anyone can import it in the browser and walk through the same DAG step by step.',
             audience: 'Education',
             tone: 'tertiary'
           }
@@ -115,7 +115,7 @@ import { LightningIcon } from '../components/Icons';
       </div>
 
       <p class="text-center text-xs text-text-tertiary mt-8">
-        Badges count recipes per family (GTO counts operations). Workflows can pipe FASTA, FASTQ, BAM, SAM, CRAM, VCF, BCF, BED, GFF, PAF, JSON, LIST and more between tools.
+        Badges count recipes per family (GTO counts operations). Workflows can pipe FASTA, FASTQ, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST and more between tools.
         <a class="text-brand hover:text-brand-dark ml-1" href="https://biochef.app/" target="_blank" rel="noreferrer">See the full catalogue in the app →</a>
       </p>
     </div>

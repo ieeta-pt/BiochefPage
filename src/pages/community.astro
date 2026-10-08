@@ -8,7 +8,7 @@ const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
 ---
 
-<BaseLayout title="Community · BioChef">
+<BaseLayout title="Community · BioChef" description="BioChef project status, roadmap, team, and how to cite and contribute.">
   <PageHero
     kicker="Community"
     title="Community & Roadmap"
@@ -27,7 +27,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
       <SectionHeader
         kicker="Status"
         title="Project status"
-        subtitle="The web app, Hub CI, and Registry are live today. Agent mode and workflow aggregation are in active development. Federated learning is on the longer roadmap."
+        subtitle="The web app, Hub CI, and Registry are live today. Agent mode is in active development; workflow aggregation is next. Federated learning is on the longer roadmap."
       />
 
       <div class="grid-3">
@@ -57,8 +57,8 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
             </span>
             <span class="text-[10px] font-semibold tracking-[0.12em] uppercase text-accent-dark">In development</span>
           </div>
-          <h3 class="text-lg font-medium text-text mb-2 tracking-tight">Agent mode &amp; workflow aggregation</h3>
-          <p class="text-sm text-text-secondary leading-relaxed">BioChef Agent runs signed bundles outside the browser, next to the data. Already working: every step runs in a container; a bundle is refused unless its signature, SBOM, SLSA provenance and blob digests check out; requests are authenticated; runs can be stopped and outlive the request; logs stream live; large files stream instead of being held in memory; each run records how it was produced. Workflow aggregation comes next.</p>
+          <h3 class="text-lg font-medium text-text mb-2 tracking-tight">Agent mode</h3>
+          <p class="text-sm text-text-secondary leading-relaxed">BioChef Agent runs signed bundles outside the browser, next to the data. Already working: steps can run in containers (Apptainer); the agent can be set to refuse any bundle whose signature, SBOM, SLSA provenance or blob digests do not check out, and to require a bearer token; runs can be stopped and outlive the request; logs stream live; large files stream instead of being held in memory; each run records how it was produced. Workflow aggregation comes next.</p>
         </article>
       </div>
     </div>
@@ -81,7 +81,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
               {
                 id: 'spa',
                 label: 'BioChef web app: Tools + Workflow pages',
-                description: 'A catalogue of 31 signed bioinformatics recipes (GTO, minimap2, bcftools, bedtools, samtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) compiled to WebAssembly, in-browser DAG editor, recipe persistence. Live at biochef.app.',
+                description: 'A catalogue of 31 signed bioinformatics recipes (GTO, minimap2, bcftools, bedtools, samtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) compiled to WebAssembly, in-browser DAG editor, workflow export and import. Live at biochef.app.',
                 status: 'done'
               },
               {
@@ -99,7 +99,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
               {
                 id: 'agent',
                 label: 'Agent mode',
-                description: 'Runtime that executes signed bundles outside the browser, next to the data, with the same provenance guarantees. Working today: containerised steps, refusal of any bundle whose signature, SBOM, SLSA provenance or blob digests do not check out, authenticated requests, stoppable runs, live logs, streamed large files and a provenance record per run.',
+                description: 'Runtime that executes signed bundles outside the browser, next to the data, with the same provenance guarantees. Working today: optional containerised steps (Apptainer), an optional strict mode that refuses any bundle whose signature, SBOM, SLSA provenance or blob digests do not check out, optional bearer-token auth, stoppable runs, live logs, streamed large files and a provenance record per run.',
                 status: 'in-progress'
               },
               {
@@ -140,6 +140,13 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
       <div class="max-w-5xl mx-auto space-y-12 mb-16">
         {[
           {
+            kicker: 'Project leadership',
+            members: [
+              { initials: 'JS', name: 'Jorge Miguel Silva', role: 'Project lead · IEETA', tone: 'accent', active: false, url: 'https://jorgemfs.com', photo: '/img/team/jorge-miguel-silva.webp' },
+              { initials: 'JO', name: 'José Luis Oliveira', role: 'Supervisor · IEETA', tone: 'accent', active: false, photo: '/img/team/jose-luis-oliveira.webp' }
+            ]
+          },
+          {
             kicker: 'Active development',
             members: [
               { initials: 'JA', name: 'João Andrade', role: 'Project manager', tone: 'brand', active: true, url: 'https://github.com/WildBunnie' },
@@ -147,13 +154,6 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
               { initials: 'JR', name: 'João Roldão', role: 'Developer', tone: 'brand', active: true, url: 'https://github.com/roldao04' },
               { initials: 'AA', name: 'André Alves', role: 'MSc student · Developer', tone: 'brand', active: true, url: 'https://github.com/Xxerd' },
               { initials: 'RC', name: 'Rafael Chuva', role: 'MSc student · Federated learning in TREs (IST)', tone: 'brand', active: true }
-            ]
-          },
-          {
-            kicker: 'Project leadership',
-            members: [
-              { initials: 'JS', name: 'Jorge Miguel Silva', role: 'Project lead · IEETA', tone: 'accent', active: false, url: 'https://jorgemfs.com', photo: '/img/team/jorge-miguel-silva.webp' },
-              { initials: 'JO', name: 'José Luis Oliveira', role: 'Supervisor · IEETA', tone: 'accent', active: false, photo: '/img/team/jose-luis-oliveira.webp' }
             ]
           },
           {
@@ -256,6 +256,8 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
         </div>
         <p class="mt-4 text-xs text-text-tertiary">Open access. BioChef code is released under the MIT License.</p>
       </article>
+
+      <p class="mt-6 max-w-3xl mx-auto text-xs text-text-tertiary leading-relaxed text-center">Funding: FCT (unit 00127-IEETA; project 2023.14342.CPCA.A1), the European Commission (Genomic Data Infrastructure, grant 101081813), BioData.pt | ELIXIR Portugal, and the ELIXIR Commissioned Service 2024-SCIENCE-HDTR WP6 (Fed-A-Crate).</p>
     </div>
   </section>
 

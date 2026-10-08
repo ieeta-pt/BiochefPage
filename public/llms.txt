@@ -29,7 +29,7 @@ The marketing/docs site at <https://home.biochef.app/> is what this `llms.txt` i
 
 ## Roadmap (in progress)
 
-- Agent mode: Runtime that executes signed bundles outside the browser, next to the data, with the same provenance guarantees. Working today: containerised steps, refusal of any bundle whose signature, SBOM, SLSA provenance or blob digests do not check out, authenticated requests, stoppable runs, live logs, streamed large files and a provenance record per run.
+- Agent mode: Runtime that executes signed bundles outside the browser, next to the data, with the same provenance guarantees. Working today: optional containerised steps (Apptainer), an optional strict mode that refuses any bundle whose signature, SBOM, SLSA provenance or blob digests do not check out, optional bearer-token auth, stoppable runs, live logs, streamed large files and a provenance record per run.
 - Workflow aggregation: package multi-step DAGs as first-class signed artifacts in the Registry.
 - Federated learning + server runtimes (GA4GH connectors, WES/TES, MCP gateway, observability) — designed but not yet shipped.
 

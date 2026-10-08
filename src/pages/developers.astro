@@ -8,7 +8,7 @@ const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
 ---
 
-<BaseLayout title="Developers · BioChef">
+<BaseLayout title="Developers · BioChef" description="Write a BioChef recipe, run the Hub pipeline, run the web app locally, and pull signed tool bundles from the registry.">
   <PageHero
     kicker="Developers"
     title="For Developers"
@@ -83,6 +83,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
               <span class="leading-snug"><code>npm start</code> and open <code>http://localhost:8082</code>.</span>
             </li>
           </ol>
+          <p class="text-xs text-text-tertiary mb-5 leading-relaxed">Or <code>docker compose -f docker-compose.dev.yml up</code>: the app plus an empty local registry. The <code>tools</code> profile adds the Hub to publish recipes into it.</p>
           <a
             class="mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-tertiary hover:text-tertiary-dark transition-colors"
             href="https://github.com/ieeta-pt/Biochef"
@@ -100,7 +101,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
         <article class="bg-surface rounded-xl border border-border border-l-4 border-l-brand p-6 md:p-7 shadow-card hover:shadow-card-hover transition-shadow duration-200 flex flex-col">
           <p class="text-[10px] font-semibold tracking-[0.12em] text-brand uppercase mb-3">Step 03 · Inspect</p>
           <h3 class="text-lg font-medium text-text mb-2 tracking-tight">Pull a signed bundle</h3>
-          <p class="text-sm text-text-secondary mb-5 leading-relaxed">Tools live in the BioChef Registry as content-addressable OCI bundles. The web app fetches them by digest at runtime; you can pull and verify them locally with the Hub CLI or ORAS.</p>
+          <p class="text-sm text-text-secondary mb-5 leading-relaxed">Tools live in the BioChef Registry as content-addressable OCI bundles. The web app fetches them by digest at runtime; you can pull them with ORAS and verify them with cosign.</p>
           <ol class="text-sm text-text-secondary space-y-2.5 mb-5">
             <li class="flex items-start gap-3">
               <span class="flex-shrink-0 w-5 h-5 rounded-full bg-brand/10 text-brand text-[11px] flex items-center justify-center font-semibold">1</span>
@@ -129,6 +130,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
           </a>
         </article>
       </div>
+      <p class="mt-8 text-sm text-text-secondary text-center">Running tools next to the data instead? <a class="text-brand hover:text-brand-dark font-medium" href="https://github.com/ieeta-pt/biochef-agent" target="_blank" rel="noreferrer">biochef-agent</a>: <code>./run.sh</code>, configured through <code>example.env</code>.</p>
     </div>
   </section>
 
@@ -138,7 +140,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
       <SectionHeader
         kicker="Snippets"
         title="What the code looks like"
-        subtitle="A recipe in YAML, the Hub CLI run, and a saved workflow."
+        subtitle="A recipe in YAML, the Hub CLI run, and an exported workflow."
       />
 
       <div class="max-w-3xl mx-auto">
@@ -213,12 +215,16 @@ $ python hub/hub.py publish-catalog --registry registry.biochef.app --policy …
               label: 'Workflow JSON',
               language: 'json',
               code: `{
-  "name": "fastq-triage",
-  "steps": [
-    { "id": "stats",   "runtime": "wasm", "tool": "gto.fastq.info@1.6.3-bc.1" },
-    { "id": "tofasta", "runtime": "wasm", "tool": "gto.fastq.to.fasta@1.6.3-bc.1" },
-    { "id": "rev",     "runtime": "wasm", "tool": "gto.fasta.reverse@1.6.3-bc.1" }
-  ]
+  "nodes": [
+    { "id": "in",  "type": "inputWorkflowNode",  "position": { "x": 50,  "y": 120 }, "data": { "label": "Input" } },
+    { "id": "rev", "type": "workflowNode",       "position": { "x": 350, "y": 120 }, "data": { "label": "Fasta Reverse (GTO)", "paramValues": {} } },
+    { "id": "out", "type": "outputWorkflowNode", "position": { "x": 650, "y": 120 }, "data": { "label": "Output" } }
+  ],
+  "edges": [
+    { "id": "e1", "type": "workflowEdge", "source": "in",  "sourceHandle": "out", "target": "rev", "targetHandle": "in" },
+    { "id": "e2", "type": "workflowEdge", "source": "rev", "sourceHandle": "out", "target": "out" }
+  ],
+  "viewport": { "x": 0, "y": 0, "zoom": 1 }
 }`
             }
           ]}

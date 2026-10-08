@@ -8,8 +8,8 @@ const comparison: [string, string, string][] = [
   ['Tool provenance', 'Opaque containers, ad-hoc signing', 'Signed recipes → Hub → Registry with SBOM and SLSA'],
   ['Getting started', 'Install toolchain, build from source, manage dependencies', 'Open the BioChef app in a browser tab'],
   ['Data handling', 'Upload sequences to a server you have to trust', 'WASM execution keeps every byte inside the browser tab'],
-  ['Iterating on a workflow', 'Edit shell script, re-run, hope for reproducibility', 'DAG editor with live re-execution; recipes are signed and replayable'],
-  ['Sharing a result', 'Send a tarball plus a README', 'Share the recipe. Anyone can re-run it from the registry']
+  ['Iterating on a workflow', 'Edit shell script, re-run, hope for reproducibility', 'DAG editor with live re-execution; every tool in it comes from the signed catalogue'],
+  ['Sharing a result', 'Send a tarball plus a README', 'Share the workflow file. Anyone can import and re-run it in the app']
 ];
 
 const cases = [
@@ -29,7 +29,7 @@ const cases = [
   },
   {
     title: 'Build and share workflows',
-    description: 'Drag tools into a DAG, configure parameters, and re-run live as you iterate. Save and reload recipes in one click.',
+    description: 'Drag tools into a DAG, configure parameters, and re-run live as you iterate. Export the workflow and import it again in one click.',
     audience: 'Workflow authors',
     icon: 'bolt',
     tone: 'tertiary'
@@ -37,7 +37,7 @@ const cases = [
 ];
 ---
 
-<BaseLayout title="Why BioChef · BioChef">
+<BaseLayout title="Why BioChef · BioChef" description="Why BioChef: signed, browser-run bioinformatics tools that need no install and never upload your data.">
   <PageHero
     kicker="Motivation"
     title="Why BioChef"

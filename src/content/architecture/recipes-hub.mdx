@@ -68,7 +68,7 @@ Recipes declare tools/workflows; Hub validates, signs, and bundles them for Regi
 
 ### Practical tips
 - Author YAML in <code>biochef-recipes</code> under <code>recipes/&lt;tool&gt;/biochef.yaml</code>; validate before opening a PR.
-- Keep inputs/outputs typed; add small fixtures so CI can prove the tool still works.
+- Keep inputs/outputs typed; CI runs each tool on the example input of its data types.
 - The reusable workflows live in <code>biochef-hub/.github/workflows/validate-recipes.yml</code> (PR validation) and <code>publish-recipes.yml</code> (build + publish on merge).
 ```yaml
 apiVersion: v1

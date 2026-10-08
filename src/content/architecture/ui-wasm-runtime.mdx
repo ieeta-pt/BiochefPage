@@ -52,7 +52,7 @@ The BioChef web app, a static React/Webpack SPA, runs every published bioinforma
 - Loads tools by digest from the BioChef Registry; aioli/biowasm boots them in a Web Worker.
 - Before showing any tool, the app checks the catalogue's signature against a public key pinned in the app and keeps only entries that passed the publication checks; before running one, it checks the SHA-256 of the OCI manifest, the bundle, the JavaScript and the WebAssembly. A tool that fails is not offered.
 - Detects input data type (FASTA, FASTQ, Multi-FASTA, DNA, RNA, amino acids, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST, …) and filters compatible tools.
-- DAG editor re-executes downstream steps on parameter change; recipes can be saved and reloaded.
+- DAG editor re-executes downstream steps on parameter change; workflows can be exported and imported as JSON.
 
 ### Practical tips
 - The BioChef SPA's bundled GTO modules are built with Emscripten 3.1.65 (rebuild locally with <code>npm run build-wasm</code>). Hub CI compiles new recipes with Emscripten 4.0.18.
