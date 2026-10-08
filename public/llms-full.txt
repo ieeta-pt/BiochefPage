@@ -174,7 +174,7 @@ Hub CLI on GitHub: <https://github.com/ieeta-pt/biochef-hub>
 
 ### Snippets (what the code looks like)
 
-A recipe in YAML, the Hub CLI run, and a saved workflow.
+A recipe in YAML, the Hub CLI run, and an exported workflow.
 
 **YAML recipe:**
 ```yaml
@@ -240,12 +240,16 @@ $ python hub/hub.py publish-catalog --registry registry.biochef.app --policy …
 **Workflow JSON:**
 ```json
 {
-  "name": "fastq-triage",
-  "steps": [
-    { "id": "stats",   "runtime": "wasm", "tool": "gto.fastq.info@1.6.3-bc.1" },
-    { "id": "tofasta", "runtime": "wasm", "tool": "gto.fastq.to.fasta@1.6.3-bc.1" },
-    { "id": "rev",     "runtime": "wasm", "tool": "gto.fasta.reverse@1.6.3-bc.1" }
-  ]
+  "nodes": [
+    { "id": "in",  "type": "inputWorkflowNode",  "position": { "x": 50,  "y": 120 }, "data": { "label": "Input" } },
+    { "id": "rev", "type": "workflowNode",       "position": { "x": 350, "y": 120 }, "data": { "label": "Fasta Reverse (GTO)", "paramValues": {} } },
+    { "id": "out", "type": "outputWorkflowNode", "position": { "x": 650, "y": 120 }, "data": { "label": "Output" } }
+  ],
+  "edges": [
+    { "id": "e1", "type": "workflowEdge", "source": "in",  "sourceHandle": "out", "target": "rev", "targetHandle": "in" },
+    { "id": "e2", "type": "workflowEdge", "source": "rev", "sourceHandle": "out", "target": "out" }
+  ],
+  "viewport": { "x": 0, "y": 0, "zoom": 1 }
 }
 ```
 

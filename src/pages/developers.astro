@@ -138,7 +138,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
       <SectionHeader
         kicker="Snippets"
         title="What the code looks like"
-        subtitle="A recipe in YAML, the Hub CLI run, and a saved workflow."
+        subtitle="A recipe in YAML, the Hub CLI run, and an exported workflow."
       />
 
       <div class="max-w-3xl mx-auto">
@@ -213,12 +213,16 @@ $ python hub/hub.py publish-catalog --registry registry.biochef.app --policy …
               label: 'Workflow JSON',
               language: 'json',
               code: `{
-  "name": "fastq-triage",
-  "steps": [
-    { "id": "stats",   "runtime": "wasm", "tool": "gto.fastq.info@1.6.3-bc.1" },
-    { "id": "tofasta", "runtime": "wasm", "tool": "gto.fastq.to.fasta@1.6.3-bc.1" },
-    { "id": "rev",     "runtime": "wasm", "tool": "gto.fasta.reverse@1.6.3-bc.1" }
-  ]
+  "nodes": [
+    { "id": "in",  "type": "inputWorkflowNode",  "position": { "x": 50,  "y": 120 }, "data": { "label": "Input" } },
+    { "id": "rev", "type": "workflowNode",       "position": { "x": 350, "y": 120 }, "data": { "label": "Fasta Reverse (GTO)", "paramValues": {} } },
+    { "id": "out", "type": "outputWorkflowNode", "position": { "x": 650, "y": 120 }, "data": { "label": "Output" } }
+  ],
+  "edges": [
+    { "id": "e1", "type": "workflowEdge", "source": "in",  "sourceHandle": "out", "target": "rev", "targetHandle": "in" },
+    { "id": "e2", "type": "workflowEdge", "source": "rev", "sourceHandle": "out", "target": "out" }
+  ],
+  "viewport": { "x": 0, "y": 0, "zoom": 1 }
 }`
             }
           ]}

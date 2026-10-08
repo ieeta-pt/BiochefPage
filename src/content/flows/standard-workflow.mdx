@@ -1,16 +1,19 @@
 1. Open the BioChef web app. The Tools page lists every signed tool currently in the catalog.
 2. Drag tools onto the Workflow page; the editor only offers tools whose input type matches the previous step's output.
 3. Each step boots its WebAssembly module on demand and streams output to the next step. Parameter changes re-execute downstream steps live.
-4. Save the workflow as a recipe; reload it later or share the JSON with someone else.
+4. Export the workflow as `workflow.json`; import it later or send the file to someone else.
 
 ```json
 {
-  "workflow": "fastq-triage",
-  "steps": [
-    { "id": "stats",   "runtime": "wasm", "tool": "gto.fastq.info@1.6.3-bc.1" },
-    { "id": "tofasta", "runtime": "wasm", "tool": "gto.fastq.to.fasta@1.6.3-bc.1" },
-    { "id": "rev",     "runtime": "wasm", "tool": "gto.fasta.reverse@1.6.3-bc.1" }
+  "nodes": [
+    { "id": "in",  "type": "inputWorkflowNode",  "position": { "x": 50,  "y": 120 }, "data": { "label": "Input" } },
+    { "id": "rev", "type": "workflowNode",       "position": { "x": 350, "y": 120 }, "data": { "label": "Fasta Reverse (GTO)", "paramValues": {} } },
+    { "id": "out", "type": "outputWorkflowNode", "position": { "x": 650, "y": 120 }, "data": { "label": "Output" } }
   ],
-  "verify": true
+  "edges": [
+    { "id": "e1", "type": "workflowEdge", "source": "in",  "sourceHandle": "out", "target": "rev", "targetHandle": "in" },
+    { "id": "e2", "type": "workflowEdge", "source": "rev", "sourceHandle": "out", "target": "out" }
+  ],
+  "viewport": { "x": 0, "y": 0, "zoom": 1 }
 }
 ```
