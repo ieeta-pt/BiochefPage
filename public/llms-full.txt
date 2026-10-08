@@ -166,7 +166,7 @@ Recipes repo: <https://github.com/ieeta-pt/biochef-recipes> · Hub CI: <https://
 2. (Optional) install Emscripten 3.1.65 and run `npm run build-wasm` to rebuild WASM modules from source.
 3. `npm start` and open `http://localhost:8082`.
 
-**Step 03 · Inspect — pull a signed bundle.** Tools live in the BioChef Registry as content-addressable OCI bundles. The web app fetches them by digest at runtime; you can pull and verify them locally with the Hub CLI or ORAS.
+**Step 03 · Inspect — pull a signed bundle.** Tools live in the BioChef Registry as content-addressable OCI bundles. The web app fetches them by digest at runtime; you can pull them with ORAS and verify them with cosign.
 1. Resolve a tool by digest in the signed `index.json` catalogue.
 2. Pull the OCI bundle (`bundle.json` + WASM/JS layers + SBOM) with ORAS.
 3. Verify the bundle's cosign signature and SLSA provenance; the web app itself checks the catalogue signature and every digest before running it.
