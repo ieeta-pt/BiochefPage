@@ -273,7 +273,7 @@ The web app, Hub CI, and Registry are live today. Agent mode and workflow aggreg
 
 - BioChef web app: Tools + Workflow pages [done]. A growing catalogue of bioinformatics tools (GTO, minimap2, samtools, bcftools, bedtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) compiled to WebAssembly, in-browser DAG editor, recipe persistence. Live at biochef.app.
 - biochef-hub CI + signed Registry [done]. Reusable GitHub workflow that validates, builds, signs (cosign), and publishes bundles to registry.biochef.app.
-- biochef-recipes catalog growth [in progress]. Expand the public recipe catalogue with more tools, more contributors, and richer metadata.
+- biochef-recipes catalog growth [in progress]. Expand the public recipe catalogue with more tools, more contributors, and richer metadata. 12 of the 31 recipes also build natively, so the agent can run them outside the browser.
 - Agent mode [in progress]. Runtime that executes signed bundles outside the browser, next to the data, with the same provenance guarantees. Working today: containerised steps, refusal of any bundle whose signature, SBOM, SLSA provenance or blob digests do not check out, authenticated requests, stoppable runs, live logs, streamed large files and a provenance record per run.
 - Workflow aggregation [planned]. Package multi-step workflows as first-class signed artifacts in the registry, alongside individual tools, so a whole pipeline becomes a single shareable recipe.
 - Federated learning + server runtimes [planned]. Federated Aggregator + Silo Agents, GA4GH connectors, WES/TES, MCP gateway, observability. All designed but not yet shipped.
