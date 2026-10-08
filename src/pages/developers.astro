@@ -44,11 +44,11 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
             </li>
             <li class="flex items-start gap-3">
               <span class="flex-shrink-0 w-5 h-5 rounded-full bg-accent/10 text-accent text-[11px] flex items-center justify-center font-semibold">2</span>
-              <span class="leading-snug">Run <code>hub validate</code> and add tiny golden fixtures under <code>tests/</code>.</span>
+              <span class="leading-snug">Run <code>hub validate</code> on it. CI also runs each built tool on the example input of its data types, so declare the types carefully.</span>
             </li>
             <li class="flex items-start gap-3">
               <span class="flex-shrink-0 w-5 h-5 rounded-full bg-accent/10 text-accent text-[11px] flex items-center justify-center font-semibold">3</span>
-              <span class="leading-snug">Open a PR. The reusable Hub workflow runs validate → build → SBOM → cosign → publish.</span>
+              <span class="leading-snug">Open a PR. The reusable Hub workflow runs validate → build → test → SBOM. After merge it publishes, signs with cosign, attaches SLSA provenance and republishes the signed catalogue.</span>
             </li>
           </ol>
           <a
@@ -104,11 +104,11 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
           <ol class="text-sm text-text-secondary space-y-2.5 mb-5">
             <li class="flex items-start gap-3">
               <span class="flex-shrink-0 w-5 h-5 rounded-full bg-brand/10 text-brand text-[11px] flex items-center justify-center font-semibold">1</span>
-              <span class="leading-snug">Resolve a tool by digest in the signed <code>index.json</code>.</span>
+              <span class="leading-snug">Resolve a tool by digest in the signed <code>index.json</code> catalogue.</span>
             </li>
             <li class="flex items-start gap-3">
               <span class="flex-shrink-0 w-5 h-5 rounded-full bg-brand/10 text-brand text-[11px] flex items-center justify-center font-semibold">2</span>
-              <span class="leading-snug">Pull the OCI bundle (<code>bundle.json</code> + WASM/JS layers + SBOM) with the Hub CLI or ORAS.</span>
+              <span class="leading-snug">Pull the OCI bundle (<code>bundle.json</code> + WASM/JS layers + SBOM) with ORAS.</span>
             </li>
             <li class="flex items-start gap-3">
               <span class="flex-shrink-0 w-5 h-5 rounded-full bg-brand/10 text-brand text-[11px] flex items-center justify-center font-semibold">3</span>
@@ -186,12 +186,17 @@ operations:
               id: 'cli',
               label: 'CLI usage',
               language: 'bash',
-              code: `$ hub validate recipe.yaml
-$ hub build recipe.yaml --out dist/
-$ hub sbom && hub attest
-$ hub sign --key cosign.key
-$ hub publish dist/ --registry https://registry.biochef.app
-$ hub index --sign`
+              code: `# On every pull request
+$ python hub/hub.py validate recipes/wgsim/biochef.yaml
+$ python hub/hub.py build
+$ python hub/hub.py test
+$ python hub/hub.py sbom && python hub/hub.py sbom-check
+
+# After merge, in CI only (keyless cosign, SLSA, signed catalogue)
+$ python hub/hub.py publish --registry registry.biochef.app
+$ python hub/hub.py sign-attest --policy … --expected-hub-commit …
+$ python hub/hub.py verify-attestations --policy … --expected-hub-commit …
+$ python hub/hub.py publish-catalog --registry registry.biochef.app --policy … --slsa-verification-report …`
             },
             {
               id: 'workflow',

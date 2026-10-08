@@ -2,7 +2,7 @@
 
 > A signed catalogue of bioinformatics tools that run end-to-end in your browser via WebAssembly. From a YAML recipe in Git to a signed bundle in the BioChef Registry, then executed client-side. No installs, no uploads, no servers.
 
-BioChef is an open project from IEETA at the University of Aveiro. Tools are declared as YAML recipes; the `biochef-hub` reusable GitHub Actions workflow validates, builds (Emscripten/biowasm to WASM), tests against golden fixtures, generates SBOM + SLSA provenance, signs with cosign, and publishes content-addressable OCI bundles to the BioChef Registry. The static BioChef web app fetches tools by digest at runtime and runs them as WebAssembly inside the browser tab.
+BioChef is an open project from IEETA at the University of Aveiro. Tools are declared as YAML recipes; the `biochef-hub` reusable GitHub Actions workflow validates, builds (Emscripten/biowasm to WASM), tests each tool on the example input of its data types, generates SBOM + SLSA provenance, signs with cosign, and publishes content-addressable OCI bundles to the BioChef Registry. The static BioChef web app fetches tools by digest at runtime and runs them as WebAssembly inside the browser tab.
 
 The marketing/docs site at <https://home.biochef.app/> is what this `llms.txt` indexes. The actual web app users run lives at <https://biochef.app/> in a separate repo.
 

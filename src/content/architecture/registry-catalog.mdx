@@ -55,7 +55,7 @@ The BioChef Registry, live at <a href="https://registry.biochef.app" target="_bl
 
 ### Key behaviors
 - Each tool version is content-addressable: pulled by digest, not by mutable tag.
-- The Hub signs every bundle and the top-level <code>index.json</code> with cosign.
+- The Hub signs every bundle with keyless cosign, and signs the top-level <code>index.json</code> catalogue (ES256) only after verifying those signatures and the SLSA provenance.
 - WASM and JS assets are served as plain HTTPS so the browser app can stream them.
 
 ### Practical tips
