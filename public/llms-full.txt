@@ -118,7 +118,7 @@ A four-node sketch of what the Workflow page looks like in the BioChef app. Clic
 
 - **Sequencing data triage.** Run fastp for QC and adapter trimming, then chain samtools view/stats/flagstat or GTO statistics to triage FASTQ or BAM/CRAM in seconds, no upload needed.
 - **Format conversion pipeline (data prep).** Convert between FASTA, FASTQ, SEQ, BAM ↔ SAM (samtools), GTF ↔ GFF (gffread); reverse, complement, slice. All in one workflow.
-- **Teaching demo (education).** Share a recipe link with a class. Anyone can open it in the browser and walk through the same DAG step by step.
+- **Teaching demo (education).** Send a workflow file to a class. Anyone can import it in the browser and walk through the same DAG step by step.
 
 ### Tool catalogue snapshot
 
