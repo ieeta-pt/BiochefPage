@@ -20,7 +20,7 @@ Peer-reviewed in BMC Bioinformatics, 2026. DOI: 10.1186/s12859-026-06431-1.
 
 - **Recipes → Hub → Registry.** Tools are declared as YAML recipes, validated and built by biochef-hub (SBOM, SLSA, cosign), then published as signed bundles to the BioChef Registry.
 - **Browser-native WebAssembly.** Every published tool runs client-side in WebAssembly. Open the BioChef app, drop in a sequence, and execute. No installs, no uploads, no servers.
-- **Drag-and-drop DAGs.** A DAG editor chains tools end-to-end. Tools are filtered by data type, parameters re-execute live, and recipes can be saved and shared.
+- **Drag-and-drop DAGs.** A DAG editor chains tools end-to-end. Tools are filtered by data type, parameters re-execute live, and workflows can be exported and shared as JSON.
 
 ### Architecture at a glance
 
@@ -54,7 +54,7 @@ Source of trust: signed bundles in the Registry.
 
 - **Standardize sequence analysis (researchers).** Run signed tools for FASTA/FASTQ manipulation, format conversion, and statistics with reproducible parameters.
 - **No installs, nothing uploaded (privacy).** The whole BioChef app is a static page. Tools are compiled to WebAssembly and execute on your sequence inside the browser tab.
-- **Build and share workflows (workflow authors).** Drag tools into a DAG, configure parameters, and re-run live as you iterate. Save and reload recipes in one click.
+- **Build and share workflows (workflow authors).** Drag tools into a DAG, configure parameters, and re-run live as you iterate. Export the workflow and import it again in one click.
 
 ### Traditional toolchain vs BioChef
 
@@ -63,8 +63,8 @@ Source of trust: signed bundles in the Registry.
 | Tool provenance | Opaque containers, ad-hoc signing | Signed recipes → Hub → Registry with SBOM and SLSA |
 | Getting started | Install toolchain, build from source, manage dependencies | Open the BioChef app in a browser tab |
 | Data handling | Upload sequences to a server you have to trust | WASM execution keeps every byte inside the browser tab |
-| Iterating on a workflow | Edit shell script, re-run, hope for reproducibility | DAG editor with live re-execution; recipes are signed and replayable |
-| Sharing a result | Send a tarball plus a README | Share the recipe. Anyone can re-run it from the registry |
+| Iterating on a workflow | Edit shell script, re-run, hope for reproducibility | DAG editor with live re-execution; every tool in it comes from the signed catalogue |
+| Sharing a result | Send a tarball plus a README | Share the workflow file. Anyone can import and re-run it in the app |
 
 ---
 
@@ -96,7 +96,7 @@ Every artifact is content-addressable · every step is signed.
 
 **Registry & Catalog.** The BioChef Registry, live at `registry.biochef.app`, stores signed OCI artifacts (`bundle.json` + WASM/JS layers + SBOM) and the signed `index.json` that lists every published tool by digest. Each tool version is content-addressable: pulled by digest, not by mutable tag. The Hub signs every bundle with keyless cosign, and signs the top-level `index.json` catalogue (ES256) only after verifying those signatures and the SLSA provenance. WASM and JS assets are served as plain HTTPS so the browser app can stream them. Treat each version as immutable; promote new builds, never overwrite digests. The browser checks the catalogue signature and every digest itself before running a tool; cosign and SLSA are verified by the Hub before the catalogue is signed. Use the signed `index.json` as the source of truth for what is publishable.
 
-**UI & WASM Runtime.** The BioChef web app, a static React/Webpack SPA, runs every published bioinformatics tool entirely in the browser via WebAssembly. Has a Tools page for single-tool runs and a Workflow page for DAG-style chains. Loads tools by digest from the BioChef Registry; aioli/biowasm boots them in a Web Worker. Before showing any tool, the app checks the catalogue's signature against a public key pinned in the app and keeps only entries that passed the publication checks; before running one, it checks the SHA-256 of the OCI manifest, the bundle, the JavaScript and the WebAssembly. A tool that fails is not offered. Detects input data type (FASTA, FASTQ, Multi-FASTA, DNA, RNA, amino acids, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST, …) and filters compatible tools. DAG editor re-executes downstream steps on parameter change; recipes can be saved and reloaded. The SPA's bundled GTO modules are built with Emscripten 3.1.65 (rebuild locally with `npm run build-wasm`); Hub CI compiles new recipes with Emscripten 4.0.18. Outputs stream live to the Output panel; inspect intermediate steps without re-running the whole pipeline. The whole app is static. Host it from any CDN or GitHub Pages.
+**UI & WASM Runtime.** The BioChef web app, a static React/Webpack SPA, runs every published bioinformatics tool entirely in the browser via WebAssembly. Has a Tools page for single-tool runs and a Workflow page for DAG-style chains. Loads tools by digest from the BioChef Registry; aioli/biowasm boots them in a Web Worker. Before showing any tool, the app checks the catalogue's signature against a public key pinned in the app and keeps only entries that passed the publication checks; before running one, it checks the SHA-256 of the OCI manifest, the bundle, the JavaScript and the WebAssembly. A tool that fails is not offered. Detects input data type (FASTA, FASTQ, Multi-FASTA, DNA, RNA, amino acids, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST, …) and filters compatible tools. DAG editor re-executes downstream steps on parameter change; workflows can be exported and imported as JSON. The SPA's bundled GTO modules are built with Emscripten 3.1.65 (rebuild locally with `npm run build-wasm`); Hub CI compiles new recipes with Emscripten 4.0.18. Outputs stream live to the Output panel; inspect intermediate steps without re-running the whole pipeline. The whole app is static. Host it from any CDN or GitHub Pages.
 
 ---
 
@@ -108,7 +108,7 @@ Drag bioinformatics tools into a DAG inside your browser tab. Outputs flow live,
 
 Editor: drag-and-drop DAG with type filtering.
 Runtime: WebAssembly via biowasm.
-Persistence: recipes saved as JSON.
+Persistence: workflows exported as JSON.
 
 ### Editor preview (drag, drop, watch outputs flow)
 
@@ -117,7 +117,7 @@ A four-node sketch of what the Workflow page looks like in the BioChef app. Clic
 ### Example scenarios
 
 - **Sequencing data triage.** Run fastp for QC and adapter trimming, then chain samtools view/stats/flagstat or GTO statistics to triage FASTQ or BAM/CRAM in seconds, no upload needed.
-- **Format conversion pipeline (data prep).** Convert between FASTA, FASTQ, SEQ, BAM ↔ SAM (samtools), GTF ↔ GFF (gffread); reverse, complement, slice. All in one signed recipe.
+- **Format conversion pipeline (data prep).** Convert between FASTA, FASTQ, SEQ, BAM ↔ SAM (samtools), GTF ↔ GFF (gffread); reverse, complement, slice. All in one workflow.
 - **Teaching demo (education).** Share a recipe link with a class. Anyone can open it in the browser and walk through the same DAG step by step.
 
 ### Tool catalogue snapshot
@@ -275,7 +275,7 @@ The web app, Hub CI, and Registry are live today. Agent mode and workflow aggreg
 
 ### Roadmap
 
-- BioChef web app: Tools + Workflow pages [done]. A growing catalogue of bioinformatics tools (GTO, minimap2, samtools, bcftools, bedtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) compiled to WebAssembly, in-browser DAG editor, recipe persistence. Live at biochef.app.
+- BioChef web app: Tools + Workflow pages [done]. A growing catalogue of bioinformatics tools (GTO, minimap2, samtools, bcftools, bedtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) compiled to WebAssembly, in-browser DAG editor, workflow export and import. Live at biochef.app.
 - biochef-hub CI + signed Registry [done]. Reusable GitHub workflow that validates, builds and tests recipes, generates and checks an SBOM, publishes bundles to registry.biochef.app, signs them with cosign, attaches SLSA provenance, and publishes a signed catalogue that the web app verifies.
 - biochef-recipes catalog growth [in progress]. Expand the public recipe catalogue with more tools, more contributors, and richer metadata. 12 of the 31 recipes also build natively, so the agent can run them outside the browser.
 - Agent mode [in progress]. Runtime that executes signed bundles outside the browser, next to the data, with the same provenance guarantees. Working today: containerised steps, refusal of any bundle whose signature, SBOM, SLSA provenance or blob digests do not check out, authenticated requests, stoppable runs, live logs, streamed large files and a provenance record per run.
