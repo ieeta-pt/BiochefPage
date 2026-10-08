@@ -83,6 +83,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
               <span class="leading-snug"><code>npm start</code> and open <code>http://localhost:8082</code>.</span>
             </li>
           </ol>
+          <p class="text-xs text-text-tertiary mb-5 leading-relaxed">Or <code>docker compose -f docker-compose.dev.yml up</code>: the app plus an empty local registry. The <code>tools</code> profile adds the Hub to publish recipes into it.</p>
           <a
             class="mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-tertiary hover:text-tertiary-dark transition-colors"
             href="https://github.com/ieeta-pt/Biochef"

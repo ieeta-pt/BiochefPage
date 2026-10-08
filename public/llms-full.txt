@@ -165,6 +165,7 @@ Recipes repo: <https://github.com/ieeta-pt/biochef-recipes> · Hub CI: <https://
 1. `git clone https://github.com/ieeta-pt/Biochef` and `npm install`.
 2. (Optional) install Emscripten 3.1.65 and run `npm run build-wasm` to rebuild WASM modules from source.
 3. `npm start` and open `http://localhost:8082`.
+Or `docker compose -f docker-compose.dev.yml up`: the app plus an empty local registry. The `tools` profile adds the Hub to publish recipes into it.
 
 **Step 03 · Inspect — pull a signed bundle.** Tools live in the BioChef Registry as content-addressable OCI bundles. The web app fetches them by digest at runtime; you can pull them with ORAS and verify them with cosign.
 1. Resolve a tool by digest in the signed `index.json` catalogue.
