@@ -281,13 +281,13 @@ The web app, Hub CI, and Registry are live today. Agent mode and workflow aggreg
 
 ### Team (research team at IEETA, University of Aveiro)
 
+- **Jorge Miguel Silva** — Project lead · IEETA. <https://jorgemfs.com>
+- **José Luis Oliveira** — Supervisor · IEETA.
 - **João Andrade** — Project manager (active).
 - **Miguel Reis** — Developer.
 - **João Roldão** — Developer.
 - **André Alves** — MSc student · Developer.
 - **Rafael Chuva** — MSc student · Federated learning in TREs (IST).
-- **Jorge Miguel Silva** — Project lead · IEETA. <https://jorgemfs.com>
-- **José Luis Oliveira** — Supervisor · IEETA.
 - **Joaquim Rosa** — Original author of the BioChef SPA. <https://github.com/JakeRosa>
 
 ### Citation
