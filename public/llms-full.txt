@@ -267,11 +267,11 @@ License: MIT (code) · CC-BY 4.0 (paper).
 
 ### Project status
 
-The web app, Hub CI, and Registry are live today. Agent mode and workflow aggregation are in active development. Federated learning is on the longer roadmap.
+The web app, Hub CI, and Registry are live today. Agent mode is in active development; workflow aggregation is next. Federated learning is on the longer roadmap.
 
 - **Live — BioChef web app.** Tools page + Workflow page; bioinformatics tools (GTO, minimap2, samtools, bcftools, bedtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) running in WebAssembly via biowasm.
 - **Live — biochef-hub + Registry.** Reusable GitHub workflow signs and publishes recipes to `registry.biochef.app`.
-- **In development — Agent mode & workflow aggregation.** BioChef Agent runs signed bundles outside the browser, next to the data. Already working: every step runs in a container; a bundle is refused unless its signature, SBOM, SLSA provenance and blob digests check out; requests are authenticated; runs can be stopped and outlive the request; logs stream live; large files stream instead of being held in memory; each run records how it was produced. Workflow aggregation comes next.
+- **In development — Agent mode.** BioChef Agent runs signed bundles outside the browser, next to the data. Already working: every step runs in a container; a bundle is refused unless its signature, SBOM, SLSA provenance and blob digests check out; requests are authenticated; runs can be stopped and outlive the request; logs stream live; large files stream instead of being held in memory; each run records how it was produced. Workflow aggregation comes next.
 
 ### Roadmap
 

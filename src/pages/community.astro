@@ -27,7 +27,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
       <SectionHeader
         kicker="Status"
         title="Project status"
-        subtitle="The web app, Hub CI, and Registry are live today. Agent mode and workflow aggregation are in active development. Federated learning is on the longer roadmap."
+        subtitle="The web app, Hub CI, and Registry are live today. Agent mode is in active development; workflow aggregation is next. Federated learning is on the longer roadmap."
       />
 
       <div class="grid-3">
@@ -57,7 +57,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
             </span>
             <span class="text-[10px] font-semibold tracking-[0.12em] uppercase text-accent-dark">In development</span>
           </div>
-          <h3 class="text-lg font-medium text-text mb-2 tracking-tight">Agent mode &amp; workflow aggregation</h3>
+          <h3 class="text-lg font-medium text-text mb-2 tracking-tight">Agent mode</h3>
           <p class="text-sm text-text-secondary leading-relaxed">BioChef Agent runs signed bundles outside the browser, next to the data. Already working: every step runs in a container; a bundle is refused unless its signature, SBOM, SLSA provenance and blob digests check out; requests are authenticated; runs can be stopped and outlive the request; logs stream live; large files stream instead of being held in memory; each run records how it was produced. Workflow aggregation comes next.</p>
         </article>
       </div>
