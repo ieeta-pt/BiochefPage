@@ -112,7 +112,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
             </li>
             <li class="flex items-start gap-3">
               <span class="flex-shrink-0 w-5 h-5 rounded-full bg-brand/10 text-brand text-[11px] flex items-center justify-center font-semibold">3</span>
-              <span class="leading-snug">Verify the cosign signature before loading the tool.</span>
+              <span class="leading-snug">Verify the bundle's cosign signature and SLSA provenance; the web app itself checks the catalogue signature and every digest before running it.</span>
             </li>
           </ol>
           <a

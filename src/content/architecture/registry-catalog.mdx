@@ -60,5 +60,5 @@ The BioChef Registry, live at <a href="https://registry.biochef.app" target="_bl
 
 ### Practical tips
 - Treat each version as immutable; promote new builds, never overwrite digests.
-- Verify the cosign signature before serving a tool to the browser.
+- The browser checks the catalogue signature and every digest itself before running a tool; cosign and SLSA are verified by the Hub before the catalogue is signed.
 - Use the signed <code>index.json</code> as the source of truth for what is publishable.
