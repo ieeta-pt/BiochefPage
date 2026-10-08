@@ -173,6 +173,8 @@ Or `docker compose -f docker-compose.dev.yml up`: the app plus an empty local re
 3. Verify the bundle's cosign signature and SLSA provenance; the web app itself checks the catalogue signature and every digest before running it.
 Hub CLI on GitHub: <https://github.com/ieeta-pt/biochef-hub>
 
+Running tools next to the data instead? biochef-agent (<https://github.com/ieeta-pt/biochef-agent>): `./run.sh`, configured through `example.env`.
+
 ### Snippets (what the code looks like)
 
 A recipe in YAML, the Hub CLI run, and an exported workflow.
