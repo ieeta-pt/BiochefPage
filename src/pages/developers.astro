@@ -8,7 +8,7 @@ const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
 ---
 
-<BaseLayout title="Developers · BioChef">
+<BaseLayout title="Developers · BioChef" description="Write a BioChef recipe, run the Hub pipeline, run the web app locally, and pull signed tool bundles from the registry.">
   <PageHero
     kicker="Developers"
     title="For Developers"

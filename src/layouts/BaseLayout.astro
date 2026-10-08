@@ -24,6 +24,7 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {!Astro.url.pathname.startsWith('/404') && <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />}
 
     {/* Favicon stack — same logo PNG served at multiple sizes the browser
         and OS hosts will pick from. apple-touch-icon is what Safari iOS uses
