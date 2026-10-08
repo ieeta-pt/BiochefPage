@@ -58,7 +58,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
             <span class="text-[10px] font-semibold tracking-[0.12em] uppercase text-accent-dark">In development</span>
           </div>
           <h3 class="text-lg font-medium text-text mb-2 tracking-tight">Agent mode</h3>
-          <p class="text-sm text-text-secondary leading-relaxed">BioChef Agent runs signed bundles outside the browser, next to the data. Already working: every step runs in a container; a bundle is refused unless its signature, SBOM, SLSA provenance and blob digests check out; requests are authenticated; runs can be stopped and outlive the request; logs stream live; large files stream instead of being held in memory; each run records how it was produced. Workflow aggregation comes next.</p>
+          <p class="text-sm text-text-secondary leading-relaxed">BioChef Agent runs signed bundles outside the browser, next to the data. Already working: steps can run in containers (Apptainer); the agent can be set to refuse any bundle whose signature, SBOM, SLSA provenance or blob digests do not check out, and to require a bearer token; runs can be stopped and outlive the request; logs stream live; large files stream instead of being held in memory; each run records how it was produced. Workflow aggregation comes next.</p>
         </article>
       </div>
     </div>
@@ -99,7 +99,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
               {
                 id: 'agent',
                 label: 'Agent mode',
-                description: 'Runtime that executes signed bundles outside the browser, next to the data, with the same provenance guarantees. Working today: containerised steps, refusal of any bundle whose signature, SBOM, SLSA provenance or blob digests do not check out, authenticated requests, stoppable runs, live logs, streamed large files and a provenance record per run.',
+                description: 'Runtime that executes signed bundles outside the browser, next to the data, with the same provenance guarantees. Working today: optional containerised steps (Apptainer), an optional strict mode that refuses any bundle whose signature, SBOM, SLSA provenance or blob digests do not check out, optional bearer-token auth, stoppable runs, live logs, streamed large files and a provenance record per run.',
                 status: 'in-progress'
               },
               {
