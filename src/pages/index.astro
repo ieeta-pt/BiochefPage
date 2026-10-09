@@ -11,18 +11,28 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
 const audiences = [
   {
     who: 'Clinicians and clinical geneticists',
-    what: 'Look at a patient sample without sending it anywhere. Quick checks run in the browser; larger runs stay on your own machines. Nothing to install to get started.',
-    example: 'patient.fasta → Fasta Extract → result'
+    job: 'Check a patient sample without sending it anywhere.',
+    what: 'Quick checks run in your browser. No install, no upload, no account.',
+    input: 'patient.fasta',
+    steps: ['Fasta Extract'],
+    output: 'result',
+    agent: true
   },
   {
     who: 'Researchers',
-    what: 'Build and test a workflow in the browser on a small sample, then run the same workflow next to the full dataset. Export it as a file so a colleague can run exactly the same steps.',
-    example: 'reads.fastq → minimap2 → samtools sort → samtools stats'
+    job: 'Test a workflow on a sample, then run it on the full dataset.',
+    what: 'Export it as one file so a colleague can repeat exactly the same steps.',
+    input: 'reads.fastq',
+    steps: ['minimap2', 'samtools sort', 'samtools stats'],
+    agent: true
   },
   {
     who: 'Teachers and students',
-    what: 'Every student runs the same tools on their own laptop, in the browser. No accounts, no cluster, no setup before the class starts.',
-    example: 'workflow.json → Import workflow → Run'
+    job: 'Give a whole class the same tools in minutes.',
+    what: 'Every student runs them in the browser on their own laptop. No accounts, no cluster, no setup.',
+    input: 'workflow.json',
+    steps: ['Import workflow', 'Run'],
+    agent: false
   }
 ];
 ---
@@ -49,13 +59,29 @@ const audiences = [
         title="Made for the people who handle the data"
         align="left"
       />
-      <ul class="border-t border-border">
+      <ul class="grid gap-5 md:grid-cols-3 md:grid-rows-[auto_1fr_auto] md:gap-y-0">
         {audiences.map((a) => (
-          <li class="grid gap-3 md:gap-10 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] py-8 md:py-10 border-b border-border">
-            <h3 class="text-2xl md:text-3xl font-medium text-text tracking-tight">{a.who}</h3>
-            <div>
-              <p class="text-base md:text-lg text-text-secondary leading-relaxed">{a.what}</p>
-              <p class="mt-4 font-mono text-xs md:text-sm text-brand-dark wrap-break-word">{a.example}</p>
+          <li class="flex flex-col md:grid md:grid-rows-subgrid md:row-span-3 bg-surface border border-border rounded-xl shadow-card">
+            <div class="p-6 md:p-7">
+              <h3 class="text-[11px] font-semibold tracking-[0.12em] uppercase text-brand-dark">{a.who}</h3>
+              <p class="mt-3 text-xl md:text-[1.375rem] leading-snug font-medium text-text tracking-tight">{a.job}</p>
+              <p class="mt-3 text-[15px] text-text-secondary leading-relaxed">{a.what}</p>
+            </div>
+
+            <ol class="who-flow mx-6 md:mx-7 mb-6 md:mb-7" aria-label={`Example workflow: ${[a.input, ...a.steps, a.output].filter(Boolean).join(', ')}`}>
+              <li class="who-node"><span class="who-chip who-chip--file">{a.input}</span></li>
+              {a.steps.map((step) => (
+                <li class="who-node"><span class="who-chip who-chip--tool">{step}</span></li>
+              ))}
+              {a.output && <li class="who-node"><span class="who-chip who-chip--out">{a.output}</span></li>}
+            </ol>
+
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-2 px-6 md:px-7 py-4 border-t border-border text-xs">
+              <span class="font-mono uppercase tracking-[0.1em] text-text-tertiary">Runs</span>
+              <span class="inline-flex items-center gap-1.5 text-text"><span class="w-1.5 h-1.5 rounded-full bg-brand"></span>In the browser</span>
+              {a.agent && (
+                <span class="inline-flex items-center gap-1.5 text-text-secondary"><span class="w-1.5 h-1.5 rounded-full border border-accent-dark"></span>Next to your data <span class="text-[#bf360c]">· in development</span></span>
+              )}
             </div>
           </li>
         ))}
