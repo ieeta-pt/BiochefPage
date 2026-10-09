@@ -1,6 +1,5 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
-import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
@@ -11,7 +10,7 @@ export default defineConfig({
   // own repo (ieeta-pt/Biochef) and continues serving from
   // ieeta-pt.github.io/Biochef/.
   site: 'https://home.biochef.app',
-  integrations: [react(), tailwind({ applyBaseStyles: false }), mdx(), sitemap()],
+  integrations: [react(), mdx(), sitemap()],
   markdown: {
     syntaxHighlight: 'shiki',
     shikiConfig: {
