@@ -1,6 +1,6 @@
 # BioChef
 
-> A signed catalogue of bioinformatics tools that run end-to-end in your browser via WebAssembly. From a YAML recipe in Git to a signed bundle in the BioChef Registry, then executed client-side. No installs, no uploads, no servers.
+> Test in your browser. Run where your data lives. BioChef is a hybrid workflow platform for genomics: workflows are built and tested in the browser (tools run client-side as WebAssembly), and the BioChef agent (in development) runs the same signed tools next to the data. Every tool goes from a YAML recipe in Git to a signed bundle in the BioChef Registry.
 
 BioChef is an open project from IEETA at the University of Aveiro. Tools are declared as YAML recipes; the `biochef-hub` reusable GitHub Actions workflow validates, builds (Emscripten/biowasm to WASM), tests each tool on the example input of its data types, generates SBOM + SLSA provenance, signs with cosign, and publishes content-addressable OCI bundles to the BioChef Registry. The static BioChef web app fetches tools by digest at runtime and runs them as WebAssembly inside the browser tab.
 
@@ -18,7 +18,6 @@ The marketing/docs site at <https://home.biochef.app/> is what this `llms.txt` i
 
 - BioChef web app (the SPA users run): <https://biochef.app/>
 - biochef-hub (CI / signing): <https://github.com/ieeta-pt/biochef-hub>
-- biochef-agent (agent mode): <https://github.com/ieeta-pt/biochef-agent>
 - BioChef Registry (signed OCI bundles): <https://registry.biochef.app>
 
 ## Source code
@@ -26,6 +25,7 @@ The marketing/docs site at <https://home.biochef.app/> is what this `llms.txt` i
 - BioChef SPA: <https://github.com/ieeta-pt/Biochef>
 - biochef-recipes (YAML recipes): <https://github.com/ieeta-pt/biochef-recipes>
 - biochef-hub (CI / signing): <https://github.com/ieeta-pt/biochef-hub>
+- biochef-agent (agent mode, in development): <https://github.com/ieeta-pt/biochef-agent>
 - This marketing site: <https://github.com/ieeta-pt/BiochefPage>
 
 ## Roadmap (in progress)

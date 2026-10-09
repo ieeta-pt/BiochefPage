@@ -12,20 +12,20 @@ The site at <https://home.biochef.app/> documents BioChef, an open project from 
 
 **Headline:** Easy genomics, private by design.
 
-An open catalogue of bioinformatics tools that run end-to-end in your browser. No installs, no uploads.
+Test in your browser. Run where your data lives. Open, signed bioinformatics tools, from a quick check on your laptop to a full run next to the data.
 
 Peer-reviewed in BMC Bioinformatics, 2026. DOI: 10.1186/s12859-026-06431-1.
 
 ### Who it's for
 
-- **Clinicians and clinical geneticists.** Look at a patient sample without sending it anywhere. Open the browser, load the file, run the tool. Nothing to install and no server to ask permission for.
-- **Researchers.** Chain tools into a workflow, change a parameter and see the result update. Export the workflow as a file so a colleague can run exactly the same steps.
+- **Clinicians and clinical geneticists.** Look at a patient sample without sending it anywhere. Quick checks run in the browser; larger runs stay on your own machines. Nothing to install to get started.
+- **Researchers.** Build and test a workflow in the browser on a small sample, then run the same workflow next to the full dataset. Export it as a file so a colleague can run exactly the same steps.
 - **Teachers and students.** Every student runs the same tools on their own laptop, in the browser. No accounts, no cluster, no setup before the class starts.
 
 ### Platform pillars (what you get)
 
 - **Recipes → Hub → Registry.** Tools are declared as YAML recipes, validated and built by biochef-hub (SBOM, SLSA, cosign), then published as signed bundles to the BioChef Registry.
-- **Browser-native WebAssembly.** Every published tool runs client-side in WebAssembly. Open the BioChef app, drop in a sequence, and execute. No installs, no uploads, no servers.
+- **Browser and agent.** Every tool runs in the browser as WebAssembly, for quick tests on small data. The BioChef agent, in development, runs the same signed tools next to your data.
 - **Drag-and-drop DAGs.** A DAG editor chains tools end-to-end. Tools are filtered by data type, parameters re-execute live, and workflows can be exported and shared as JSON.
 
 ### Architecture at a glance
@@ -44,10 +44,10 @@ A YAML recipe in Git, signed by the Hub CI, served from the BioChef Registry, an
 
 **Headline:** Why BioChef.
 
-BioChef democratizes access to bioinformatics tools, bridging biologists, healthcare professionals, and computational tools by running compiled bioinformatics utilities directly in the browser via WebAssembly.
+Test in your browser. Run where your data lives. BioChef gives biologists, clinicians and bioinformaticians the same signed tools for a quick check on a laptop and for a full run next to the data.
 
 Designed for: researchers, clinicians, students.
-Privacy model: no upload, no server, no install.
+Privacy model: data stays where it lives.
 Source of trust: signed bundles in the Registry.
 
 ### The case: a tool every reviewer can re-run
@@ -110,21 +110,18 @@ Every artifact is content-addressable · every step is signed.
 
 **Headline:** Build workflows.
 
-Drag bioinformatics tools into a DAG inside your browser tab. Outputs flow live, parameters re-execute on the fly, and the whole thing is just a static page that runs WebAssembly.
+Drag tools into a workflow and test it in your browser on small data. Export it as one file, ready to run where your data lives.
 
 Editor: drag-and-drop DAG with type filtering.
-Runtime: WebAssembly via biowasm.
-Persistence: workflows exported as JSON.
+Runtime: browser today, agent in development.
+Sharing: one workflow file (JSON).
 
-### Editor preview (drag, drop, watch outputs flow)
+### What people build
 
-A four-node sketch of what the Workflow page looks like in the BioChef app. Click a node to see what feeds it and what it produces. Default WASM pipeline today: input FASTQ → gto.fastq.info / gto.fastq.to.fasta → gto.fasta.reverse → output.
-
-### Example scenarios
-
-- **Sequencing data triage.** Run fastp for QC and adapter trimming, then chain samtools view/stats/flagstat or GTO statistics to triage FASTQ or BAM/CRAM in seconds, no upload needed.
-- **Format conversion pipeline (data prep).** Convert between FASTA, FASTQ, SEQ, BAM ↔ SAM (samtools), GTF ↔ GFF (gffread); reverse, complement, slice. All in one workflow.
-- **Teaching demo (education).** Send a workflow file to a class. Anyone can import it in the browser and walk through the same DAG step by step.
+- **Map reads.** Align reads with minimap2, then sort, index and summarise them with samtools. Test on a small sample here, then run the same workflow on the full dataset. `reads.fastq → minimap2 → samtools sort → samtools stats`
+- **QC and conversion.** Trim and check reads with fastp, triage BAM files with samtools, and convert between formats such as GTF and GFF with gffread. `raw.fastq → fastp → clean.fastq`
+- **Viral consensus.** Map reads to a reference and build a consensus genome with ivar or viralconsensus. `reads.fastq → minimap2 → samtools sort → viralconsensus`
+- **Teaching.** Send a workflow file to a class. Everyone imports it in the browser and walks through the same steps. `workflow.json → Import workflow → Run`
 
 ### Tool catalogue snapshot
 
@@ -141,11 +138,10 @@ A four-node sketch of what the Workflow page looks like in the BioChef app. Clic
 
 Counts approximate. Workflows can pipe FASTA, FASTQ, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST and more between tools.
 
-### How execution works (one runtime today)
+### Two places to run
 
-Every step runs in the browser via WebAssembly. Server-side runtimes are on the roadmap.
-
-Live runtime — Browser WebAssembly. Every shipped tool runs entirely in your browser tab. No upload, no install, no server. Where: your browser tab. Compiled with: Emscripten · biowasm. Loaded by: signed digest from registry.
+- **In your browser (live).** For building and testing. Tools run client-side as WebAssembly on small data, with nothing to install and nothing uploaded. Emscripten · biowasm · signed digest from the registry.
+- **Next to your data (in development).** For full runs. The BioChef agent runs the same signed tools on your workstation, a server or a secure environment, so large or sensitive data never has to move. <https://github.com/ieeta-pt/biochef-agent>
 
 ---
 
