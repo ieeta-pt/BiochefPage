@@ -44,7 +44,7 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
         }}
       />
 
-      <div className="container-main relative z-10 pt-28 md:pt-36 lg:pt-40 pb-16 md:pb-20 lg:pb-24 grid gap-12 lg:gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center">
+      <div className="container-main relative z-10 pt-28 md:pt-36 lg:pt-40 pb-16 md:pb-20 lg:pb-24 grid gap-12 lg:gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-center">
         <div className="max-w-3xl">
           {/* Peer-reviewed inline link — no pill, no decoration, MUI-y restraint */}
           <motion.a
@@ -72,7 +72,7 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
           {/* Title */}
           <motion.h1
             {...fadeUp(0.05)}
-            className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-medium text-text tracking-tight leading-[1.05] mb-5 md:mb-6"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-[3.5rem] xl:text-[4rem] font-medium text-text tracking-tight leading-[1.05] mb-5 md:mb-6"
             style={{ textWrap: 'balance' } as React.CSSProperties}
           >
             <span className="block">{title}</span>

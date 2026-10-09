@@ -5,7 +5,7 @@ interface Pillar {
   title: string;
   description: string;
   icon: 'compass' | 'rocket' | 'lock' | 'workflow';
-  /** Visual identity for the card. Drives accent rule and icon color. */
+  /** Visual identity for the card. Drives the icon color. */
   tone?: 'accent' | 'brand' | 'tertiary' | 'secondary';
   /** Optional small uppercase label (kept for backwards compat; rendered minimally). */
   kicker?: string;
@@ -29,10 +29,10 @@ const cardVariants = {
 };
 
 const toneStyles = {
-  accent:    { rule: 'border-l-accent', iconColor: 'text-accent' },
-  brand:     { rule: 'border-l-brand', iconColor: 'text-brand' },
-  tertiary:  { rule: 'border-l-tertiary', iconColor: 'text-tertiary' },
-  secondary: { rule: 'border-l-secondary', iconColor: 'text-secondary' }
+  accent:    { iconColor: 'text-accent' },
+  brand:     { iconColor: 'text-brand' },
+  tertiary:  { iconColor: 'text-tertiary' },
+  secondary: { iconColor: 'text-secondary' }
 } as const;
 
 function PillarIcon({ icon, className }: { icon: Pillar['icon']; className?: string }) {
@@ -44,9 +44,8 @@ function PillarIcon({ icon, className }: { icon: Pillar['icon']; className?: str
 }
 
 /**
- * MUI-style pillar cards: white card with a left accent border in the
- * tone color, a plain icon (no colored tile bg), title, body. One use
- * of the brand color per card instead of the previous four.
+ * MUI-style pillar cards: white card, a plain icon in the tone color
+ * (no colored tile bg), title, body.
  */
 export default function PillarCards({ pillars }: { pillars: Pillar[] }) {
   return (
@@ -62,7 +61,7 @@ export default function PillarCards({ pillars }: { pillars: Pillar[] }) {
         return (
           <motion.article
             key={pillar.title}
-            className={`relative bg-surface rounded-xl border border-border border-l-4 ${tone.rule} p-6 md:p-7 shadow-card hover:shadow-card-hover transition-shadow duration-200`}
+            className={`relative bg-surface rounded-xl border border-border p-6 md:p-7 shadow-card hover:shadow-card-hover transition-shadow duration-200`}
             variants={cardVariants}
           >
             <div className={`inline-flex items-center justify-center w-10 h-10 mb-4 ${tone.iconColor}`}>
