@@ -136,10 +136,6 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
                 />
               </a>
             </div>
-            <figcaption className="mt-3 flex items-center gap-2 font-mono text-[11px] text-text-tertiary">
-              <span className="w-1.5 h-1.5 rounded-full bg-brand" aria-hidden="true" />
-              BioChef in 30 seconds. Click for the full walkthrough.
-            </figcaption>
           </motion.figure>
         )}
       </div>
