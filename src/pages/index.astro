@@ -7,6 +7,24 @@ import SectionHeader from '../components/SectionHeader.astro';
 
 const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
+
+const audiences = [
+  {
+    who: 'Clinicians and clinical geneticists',
+    what: 'Look at a patient sample without sending it anywhere. Open the browser, load the file, run the tool. Nothing to install and no server to ask permission for.',
+    example: 'patient.fasta → Fasta Extract → result'
+  },
+  {
+    who: 'Researchers',
+    what: 'Chain tools into a workflow, change a parameter and see the result update. Export the workflow as a file so a colleague can run exactly the same steps.',
+    example: 'reads.fastq → minimap2 → samtools sort → samtools stats'
+  },
+  {
+    who: 'Teachers and students',
+    what: 'Every student runs the same tools on their own laptop, in the browser. No accounts, no cluster, no setup before the class starts.',
+    example: 'workflow.json → Import workflow → Run'
+  }
+];
 ---
 
 <BaseLayout
@@ -15,13 +33,35 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
 >
   <Hero
     client:load
-    title="Easy genomics."
-    titleHighlight="Private by design."
+    title="Easy genomics"
+    titleHighlight="Private by design"
     subtitle="An open catalogue of bioinformatics tools that run end-to-end in your browser. No installs, no uploads."
     ctaPrimary={{ label: 'Open the app', href: 'https://biochef.app/' }}
     ctaSecondary={{ label: 'GitHub', href: 'https://github.com/ieeta-pt/Biochef' }}
     demo={{ src: withBase('/video/promo.mp4'), poster: withBase('/video/promo-poster.jpg'), href: withBase('/workflows#workflow-demo') }}
   />
+
+  <!-- Who it's for -->
+  <section class="section relative">
+    <div class="container-main relative z-10">
+      <SectionHeader
+        kicker="Who it's for"
+        title="Made for the people who handle the data"
+        align="left"
+      />
+      <ul class="border-t border-border">
+        {audiences.map((a) => (
+          <li class="grid gap-3 md:gap-10 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] py-8 md:py-10 border-b border-border">
+            <h3 class="text-2xl md:text-3xl font-medium text-text tracking-tight">{a.who}</h3>
+            <div>
+              <p class="text-base md:text-lg text-text-secondary leading-relaxed">{a.what}</p>
+              <p class="mt-4 font-mono text-xs md:text-sm text-brand-dark break-words">{a.example}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
 
   <!-- Pillars Section -->
   <section class="section relative">
