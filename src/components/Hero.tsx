@@ -7,6 +7,8 @@ interface HeroProps {
   subtitle: string;
   ctaPrimary: { label: string; href: string };
   ctaSecondary: { label: string; href: string };
+  /** Silent loop of the app, shown in a browser-tab frame beside the copy. */
+  demo?: { src: string; poster: string; href: string };
 }
 
 /**
@@ -15,7 +17,7 @@ interface HeroProps {
  * grey-on-grey gradient that gives the hero presence without becoming
  * a heavy banner. Mirrors the visual mood of the live BioChef SPA.
  */
-export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaSecondary }: HeroProps) {
+export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaSecondary, demo }: HeroProps) {
   const reduced = useReducedMotion();
   const fadeUp = (delay = 0) => ({
     initial: { opacity: 0, y: 14 },
@@ -42,7 +44,7 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
         }}
       />
 
-      <div className="container-main relative z-10 pt-28 md:pt-36 lg:pt-40 pb-20 md:pb-24 lg:pb-28">
+      <div className="container-main relative z-10 pt-28 md:pt-36 lg:pt-40 pb-16 md:pb-20 lg:pb-24 grid gap-12 lg:gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center">
         <div className="max-w-3xl">
           {/* Peer-reviewed inline link — no pill, no decoration, MUI-y restraint */}
           <motion.a
@@ -70,7 +72,7 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
           {/* Title */}
           <motion.h1
             {...fadeUp(0.05)}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-text tracking-tight leading-[1.05] mb-5 md:mb-6"
+            className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-medium text-text tracking-tight leading-[1.05] mb-5 md:mb-6"
             style={{ textWrap: 'balance' } as React.CSSProperties}
           >
             <span className="block">{title}</span>
@@ -116,6 +118,41 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
             </a>
           </motion.div>
         </div>
+
+        {demo && (
+          <motion.figure {...fadeUp(0.25)} className="min-w-0">
+            {/* The page's claim, shown literally: the app running in a browser tab. */}
+            <div className="rounded-xl overflow-hidden border border-border bg-surface shadow-lg">
+              <div className="flex items-center gap-3 px-3.5 py-2.5 border-b border-border bg-background">
+                <span className="flex gap-1.5" aria-hidden="true">
+                  <span className="w-2.5 h-2.5 rounded-full bg-border" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-border" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-border" />
+                </span>
+                <span className="flex-1 min-w-0 truncate rounded-md bg-surface border border-border px-3 py-1 font-mono text-[11px] text-text-tertiary">
+                  biochef.app
+                </span>
+              </div>
+              <a href={demo.href} className="block aspect-video bg-background" aria-label="Watch the full workflow demo">
+                <video
+                  className="w-full h-full object-cover"
+                  src={demo.src}
+                  poster={demo.poster}
+                  autoPlay={!reduced}
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  aria-hidden="true"
+                />
+              </a>
+            </div>
+            <figcaption className="mt-3 flex items-center gap-2 font-mono text-[11px] text-text-tertiary">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand" aria-hidden="true" />
+              The app, sped up. Every step runs as WebAssembly in the tab.
+            </figcaption>
+          </motion.figure>
+        )}
       </div>
     </section>
   );

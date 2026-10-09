@@ -175,7 +175,7 @@
   /* Section spacing — tighter on mobile so single-column card stacks don't
      leave cavernous gaps between sections. */
   .section {
-    @apply py-12 md:py-20 lg:py-28;
+    @apply py-12 md:py-16 lg:py-20;
   }
 
   .section-lg {
