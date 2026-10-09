@@ -305,7 +305,7 @@ Funding: BioChef is Work Package 4 of the ELIXIR Commissioned Service on Human D
 
 ### Get involved
 
-- **Repositories.** ieeta-pt/Biochef · ieeta-pt/biochef-hub · ieeta-pt/biochef-recipes · registry.biochef.app
+- **Repositories.** ieeta-pt/Biochef · ieeta-pt/biochef-hub · ieeta-pt/biochef-recipes · ieeta-pt/biochef-agent · registry.biochef.app
 - **Issues & Discussions.** BioChef issues · biochef-hub issues
 - **Contributing.** See `CONTRIBUTING.md` in the BioChef repo for code style, build, and test guidance.
 

@@ -18,6 +18,7 @@ The marketing/docs site at <https://home.biochef.app/> is what this `llms.txt` i
 
 - BioChef web app (the SPA users run): <https://biochef.app/>
 - biochef-hub (CI / signing): <https://github.com/ieeta-pt/biochef-hub>
+- biochef-agent (agent mode): <https://github.com/ieeta-pt/biochef-agent>
 - BioChef Registry (signed OCI bundles): <https://registry.biochef.app>
 
 ## Source code
