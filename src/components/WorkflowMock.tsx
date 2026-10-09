@@ -263,7 +263,7 @@ export default function WorkflowMock() {
         </svg>
 
         {/* Help text */}
-        <div className="absolute bottom-2 left-2 text-[10px] text-text-tertiary bg-surface/80 backdrop-blur-sm px-2 py-1 rounded border border-border/50">
+        <div className="absolute bottom-2 left-2 text-[10px] text-text-tertiary bg-surface/80 backdrop-blur-xs px-2 py-1 rounded-sm border border-border/50">
           Click nodes to explore connections
         </div>
       </div>
@@ -283,7 +283,7 @@ export default function WorkflowMock() {
             return (
               <div className="flex items-start gap-3">
                 <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                  className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
                   style={{ backgroundColor: config.bgColor }}
                 >
                   <span className="text-base font-bold" style={{ color: config.color }}>

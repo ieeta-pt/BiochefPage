@@ -121,7 +121,7 @@ const news = [
                 class={`bg-surface rounded-xl border border-border p-6 md:p-8 shadow-card hover:shadow-card-hover transition-shadow duration-200 ${item.featured ? 'ring-1 ring-brand/15' : ''}`}
               >
                 <div class="flex flex-wrap items-center gap-3 mb-3">
-                  <span class={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] ${tone.badge}`}>
+                  <span class={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest ${tone.badge}`}>
                     {item.category}
                   </span>
                   <time class="font-mono text-xs text-text-tertiary">{item.dateLabel}</time>
@@ -129,7 +129,7 @@ const news = [
                     <span class="text-xs text-text-tertiary">· {item.location}</span>
                   )}
                   {item.featured && (
-                    <span class="ml-auto text-[10px] font-semibold uppercase tracking-[0.1em] text-brand">Featured</span>
+                    <span class="ml-auto text-[10px] font-semibold uppercase tracking-widest text-brand">Featured</span>
                   )}
                 </div>
 

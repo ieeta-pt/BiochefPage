@@ -49,7 +49,7 @@ export default function CodeTabs({ tabs }: { tabs: Tab[] }) {
   return (
     <div className="rounded-xl bg-[#0F172A] shadow-lg overflow-hidden ring-1 ring-black/5">
       {/* Tab strip + window chrome */}
-      <div className="flex items-end pl-3 pt-3 bg-[#0B1424] border-b border-white/[0.06] gap-0.5 overflow-x-auto">
+      <div className="flex items-end pl-3 pt-3 bg-[#0B1424] border-b border-white/6 gap-0.5 overflow-x-auto">
         {/* faux traffic lights, dialled down so they don't shout. Hidden on
             mobile so the three tabs + Copy button fit without horizontal scroll. */}
         <div className="hidden sm:flex items-center gap-1.5 pr-3 pb-2.5 self-end opacity-70">
@@ -68,7 +68,7 @@ export default function CodeTabs({ tabs }: { tabs: Tab[] }) {
                 'group relative flex items-center gap-2 pl-3 pr-3.5 py-2 text-xs font-medium tracking-tight transition-colors rounded-t-md whitespace-nowrap',
                 isActive
                   ? 'bg-[#0F172A] text-white'
-                  : 'bg-transparent text-white/50 hover:text-white/80 hover:bg-white/[0.04]'
+                  : 'bg-transparent text-white/50 hover:text-white/80 hover:bg-white/4'
               )}
               aria-pressed={isActive}
             >
@@ -98,7 +98,7 @@ export default function CodeTabs({ tabs }: { tabs: Tab[] }) {
               'inline-flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-md transition-all',
               copied
                 ? 'bg-[#06D6A0]/15 text-[#06D6A0] ring-1 ring-[#06D6A0]/30'
-                : 'bg-white/[0.06] text-white/65 hover:bg-white/[0.12] hover:text-white ring-1 ring-white/10'
+                : 'bg-white/6 text-white/65 hover:bg-white/12 hover:text-white ring-1 ring-white/10'
             )}
             aria-label={`Copy ${activeTab?.label ?? ''} code to clipboard`}
           >
@@ -130,7 +130,7 @@ export default function CodeTabs({ tabs }: { tabs: Tab[] }) {
       )}
 
       {/* Bottom status strip — tiny but signals intent and completes the editor frame */}
-      <div className="flex items-center justify-between gap-3 px-4 py-2 bg-[#0B1424] border-t border-white/[0.06] text-[10px] font-mono uppercase tracking-[0.12em] text-white/35">
+      <div className="flex items-center justify-between gap-3 px-4 py-2 bg-[#0B1424] border-t border-white/6 text-[10px] font-mono uppercase tracking-[0.12em] text-white/35">
         <span>{activeTab?.language}</span>
         <span>{activeTab ? activeTab.code.split('\n').length : 0} lines</span>
       </div>

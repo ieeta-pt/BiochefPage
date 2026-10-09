@@ -39,15 +39,15 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
           <p class="text-sm text-text-secondary mb-5 leading-relaxed">Author a YAML recipe in your own repo. The Hub workflow validates, signs, and publishes it for you.</p>
           <ol class="text-sm text-text-secondary space-y-2.5 mb-5">
             <li class="flex items-start gap-3">
-              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-accent/10 text-accent text-[11px] flex items-center justify-center font-semibold">1</span>
+              <span class="shrink-0 w-5 h-5 rounded-full bg-accent/10 text-accent text-[11px] flex items-center justify-center font-semibold">1</span>
               <span class="leading-snug">Fork <code>biochef-recipes</code> and create <code>recipes/&lt;tool&gt;/biochef.yaml</code>.</span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-accent/10 text-accent text-[11px] flex items-center justify-center font-semibold">2</span>
+              <span class="shrink-0 w-5 h-5 rounded-full bg-accent/10 text-accent text-[11px] flex items-center justify-center font-semibold">2</span>
               <span class="leading-snug">Run <code>hub validate</code> on it. CI also runs each built tool on the example input of its data types, so declare the types carefully.</span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-accent/10 text-accent text-[11px] flex items-center justify-center font-semibold">3</span>
+              <span class="shrink-0 w-5 h-5 rounded-full bg-accent/10 text-accent text-[11px] flex items-center justify-center font-semibold">3</span>
               <span class="leading-snug">Open a PR. The reusable Hub workflow runs validate → build → test → SBOM. After merge it publishes, signs with cosign, attaches SLSA provenance and republishes the signed catalogue.</span>
             </li>
           </ol>
@@ -71,15 +71,15 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
           <p class="text-sm text-text-secondary mb-5 leading-relaxed">Clone the SPA, install deps, and serve it with the dev server. No backend required.</p>
           <ol class="text-sm text-text-secondary space-y-2.5 mb-5">
             <li class="flex items-start gap-3">
-              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-tertiary/10 text-tertiary text-[11px] flex items-center justify-center font-semibold">1</span>
+              <span class="shrink-0 w-5 h-5 rounded-full bg-tertiary/10 text-tertiary text-[11px] flex items-center justify-center font-semibold">1</span>
               <span class="leading-snug"><code>git clone https://github.com/ieeta-pt/Biochef</code> and <code>npm install</code>.</span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-tertiary/10 text-tertiary text-[11px] flex items-center justify-center font-semibold">2</span>
+              <span class="shrink-0 w-5 h-5 rounded-full bg-tertiary/10 text-tertiary text-[11px] flex items-center justify-center font-semibold">2</span>
               <span class="leading-snug">(Optional) install Emscripten 3.1.65 and run <code>npm run build-wasm</code> to rebuild the SPA's bundled GTO modules from source. Hub CI uses Emscripten 4.0.18 for new recipes.</span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-tertiary/10 text-tertiary text-[11px] flex items-center justify-center font-semibold">3</span>
+              <span class="shrink-0 w-5 h-5 rounded-full bg-tertiary/10 text-tertiary text-[11px] flex items-center justify-center font-semibold">3</span>
               <span class="leading-snug"><code>npm start</code> and open <code>http://localhost:8082</code>.</span>
             </li>
           </ol>
@@ -104,15 +104,15 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
           <p class="text-sm text-text-secondary mb-5 leading-relaxed">Tools live in the BioChef Registry as content-addressable OCI bundles. The web app fetches them by digest at runtime; you can pull them with ORAS and verify them with cosign.</p>
           <ol class="text-sm text-text-secondary space-y-2.5 mb-5">
             <li class="flex items-start gap-3">
-              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-brand/10 text-brand text-[11px] flex items-center justify-center font-semibold">1</span>
+              <span class="shrink-0 w-5 h-5 rounded-full bg-brand/10 text-brand text-[11px] flex items-center justify-center font-semibold">1</span>
               <span class="leading-snug">Resolve a tool by digest in the signed <code>index.json</code> catalogue.</span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-brand/10 text-brand text-[11px] flex items-center justify-center font-semibold">2</span>
+              <span class="shrink-0 w-5 h-5 rounded-full bg-brand/10 text-brand text-[11px] flex items-center justify-center font-semibold">2</span>
               <span class="leading-snug">Pull the OCI bundle (<code>bundle.json</code> + WASM/JS layers + SBOM) with ORAS.</span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="flex-shrink-0 w-5 h-5 rounded-full bg-brand/10 text-brand text-[11px] flex items-center justify-center font-semibold">3</span>
+              <span class="shrink-0 w-5 h-5 rounded-full bg-brand/10 text-brand text-[11px] flex items-center justify-center font-semibold">3</span>
               <span class="leading-snug">Verify the bundle's cosign signature and SLSA provenance; the web app itself checks the catalogue signature and every digest before running it.</span>
             </li>
           </ol>
