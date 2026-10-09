@@ -10,11 +10,17 @@ The site at <https://home.biochef.app/> documents BioChef, an open project from 
 
 ## Home (/)
 
-**Headline:** Easy genomics. Private by design.
+**Headline:** Easy genomics, private by design.
 
 An open catalogue of bioinformatics tools that run end-to-end in your browser. No installs, no uploads.
 
 Peer-reviewed in BMC Bioinformatics, 2026. DOI: 10.1186/s12859-026-06431-1.
+
+### Who it's for
+
+- **Clinicians and clinical geneticists.** Look at a patient sample without sending it anywhere. Open the browser, load the file, run the tool. Nothing to install and no server to ask permission for.
+- **Researchers.** Chain tools into a workflow, change a parameter and see the result update. Export the workflow as a file so a colleague can run exactly the same steps.
+- **Teachers and students.** Every student runs the same tools on their own laptop, in the browser. No accounts, no cluster, no setup before the class starts.
 
 ### Platform pillars (what you get)
 
