@@ -121,19 +121,8 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
 
         {demo && (
           <motion.figure {...fadeUp(0.25)} className="min-w-0">
-            {/* The page's claim, shown literally: the app running in a browser tab. */}
             <div className="rounded-xl overflow-hidden border border-border bg-surface shadow-lg">
-              <div className="flex items-center gap-3 px-3.5 py-2.5 border-b border-border bg-background">
-                <span className="flex gap-1.5" aria-hidden="true">
-                  <span className="w-2.5 h-2.5 rounded-full bg-border" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-border" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-border" />
-                </span>
-                <span className="flex-1 min-w-0 truncate rounded-md bg-surface border border-border px-3 py-1 font-mono text-[11px] text-text-tertiary">
-                  biochef.app
-                </span>
-              </div>
-              <a href={demo.href} className="block aspect-video bg-background" aria-label="Watch the full workflow demo">
+              <a href={demo.href} className="block aspect-video bg-background" aria-label="Watch the full app walkthrough">
                 <video
                   className="w-full h-full object-cover"
                   src={demo.src}
@@ -149,7 +138,7 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
             </div>
             <figcaption className="mt-3 flex items-center gap-2 font-mono text-[11px] text-text-tertiary">
               <span className="w-1.5 h-1.5 rounded-full bg-brand" aria-hidden="true" />
-              The app, sped up. Every step runs as WebAssembly in the tab.
+              BioChef in 30 seconds. Click for the full walkthrough.
             </figcaption>
           </motion.figure>
         )}
