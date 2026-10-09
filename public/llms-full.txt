@@ -10,7 +10,7 @@ The site at <https://home.biochef.app/> documents BioChef, an open project from 
 
 ## Home (/)
 
-**Headline:** Genomics tools in a browser tab.
+**Headline:** Easy genomics. Private by design.
 
 An open catalogue of bioinformatics tools that run end-to-end in your browser. No installs, no uploads.
 
