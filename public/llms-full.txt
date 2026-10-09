@@ -301,7 +301,7 @@ The web app, Hub CI, and Registry are live today. Agent mode is in active develo
 
 Published in BMC Bioinformatics · 2026. Rosa, J., Andrade, J., Silva, J. M., & Oliveira, J. L. (2026). *Biochef: a client-side WebAssembly-based workflow builder for genomic data analysis.* BMC Bioinformatics. DOI: [10.1186/s12859-026-06431-1](https://doi.org/10.1186/s12859-026-06431-1). Open access. CC-BY 4.0. BioChef code is released under the MIT License.
 
-Funding: FCT (unit 00127-IEETA; project 2023.14342.CPCA.A1), the European Commission (Genomic Data Infrastructure, grant 101081813), BioData.pt | ELIXIR Portugal, and the ELIXIR Commissioned Service 2024-SCIENCE-HDTR WP6 (Fed-A-Crate).
+Funding: BioChef is Work Package 4 of the ELIXIR Commissioned Service on Human Data and Translational Research (HDTR) 2027/28, after HDTR 2024 (WP6, Fed-A-Crate). Also supported by BioData.pt | ELIXIR Portugal, the IEETA strategic project Browser-First Federated Genomics Toolkit, FCT ([UID/PRR/00127/2025](https://doi.org/10.54499/UID/PRR/00127/2025), [2023.14342.CPCA.A1](https://doi.org/10.54499/2023.14342.CPCA.A1)) and the European Commission (Genomic Data Infrastructure, grant 101081813).
 
 ### Get involved
 
