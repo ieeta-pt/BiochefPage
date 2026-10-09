@@ -7,10 +7,10 @@ import SectionHeader from '../components/SectionHeader.astro';
 // list newest-first). `category` picks the accent tone; `href`/`cta` are
 // optional; set `featured: true` to elevate one card (used for the paper).
 const toneClasses = {
-  brand:     { rule: 'border-l-brand',     badge: 'bg-brand/10 text-brand' },
-  accent:    { rule: 'border-l-accent',    badge: 'bg-accent/10 text-accent' },
-  tertiary:  { rule: 'border-l-tertiary',  badge: 'bg-tertiary/10 text-tertiary' },
-  secondary: { rule: 'border-l-secondary', badge: 'bg-secondary/10 text-secondary' }
+  brand:     { badge: 'bg-brand/10 text-brand' },
+  accent:    { badge: 'bg-accent/10 text-accent' },
+  tertiary:  { badge: 'bg-tertiary/10 text-tertiary' },
+  secondary: { badge: 'bg-secondary/10 text-secondary' }
 };
 
 const news = [
@@ -95,7 +95,7 @@ const news = [
 >
   <PageHero
     kicker="News & Events"
-    title="News &amp; Events"
+    title="News & Events"
     subtitle="Publications, talks, and milestones from the BioChef project. Follow along as the browser-native, signed bioinformatics platform grows."
     crumbs={[{ label: 'News & Events' }]}
     meta={[
@@ -118,7 +118,7 @@ const news = [
           return (
             <li>
               <article
-                class={`bg-surface rounded-xl border border-border border-l-4 ${tone.rule} p-6 md:p-8 shadow-card hover:shadow-card-hover transition-shadow duration-200 ${item.featured ? 'ring-1 ring-brand/15' : ''}`}
+                class={`bg-surface rounded-xl border border-border p-6 md:p-8 shadow-card hover:shadow-card-hover transition-shadow duration-200 ${item.featured ? 'ring-1 ring-brand/15' : ''}`}
               >
                 <div class="flex flex-wrap items-center gap-3 mb-3">
                   <span class={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] ${tone.badge}`}>

@@ -42,7 +42,7 @@ import UiWasm from '../content/architecture/ui-wasm-runtime.mdx';
           making its 9–17px text unreadable. This stacked equivalent tells the
           same four-station story at full type sizes. */}
       <div class="md:hidden space-y-3 max-w-md mx-auto">
-        <article class="bg-surface rounded-xl border border-border border-l-4 border-l-accent p-5 shadow-card">
+        <article class="bg-surface rounded-xl border border-border p-5 shadow-card">
           <p class="text-[10px] font-semibold tracking-[0.12em] uppercase text-accent mb-2">01 · Source</p>
           <h3 class="text-base font-semibold text-text mb-1">biochef-recipes</h3>
           <p class="text-sm text-text-secondary">YAML source of truth. Each tool is a <code>biochef.yaml</code> file declaring inputs, runtime, and version.</p>
@@ -53,7 +53,7 @@ import UiWasm from '../content/architecture/ui-wasm-runtime.mdx';
           <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14m-7-7l7 7 7-7"/></svg>
         </div>
 
-        <article class="bg-surface rounded-xl border border-border border-l-4 border-l-brand p-5 shadow-card">
+        <article class="bg-surface rounded-xl border border-border p-5 shadow-card">
           <p class="text-[10px] font-semibold tracking-[0.12em] uppercase text-brand mb-2">02 · Build</p>
           <h3 class="text-base font-semibold text-text mb-1">biochef-hub</h3>
           <p class="text-sm text-text-secondary">CI on GitHub Actions: validate, build to WASM or native, test on example inputs, generate SBOM and SLSA, sign with cosign.</p>
@@ -64,7 +64,7 @@ import UiWasm from '../content/architecture/ui-wasm-runtime.mdx';
           <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14m-7-7l7 7 7-7"/></svg>
         </div>
 
-        <article class="bg-surface rounded-xl border border-border border-l-4 border-l-brand-800 p-5 shadow-card">
+        <article class="bg-surface rounded-xl border border-border p-5 shadow-card">
           <p class="text-[10px] font-semibold tracking-[0.12em] uppercase text-brand-800 mb-2">03 · Distribute</p>
           <h3 class="text-base font-semibold text-text mb-1">BioChef Registry</h3>
           <p class="text-sm text-text-secondary">Content-addressable OCI bundles at <code>registry.biochef.app</code>: <code>bundle.json</code>, WASM/JS layers, SBOM, signature.</p>
@@ -75,7 +75,7 @@ import UiWasm from '../content/architecture/ui-wasm-runtime.mdx';
           <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14m-7-7l7 7 7-7"/></svg>
         </div>
 
-        <article class="bg-surface rounded-xl border border-border border-l-4 border-l-tertiary p-5 shadow-card">
+        <article class="bg-surface rounded-xl border border-border p-5 shadow-card">
           <p class="text-[10px] font-semibold tracking-[0.12em] uppercase text-tertiary mb-2">04 · Runtime</p>
           <h3 class="text-base font-semibold text-text mb-1">BioChef web app</h3>
           <p class="text-sm text-text-secondary">Static SPA fetches tools by digest, verifies the signature, and runs them as WebAssembly inside your browser tab.</p>

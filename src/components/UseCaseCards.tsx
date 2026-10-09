@@ -8,16 +8,16 @@ interface UseCase {
   description: string;
   /** Small uppercase label (audience, use case category, etc.) */
   audience: string;
-  /** Tone-codes the left accent border and icon color. Defaults to brand. */
+  /** Tone-codes the icon and audience label. Defaults to brand. */
   tone?: Tone;
   icon?: 'dna' | 'shield' | 'bolt';
 }
 
-const toneStyles: Record<Tone, { rule: string; iconColor: string; audienceColor: string }> = {
-  accent:    { rule: 'border-l-accent', iconColor: 'text-accent', audienceColor: 'text-accent' },
-  brand:     { rule: 'border-l-brand', iconColor: 'text-brand', audienceColor: 'text-brand' },
-  tertiary:  { rule: 'border-l-tertiary', iconColor: 'text-tertiary', audienceColor: 'text-tertiary' },
-  secondary: { rule: 'border-l-secondary', iconColor: 'text-secondary', audienceColor: 'text-secondary' }
+const toneStyles: Record<Tone, { iconColor: string; audienceColor: string }> = {
+  accent:    { iconColor: 'text-accent', audienceColor: 'text-accent' },
+  brand:     { iconColor: 'text-brand', audienceColor: 'text-brand' },
+  tertiary:  { iconColor: 'text-tertiary', audienceColor: 'text-tertiary' },
+  secondary: { iconColor: 'text-secondary', audienceColor: 'text-secondary' }
 };
 
 export default function UseCaseCards({ cases }: { cases: UseCase[] }) {
@@ -28,7 +28,7 @@ export default function UseCaseCards({ cases }: { cases: UseCase[] }) {
         return (
           <motion.article
             key={item.title}
-            className={`relative bg-surface rounded-xl border border-border border-l-4 ${tone.rule} p-6 md:p-7 shadow-card hover:shadow-card-hover transition-shadow duration-200`}
+            className={`relative bg-surface rounded-xl border border-border p-6 md:p-7 shadow-card hover:shadow-card-hover transition-shadow duration-200`}
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
