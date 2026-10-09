@@ -11,12 +11,12 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
 const audiences = [
   {
     who: 'Clinicians and clinical geneticists',
-    what: 'Look at a patient sample without sending it anywhere. Open the browser, load the file, run the tool. Nothing to install and no server to ask permission for.',
+    what: 'Look at a patient sample without sending it anywhere. Quick checks run in the browser; larger runs stay on your own machines. Nothing to install to get started.',
     example: 'patient.fasta → Fasta Extract → result'
   },
   {
     who: 'Researchers',
-    what: 'Chain tools into a workflow, change a parameter and see the result update. Export the workflow as a file so a colleague can run exactly the same steps.',
+    what: 'Build and test a workflow in the browser on a small sample, then run the same workflow next to the full dataset. Export it as a file so a colleague can run exactly the same steps.',
     example: 'reads.fastq → minimap2 → samtools sort → samtools stats'
   },
   {
@@ -29,13 +29,13 @@ const audiences = [
 
 <BaseLayout
   title="BioChef · Easy genomics, private by design"
-  description="From a recipe in Git to a signed bundle in the BioChef Registry, then executed in your browser via WebAssembly."
+  description="Test genomic workflows in your browser, then run them where your data lives. Open, signed bioinformatics tools."
 >
   <Hero
     client:load
     title="Easy genomics"
     titleHighlight="Private by design"
-    subtitle="An open catalogue of bioinformatics tools that run end-to-end in your browser. No installs, no uploads."
+    subtitle="Test in your browser. Run where your data lives. Open, signed bioinformatics tools, from a quick check on your laptop to a full run next to the data."
     ctaPrimary={{ label: 'Open the app', href: 'https://biochef.app/' }}
     ctaSecondary={{ label: 'GitHub', href: 'https://github.com/ieeta-pt/Biochef' }}
     demo={{ src: withBase('/video/promo.mp4'), poster: withBase('/video/promo-poster.jpg'), href: withBase('/workflows#workflow-demo') }}
@@ -69,7 +69,7 @@ const audiences = [
       <SectionHeader
         kicker="Platform pillars"
         title="What you get"
-        subtitle="A signed publishing pipeline, a browser-native runtime, and a workflow editor. All open source."
+        subtitle="A signed publishing pipeline, a hybrid runtime, and a workflow editor. All open source."
       />
       <PillarCards
         client:visible
@@ -83,8 +83,8 @@ const audiences = [
           },
           {
             kicker: '02 · Run',
-            title: 'Browser-native WebAssembly',
-            description: 'Every published tool runs client-side in WebAssembly. Open the BioChef app, drop in a sequence, and execute. No installs, no uploads, no servers.',
+            title: 'Browser and agent',
+            description: 'Every tool runs in the browser as WebAssembly, for quick tests on small data. The BioChef agent, in development, runs the same signed tools next to your data.',
             icon: 'rocket',
             tone: 'brand'
           },
@@ -140,7 +140,7 @@ const audiences = [
           </div>
           <p class="text-[10px] font-semibold tracking-[0.12em] text-brand uppercase mb-2">Runtime</p>
           <h3 class="text-lg font-medium text-text mb-2 tracking-tight">WebAssembly</h3>
-          <p class="text-sm text-text-secondary leading-relaxed">Bioinformatics tools compiled with Emscripten and biowasm; everything runs in the browser.</p>
+          <p class="text-sm text-text-secondary leading-relaxed">Bioinformatics tools compiled with Emscripten and biowasm, so tests run right in the browser.</p>
         </article>
 
         <article class="p-6 md:p-8">
@@ -185,7 +185,7 @@ const audiences = [
     <div class="container-main">
       <div class="bg-surface rounded-xl border border-border p-8 md:p-10 shadow-card text-center">
         <p class="text-[10px] font-semibold tracking-[0.12em] text-brand uppercase mb-3">Try it now</p>
-        <h2 class="text-2xl md:text-3xl font-medium text-text mb-3 tracking-tight">Open the BioChef app in your browser</h2>
+        <h2 class="text-2xl md:text-3xl font-medium text-text mb-3 tracking-tight">Try BioChef in your browser</h2>
         <p class="text-base text-text-secondary max-w-xl mx-auto mb-6 leading-relaxed">
           Pick a tool, paste a sequence, run it. The whole catalogue is one click away.
         </p>

@@ -12,20 +12,20 @@ The site at <https://home.biochef.app/> documents BioChef, an open project from 
 
 **Headline:** Easy genomics, private by design.
 
-An open catalogue of bioinformatics tools that run end-to-end in your browser. No installs, no uploads.
+Test in your browser. Run where your data lives. Open, signed bioinformatics tools, from a quick check on your laptop to a full run next to the data.
 
 Peer-reviewed in BMC Bioinformatics, 2026. DOI: 10.1186/s12859-026-06431-1.
 
 ### Who it's for
 
-- **Clinicians and clinical geneticists.** Look at a patient sample without sending it anywhere. Open the browser, load the file, run the tool. Nothing to install and no server to ask permission for.
-- **Researchers.** Chain tools into a workflow, change a parameter and see the result update. Export the workflow as a file so a colleague can run exactly the same steps.
+- **Clinicians and clinical geneticists.** Look at a patient sample without sending it anywhere. Quick checks run in the browser; larger runs stay on your own machines. Nothing to install to get started.
+- **Researchers.** Build and test a workflow in the browser on a small sample, then run the same workflow next to the full dataset. Export it as a file so a colleague can run exactly the same steps.
 - **Teachers and students.** Every student runs the same tools on their own laptop, in the browser. No accounts, no cluster, no setup before the class starts.
 
 ### Platform pillars (what you get)
 
 - **Recipes → Hub → Registry.** Tools are declared as YAML recipes, validated and built by biochef-hub (SBOM, SLSA, cosign), then published as signed bundles to the BioChef Registry.
-- **Browser-native WebAssembly.** Every published tool runs client-side in WebAssembly. Open the BioChef app, drop in a sequence, and execute. No installs, no uploads, no servers.
+- **Browser and agent.** Every tool runs in the browser as WebAssembly, for quick tests on small data. The BioChef agent, in development, runs the same signed tools next to your data.
 - **Drag-and-drop DAGs.** A DAG editor chains tools end-to-end. Tools are filtered by data type, parameters re-execute live, and workflows can be exported and shared as JSON.
 
 ### Architecture at a glance
@@ -44,10 +44,10 @@ A YAML recipe in Git, signed by the Hub CI, served from the BioChef Registry, an
 
 **Headline:** Why BioChef.
 
-BioChef democratizes access to bioinformatics tools, bridging biologists, healthcare professionals, and computational tools by running compiled bioinformatics utilities directly in the browser via WebAssembly.
+Test in your browser. Run where your data lives. BioChef gives biologists, clinicians and bioinformaticians the same signed tools for a quick check on a laptop and for a full run next to the data.
 
 Designed for: researchers, clinicians, students.
-Privacy model: no upload, no server, no install.
+Privacy model: data stays where it lives.
 Source of trust: signed bundles in the Registry.
 
 ### The case: a tool every reviewer can re-run
