@@ -1,91 +1,526 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-/* ========================================
-   CSS Custom Properties - Bioluminescent Lab Theme
-   ======================================== */
-:root {
-  /* Core backgrounds — match the live BioChef app (Material Grey 100) */
-  --color-background: #F5F5F5;
-  --color-background-alt: #EEEEEE;
-  --color-surface: #FFFFFF;
-  --color-surface-elevated: #FFFFFF;
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1440px;
 
-  /* Text hierarchy — values match tailwind.config.cjs `text` tokens so
-     components reading raw CSS vars (PageHero, nav-brand) and components
-     using Tailwind utilities render the exact same shades. */
-  --color-text: #1A1A1A;
+  --color-background: #f5f5f5;
+  --color-surface: #ffffff;
+  --color-border: #e0e0e0;
+
+  --color-text: #1a1a1a;
   --color-text-secondary: #525252;
-  --color-text-tertiary: #6B6B6B;
-  --color-text-muted: #94A3B8;
+  --color-text-tertiary: #6b6b6b;
 
-  /* Borders */
-  --color-border: #E0E0E0;
-  --color-border-subtle: #EEEEEE;
-
-  /* Brand — Material Teal (matches live BioChef app `primary.main: #009688`) */
+  --color-brand-50: #e0f2f1;
+  --color-brand-100: #b2dfdb;
+  --color-brand-200: #80cbc4;
+  --color-brand-300: #4db6ac;
+  --color-brand-400: #26a69a;
+  --color-brand-500: #009688;
+  --color-brand-600: #00897b;
+  --color-brand-700: #00796b;
+  --color-brand-800: #00695c;
   --color-brand: #009688;
-  --color-brand-dark: #00796B;
-  --color-brand-darker: #004D40;
-  --color-brand-light: #E0F2F1;
-  --color-brand-300: #4DB6AC;
-  --color-brand-400: #26A69A;
-  --color-brand-800: #00695C;
+  --color-brand-dark: #00796b;
+  --color-brand-light: #e0f2f1;
 
-  /* Accent — Material Deep Orange (matches live BioChef app `secondary.main: #ff5722`) */
-  --color-accent: #FF5722;
-  --color-accent-dark: #E64A19;
-  --color-accent-light: #FBE9E7;
+  --color-accent-50: #fbe9e7;
+  --color-accent-100: #ffccbc;
+  --color-accent-500: #ff5722;
+  --color-accent-600: #f4511e;
+  --color-accent-700: #e64a19;
+  --color-accent: #ff5722;
+  --color-accent-dark: #e64a19;
+  --color-accent-light: #fbe9e7;
 
-  /* Secondary - Purple (AI/ML) */
-  --color-secondary: #7C3AED;
-  --color-secondary-dark: #6D28D9;
-  --color-secondary-light: #F5F3FF;
-  --color-secondary-300: #C4B5FD;
-  --color-secondary-400: #A78BFA;
+  --color-secondary-50: #faf5ff;
+  --color-secondary-100: #f5f3ff;
+  --color-secondary-200: #ede9fe;
+  --color-secondary-300: #c4b5fd;
+  --color-secondary-400: #a78bfa;
+  --color-secondary-500: #7c3aed;
+  --color-secondary-600: #6d28d9;
+  --color-secondary-700: #5b21b6;
+  --color-secondary-800: #4c1d95;
+  --color-secondary: #7c3aed;
+  --color-secondary-dark: #6d28d9;
+  --color-secondary-light: #f5f3ff;
 
-  /* Tertiary - Blue (Infrastructure) */
-  --color-tertiary: #2563EB;
-  --color-tertiary-dark: #1D4ED8;
-  --color-tertiary-light: #EFF6FF;
-  --color-tertiary-300: #93C5FD;
-  --color-tertiary-400: #60A5FA;
+  --color-tertiary-50: #f0f9ff;
+  --color-tertiary-100: #eff6ff;
+  --color-tertiary-200: #dbeafe;
+  --color-tertiary-300: #93c5fd;
+  --color-tertiary-400: #60a5fa;
+  --color-tertiary-500: #2563eb;
+  --color-tertiary-600: #1d4ed8;
+  --color-tertiary-700: #1e40af;
+  --color-tertiary-800: #1e3a8a;
+  --color-tertiary: #2563eb;
+  --color-tertiary-dark: #1d4ed8;
+  --color-tertiary-light: #eff6ff;
 
-  /* Typography — Roboto matches the live app exactly */
-  --font-sans: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  --font-display: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Roboto Mono', Consolas, monospace;
+  --font-sans: Roboto, Helvetica, Arial, sans-serif;
+  --font-display: Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: JetBrains Mono, Roboto Mono, Consolas, monospace;
 
-  /* Shadows - more dramatic */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
-  --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.14), 0 8px 16px rgba(0, 0, 0, 0.08);
-  --shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.18), 0 12px 24px rgba(0, 0, 0, 0.1);
+  --text-display-1: 3.75rem;
+  --text-display-1--line-height: 1.1;
+  --text-display-1--letter-spacing: -0.02em;
+  --text-display-1--font-weight: 700;
+  --text-display-2: 3rem;
+  --text-display-2--line-height: 1.1;
+  --text-display-2--letter-spacing: -0.02em;
+  --text-display-2--font-weight: 700;
+  --text-heading-1: 2.25rem;
+  --text-heading-1--line-height: 1.2;
+  --text-heading-1--letter-spacing: -0.01em;
+  --text-heading-1--font-weight: 600;
+  --text-heading-2: 1.875rem;
+  --text-heading-2--line-height: 1.25;
+  --text-heading-2--letter-spacing: -0.01em;
+  --text-heading-2--font-weight: 600;
+  --text-heading-3: 1.5rem;
+  --text-heading-3--line-height: 1.3;
+  --text-heading-3--font-weight: 600;
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.6;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.5;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
 
-  /* Colored shadows with glow effect — matched to Material Teal / Deep Orange */
-  --shadow-brand: 0 4px 20px rgba(0, 150, 136, 0.25), 0 2px 8px rgba(0, 150, 136, 0.15);
-  --shadow-brand-lg: 0 8px 32px rgba(0, 150, 136, 0.3), 0 4px 12px rgba(0, 150, 136, 0.2);
-  --shadow-accent: 0 4px 20px rgba(255, 87, 34, 0.25);
-  --shadow-secondary: 0 4px 20px rgba(124, 58, 237, 0.25);
+  --spacing-section: 5rem;
+  --spacing-section-mobile: 3rem;
 
-  /* Glass effect */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --glass-blur: 12px;
+  --container-container: 1200px;
+  --container-content: 720px;
+  --container-hero: 640px;
 
-  /* Transitions */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.05), 0 4px 14px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.14);
+  --shadow-xl: 0 20px 48px rgba(0, 0, 0, 0.18);
+  --shadow-nav: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-button: 0 2px 8px rgba(0, 150, 136, 0.25);
+  --shadow-brand: 0 4px 14px rgba(0, 150, 136, 0.25);
+  --shadow-brand-lg: 0 8px 24px rgba(0, 150, 136, 0.2);
+  --shadow-accent: 0 4px 14px rgba(255, 87, 34, 0.25);
+  --shadow-secondary: 0 4px 14px rgba(124, 58, 237, 0.25);
+
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+
+  --transition-duration-250: 250ms;
+
+  --animate-fade-in: fadeIn 0.5s ease-out;
+  --animate-slide-up: slideUp 0.5s ease-out;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes slideUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
 }
 
 /* ========================================
+   Component Styles
+   ======================================== */
+
+@utility container-main {
+  /* Container */
+  @apply w-full max-w-container mx-auto px-5 sm:px-6 md:px-8 lg:px-10;
+}
+
+@utility section {
+  /* Section spacing — tighter on mobile so single-column card stacks don't
+     leave cavernous gaps between sections. */
+  @apply py-12 md:py-16 lg:py-20;
+}
+
+@utility section-lg {
+  @apply py-16 md:py-28 lg:py-36;
+}
+
+@utility card {
+  /* Card surface — used by .card-class containers (the home Architecture
+     preview and the Architecture page diagram). Inline article cards use
+     the same visual vocabulary via Tailwind utilities. */
+  @apply bg-surface rounded-xl;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+}
+
+@utility card-padding {
+  @apply p-6 sm:p-7 md:p-8;
+}
+
+@utility badge {
+  /* Badge component - more refined */
+  @apply inline-flex items-center gap-2 px-3.5 py-1.5;
+  @apply text-xs font-semibold uppercase tracking-wider;
+  @apply rounded-full;
+  background-color: var(--color-brand-light);
+  color: var(--color-brand);
+  border: 1px solid rgba(10, 125, 115, 0.15);
+}
+
+@utility btn {
+  /* Button component. rounded-md (6px) matches the inline Hero/CTA buttons
+     and the Material convention of buttons having smaller radius than cards. */
+  @apply inline-flex items-center justify-center gap-2;
+  @apply px-6 py-3;
+  @apply text-sm font-semibold tracking-wide;
+  @apply rounded-md;
+  @apply transition-all duration-200;
+  min-height: 48px;
+  position: relative;
+  overflow: hidden;
+
+  &:focus-visible {
+    @apply outline-hidden ring-2 ring-brand ring-offset-2;
+  }
+}
+
+@utility btn-primary {
+  @apply bg-brand text-white;
+  box-shadow: var(--shadow-brand);
+
+  &:hover {
+    @apply bg-brand-dark;
+    box-shadow: var(--shadow-brand-lg);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+}
+
+@utility btn-secondary {
+  @apply bg-surface text-brand;
+  border: 2px solid var(--color-brand);
+
+  &:hover {
+    @apply bg-brand-light;
+    border-color: var(--color-brand-dark);
+  }
+}
+
+@utility btn-sm {
+  @apply px-4 py-2 text-xs;
+  min-height: 40px;
+}
+
+@utility grid-2 {
+  /* Grid layouts */
+  @apply grid gap-5 sm:gap-6 md:grid-cols-2;
+}
+
+@utility grid-3 {
+  @apply grid gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3;
+}
+
+@utility nav-link {
+  /* Navigation links — charcoal at the top of the page, white once the nav
+     becomes the teal AppBar on scroll. Color transitions smoothly with the bar. */
+  @apply text-sm font-medium;
+  @apply py-2 px-1;
+  @apply border-b-2 border-transparent;
+  color: var(--color-text-secondary);
+  transition:
+    color 250ms ease,
+    border-color 250ms ease;
+
+  &:hover {
+    color: var(--color-text);
+  }
+
+  &:focus-visible {
+    @apply outline-hidden ring-2 ring-brand/40 ring-offset-2 rounded-sm;
+  }
+
+  &.active {
+    color: var(--color-brand);
+    border-color: var(--color-brand);
+  }
+}
+
+@utility active {
+  &.nav-link {
+    color: var(--color-brand);
+    border-color: var(--color-brand);
+  }
+}
+
+@utility nav-github-pill {
+  /* GitHub ghost pill in the nav. Quiet outline that earns attention only on
+     hover; both colors are remapped to white-on-teal in the scrolled state. */
+  @apply inline-flex items-center gap-2;
+  @apply h-9 px-3 rounded-md;
+  @apply text-sm font-medium;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  background-color: transparent;
+  transition:
+    color 250ms ease,
+    border-color 250ms ease,
+    background-color 250ms ease;
+
+  &:hover {
+    color: var(--color-text);
+    border-color: var(--color-text-tertiary);
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  &:focus-visible {
+    @apply outline-hidden ring-2 ring-brand/40 ring-offset-2 rounded-md;
+  }
+}
+
+@utility component-card {
+  /* Component detail cards */
+  &details {
+    @apply bg-surface border border-border rounded-xl p-4;
+    @apply transition-all duration-200 ease-out;
+    box-shadow: var(--shadow-sm);
+    min-height: auto;
+    height: auto;
+  }
+
+  &details:hover:not([open]) {
+    border-color: rgba(10, 125, 115, 0.3);
+    box-shadow: var(--shadow-card);
+  }
+
+  &details[open] {
+    border-color: rgba(10, 125, 115, 0.4);
+    background: linear-gradient(
+      135deg,
+      rgba(10, 125, 115, 0.02) 0%,
+      transparent 100%
+    );
+    box-shadow: var(--shadow-card);
+  }
+
+  &details[open] .component-summary {
+    @apply pb-4 mb-4 border-b border-brand/20;
+  }
+
+  &details[open] .component-summary > div:first-child > span:first-child {
+    @apply ring-2 ring-brand/20 ring-offset-2;
+  }
+
+  &details .prose {
+    @apply overflow-hidden;
+    max-width: 100%;
+  }
+
+  &details .prose pre {
+    @apply overflow-x-auto text-xs rounded-lg;
+    max-width: 100%;
+  }
+
+  &details .prose code {
+    word-break: break-word;
+  }
+
+  &details .prose svg {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@utility component-summary {
+  @apply flex items-center justify-between cursor-pointer;
+  @apply list-none;
+  min-height: 0;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &::marker {
+    display: none;
+  }
+
+  details.component-card[open] & {
+    @apply pb-4 mb-4 border-b border-brand/20;
+  }
+
+  details.component-card[open] & > div:first-child > span:first-child {
+    @apply ring-2 ring-brand/20 ring-offset-2;
+  }
+}
+
+@utility prose {
+  details.component-card & {
+    @apply overflow-hidden;
+    max-width: 100%;
+  }
+
+  details.component-card & pre {
+    @apply overflow-x-auto text-xs rounded-lg;
+    max-width: 100%;
+  }
+
+  details.component-card & code {
+    word-break: break-word;
+  }
+
+  details.component-card & svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  & svg text {
+    font-family: var(--font-sans);
+  }
+}
+
+/* ========================================
+   Utility Classes
+   ======================================== */
+
+@utility safe-bottom {
+  /* Always at least 1rem of breathing room; more on iPhones with a home
+       indicator. Without max(), env() resolves to 0 on devices that don't
+       have a safe area, clipping content against the viewport edge. */
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+@layer utilities {
+  /* ========================================
+   CSS Custom Properties - Bioluminescent Lab Theme
+   ======================================== */
+  :root {
+    /* Core backgrounds — match the live BioChef app (Material Grey 100) */
+    --color-background: #f5f5f5;
+    --color-background-alt: #eeeeee;
+    --color-surface: #ffffff;
+    --color-surface-elevated: #ffffff;
+
+    /* Text hierarchy — values match tailwind.config.cjs `text` tokens so
+     components reading raw CSS vars (PageHero, nav-brand) and components
+     using Tailwind utilities render the exact same shades. */
+    --color-text: #1a1a1a;
+    --color-text-secondary: #525252;
+    --color-text-tertiary: #6b6b6b;
+    --color-text-muted: #94a3b8;
+
+    /* Borders */
+    --color-border: #e0e0e0;
+    --color-border-subtle: #eeeeee;
+
+    /* Brand — Material Teal (matches live BioChef app `primary.main: #009688`) */
+    --color-brand: #009688;
+    --color-brand-dark: #00796b;
+    --color-brand-darker: #004d40;
+    --color-brand-light: #e0f2f1;
+    --color-brand-300: #4db6ac;
+    --color-brand-400: #26a69a;
+    --color-brand-800: #00695c;
+
+    /* Accent — Material Deep Orange (matches live BioChef app `secondary.main: #ff5722`) */
+    --color-accent: #ff5722;
+    --color-accent-dark: #e64a19;
+    --color-accent-light: #fbe9e7;
+
+    /* Secondary - Purple (AI/ML) */
+    --color-secondary: #7c3aed;
+    --color-secondary-dark: #6d28d9;
+    --color-secondary-light: #f5f3ff;
+    --color-secondary-300: #c4b5fd;
+    --color-secondary-400: #a78bfa;
+
+    /* Tertiary - Blue (Infrastructure) */
+    --color-tertiary: #2563eb;
+    --color-tertiary-dark: #1d4ed8;
+    --color-tertiary-light: #eff6ff;
+    --color-tertiary-300: #93c5fd;
+    --color-tertiary-400: #60a5fa;
+
+    /* Typography — Roboto matches the live app exactly */
+    --font-sans: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    --font-display: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Roboto Mono', Consolas, monospace;
+
+    /* Shadows - more dramatic */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-card:
+      0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+    --shadow-card-hover:
+      0 12px 32px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+    --shadow-lg:
+      0 16px 48px rgba(0, 0, 0, 0.14), 0 8px 16px rgba(0, 0, 0, 0.08);
+    --shadow-xl:
+      0 24px 64px rgba(0, 0, 0, 0.18), 0 12px 24px rgba(0, 0, 0, 0.1);
+
+    /* Colored shadows with glow effect — matched to Material Teal / Deep Orange */
+    --shadow-brand:
+      0 4px 20px rgba(0, 150, 136, 0.25), 0 2px 8px rgba(0, 150, 136, 0.15);
+    --shadow-brand-lg:
+      0 8px 32px rgba(0, 150, 136, 0.3), 0 4px 12px rgba(0, 150, 136, 0.2);
+    --shadow-accent: 0 4px 20px rgba(255, 87, 34, 0.25);
+    --shadow-secondary: 0 4px 20px rgba(124, 58, 237, 0.25);
+
+    /* Glass effect */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-blur: 12px;
+
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* ========================================
    Base Styles
    ======================================== */
+}
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -160,228 +595,6 @@
   ::selection {
     background-color: rgba(10, 125, 115, 0.2);
     color: var(--color-brand-dark);
-  }
-}
-
-/* ========================================
-   Component Styles
-   ======================================== */
-@layer components {
-  /* Container */
-  .container-main {
-    @apply w-full max-w-container mx-auto px-5 sm:px-6 md:px-8 lg:px-10;
-  }
-
-  /* Section spacing — tighter on mobile so single-column card stacks don't
-     leave cavernous gaps between sections. */
-  .section {
-    @apply py-12 md:py-16 lg:py-20;
-  }
-
-  .section-lg {
-    @apply py-16 md:py-28 lg:py-36;
-  }
-
-  /* Card surface — used by .card-class containers (the home Architecture
-     preview and the Architecture page diagram). Inline article cards use
-     the same visual vocabulary via Tailwind utilities. */
-  .card {
-    @apply bg-surface rounded-xl;
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-card);
-  }
-
-  .card-padding {
-    @apply p-6 sm:p-7 md:p-8;
-  }
-
-  /* Badge component - more refined */
-  .badge {
-    @apply inline-flex items-center gap-2 px-3.5 py-1.5;
-    @apply text-xs font-semibold uppercase tracking-wider;
-    @apply rounded-full;
-    background-color: var(--color-brand-light);
-    color: var(--color-brand);
-    border: 1px solid rgba(10, 125, 115, 0.15);
-  }
-
-  /* Button component. rounded-md (6px) matches the inline Hero/CTA buttons
-     and the Material convention of buttons having smaller radius than cards. */
-  .btn {
-    @apply inline-flex items-center justify-center gap-2;
-    @apply px-6 py-3;
-    @apply text-sm font-semibold tracking-wide;
-    @apply rounded-md;
-    @apply transition-all duration-200;
-    min-height: 48px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn:focus-visible {
-    @apply outline-none ring-2 ring-brand ring-offset-2;
-  }
-
-  .btn-primary {
-    @apply bg-brand text-white;
-    box-shadow: var(--shadow-brand);
-  }
-
-  .btn-primary:hover {
-    @apply bg-brand-dark;
-    box-shadow: var(--shadow-brand-lg);
-    transform: translateY(-1px);
-  }
-
-  .btn-primary:active {
-    transform: translateY(0) scale(0.98);
-  }
-
-  .btn-secondary {
-    @apply bg-surface text-brand;
-    border: 2px solid var(--color-brand);
-  }
-
-  .btn-secondary:hover {
-    @apply bg-brand-light;
-    border-color: var(--color-brand-dark);
-  }
-
-  .btn-sm {
-    @apply px-4 py-2 text-xs;
-    min-height: 40px;
-  }
-
-  /* Grid layouts */
-  .grid-2 {
-    @apply grid gap-5 sm:gap-6 md:grid-cols-2;
-  }
-
-  .grid-3 {
-    @apply grid gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3;
-  }
-
-  /* Navigation links — charcoal at the top of the page, white once the nav
-     becomes the teal AppBar on scroll. Color transitions smoothly with the bar. */
-  .nav-link {
-    @apply text-sm font-medium;
-    @apply py-2 px-1;
-    @apply border-b-2 border-transparent;
-    color: var(--color-text-secondary);
-    transition: color 250ms ease, border-color 250ms ease;
-  }
-
-  .nav-link:hover {
-    color: var(--color-text);
-  }
-
-  .nav-link:focus-visible {
-    @apply outline-none ring-2 ring-brand/40 ring-offset-2 rounded;
-  }
-
-  .nav-link.active {
-    color: var(--color-brand);
-    border-color: var(--color-brand);
-  }
-
-  /* GitHub ghost pill in the nav. Quiet outline that earns attention only on
-     hover; both colors are remapped to white-on-teal in the scrolled state. */
-  .nav-github-pill {
-    @apply inline-flex items-center gap-2;
-    @apply h-9 px-3 rounded-md;
-    @apply text-sm font-medium;
-    color: var(--color-text-secondary);
-    border: 1px solid var(--color-border);
-    background-color: transparent;
-    transition: color 250ms ease, border-color 250ms ease, background-color 250ms ease;
-  }
-
-  .nav-github-pill:hover {
-    color: var(--color-text);
-    border-color: var(--color-text-tertiary);
-    background-color: rgba(0, 0, 0, 0.02);
-  }
-
-  .nav-github-pill:focus-visible {
-    @apply outline-none ring-2 ring-brand/40 ring-offset-2 rounded-md;
-  }
-
-  /* Component detail cards */
-  details.component-card {
-    @apply bg-surface border border-border rounded-xl p-4;
-    @apply transition-all duration-200 ease-out;
-    box-shadow: var(--shadow-sm);
-    min-height: auto;
-    height: auto;
-  }
-
-  details.component-card:hover:not([open]) {
-    border-color: rgba(10, 125, 115, 0.3);
-    box-shadow: var(--shadow-card);
-  }
-
-  details.component-card[open] {
-    border-color: rgba(10, 125, 115, 0.4);
-    background: linear-gradient(135deg, rgba(10, 125, 115, 0.02) 0%, transparent 100%);
-    box-shadow: var(--shadow-card);
-  }
-
-  .component-summary {
-    @apply flex items-center justify-between cursor-pointer;
-    @apply list-none;
-    min-height: 0;
-  }
-
-  .component-summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .component-summary::marker {
-    display: none;
-  }
-
-  details.component-card[open] .component-summary {
-    @apply pb-4 mb-4 border-b border-brand/20;
-  }
-
-  details.component-card[open] .component-summary > div:first-child > span:first-child {
-    @apply ring-2 ring-brand/20 ring-offset-2;
-  }
-
-  details.component-card .prose {
-    @apply overflow-hidden;
-    max-width: 100%;
-  }
-
-  details.component-card .prose pre {
-    @apply overflow-x-auto text-xs rounded-lg;
-    max-width: 100%;
-  }
-
-  details.component-card .prose code {
-    word-break: break-word;
-  }
-
-  details.component-card .prose svg {
-    max-width: 100%;
-    height: auto;
-  }
-
-  .prose svg text {
-    font-family: var(--font-sans);
-  }
-
-}
-
-/* ========================================
-   Utility Classes
-   ======================================== */
-@layer utilities {
-  .safe-bottom {
-    /* Always at least 1rem of breathing room; more on iPhones with a home
-       indicator. Without max(), env() resolves to 0 on devices that don't
-       have a safe area, clipping content against the viewport edge. */
-    padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 }
 

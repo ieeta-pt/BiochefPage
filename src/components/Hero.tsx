@@ -54,7 +54,7 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
             rel="noreferrer"
             className="group inline-flex items-center gap-2 mb-7 text-xs font-medium text-text-secondary hover:text-text transition-colors"
           >
-            <span className="relative flex h-1.5 w-1.5 flex-shrink-0">
+            <span className="relative flex h-1.5 w-1.5 shrink-0">
               {!reduced && (
                 <span className="absolute inline-flex h-full w-full rounded-full bg-brand opacity-50 animate-ping" />
               )}
@@ -95,7 +95,7 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
             className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
           >
             <a
-              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-brand text-white text-sm font-medium uppercase tracking-[0.06em] rounded-md transition-all hover:bg-brand-dark hover:shadow-button focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-brand text-white text-sm font-medium uppercase tracking-[0.06em] rounded-md transition-all hover:bg-brand-dark hover:shadow-button focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
               href={ctaPrimary.href}
               target="_blank"
               rel="noreferrer"
@@ -106,7 +106,7 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
               </svg>
             </a>
             <a
-              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-brand text-sm font-medium uppercase tracking-[0.06em] rounded-md border border-brand/40 hover:border-brand hover:bg-brand/[0.04] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-brand text-sm font-medium uppercase tracking-[0.06em] rounded-md border border-brand/40 hover:border-brand hover:bg-brand/4 transition-all focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
               href={ctaSecondary.href}
               target="_blank"
               rel="noreferrer"
