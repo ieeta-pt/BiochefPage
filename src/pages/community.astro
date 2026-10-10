@@ -3,6 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import RoadmapTimeline from '../components/RoadmapTimeline';
+import { getCatalogStats } from '../utils/catalog';
+
+const catalog = await getCatalogStats();
 
 const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
@@ -81,7 +84,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
               {
                 id: 'spa',
                 label: 'BioChef web app: Tools + Workflow pages',
-                description: 'A catalogue of 31 signed bioinformatics recipes (GTO, minimap2, bcftools, bedtools, samtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) compiled to WebAssembly, in-browser DAG editor, workflow export and import. Live at biochef.app.',
+                description: `A catalogue of ${catalog.recipes} signed bioinformatics recipes (GTO, minimap2, bcftools, bedtools, samtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) compiled to WebAssembly, in-browser DAG editor, workflow export and import. Live at biochef.app.`,
                 status: 'done'
               },
               {
@@ -93,7 +96,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
               {
                 id: 'recipes',
                 label: 'biochef-recipes catalog growth',
-                description: 'Expand the public recipe catalogue with more tools, more contributors, and richer metadata. 12 of the 31 recipes also build natively, so the agent can run them outside the browser.',
+                description: `Expand the public recipe catalogue with more tools, more contributors, and richer metadata. ${catalog.native} of the ${catalog.recipes} recipes also build natively, so the agent can run them outside the browser.`,
                 status: 'in-progress'
               },
               {
