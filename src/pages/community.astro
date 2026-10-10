@@ -37,7 +37,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
         <article class="bg-surface rounded-xl border border-border p-6 md:p-7 shadow-card hover:shadow-card-hover transition-shadow duration-200">
           <div class="flex items-center gap-2 mb-3">
             <span class="w-2.5 h-2.5 rounded-full bg-brand"></span>
-            <span class="text-[10px] font-semibold tracking-[0.12em] uppercase text-brand">Live</span>
+            <span class="text-[10px] font-semibold tracking-[0.12em] uppercase text-brand-dark">Live</span>
           </div>
           <h3 class="text-lg font-medium text-text mb-2 tracking-tight">BioChef web app</h3>
           <p class="text-sm text-text-secondary leading-relaxed">Tools page + Workflow page; bioinformatics tools (GTO, minimap2, samtools, bcftools, bedtools, seqtk, muscle, kalign, fasttree, ivar, prodigal, mummer4, fastp, and more) running in WebAssembly via biowasm.</p>
@@ -46,7 +46,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
         <article class="bg-surface rounded-xl border border-border p-6 md:p-7 shadow-card hover:shadow-card-hover transition-shadow duration-200">
           <div class="flex items-center gap-2 mb-3">
             <span class="w-2.5 h-2.5 rounded-full bg-brand"></span>
-            <span class="text-[10px] font-semibold tracking-[0.12em] uppercase text-brand">Live</span>
+            <span class="text-[10px] font-semibold tracking-[0.12em] uppercase text-brand-dark">Live</span>
           </div>
           <h3 class="text-lg font-medium text-text mb-2 tracking-tight">biochef-hub + Registry</h3>
           <p class="text-sm text-text-secondary leading-relaxed">Reusable GitHub workflow signs and publishes recipes to <code>registry.biochef.app</code>.</p>
@@ -58,7 +58,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
               <span class="absolute inline-flex h-full w-full rounded-full bg-accent opacity-60 animate-ping"></span>
               <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent"></span>
             </span>
-            <span class="text-[10px] font-semibold tracking-[0.12em] uppercase text-accent-dark">In development</span>
+            <span class="text-[10px] font-semibold tracking-[0.12em] uppercase text-accent-800">In development</span>
           </div>
           <h3 class="text-lg font-medium text-text mb-2 tracking-tight">Agent mode</h3>
           <p class="text-sm text-text-secondary leading-relaxed">BioChef Agent runs signed bundles outside the browser, next to the data. Already working: steps can run in containers (Apptainer); the agent can be set to refuse any bundle whose signature, SBOM, SLSA provenance or blob digests do not check out, and to require a bearer token; runs can be stopped and outlive the request; logs stream live; large files stream instead of being held in memory; each run records how it was produced. Workflow aggregation comes next.</p>
@@ -136,7 +136,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
       <SectionHeader
         kicker="Team"
         title="Who builds BioChef"
-        subtitleHtml='A research team at <a class="text-brand hover:text-brand-dark" href="https://www.ieeta.pt/" target="_blank" rel="noreferrer">IEETA</a>, <a class="text-brand hover:text-brand-dark" href="https://www.ua.pt/" target="_blank" rel="noreferrer">University of Aveiro</a>.'
+        subtitleHtml='A research team at <a class="text-brand-dark underline underline-offset-2 hover:text-brand-800" href="https://www.ieeta.pt/" target="_blank" rel="noreferrer">IEETA</a>, <a class="text-brand-dark underline underline-offset-2 hover:text-brand-800" href="https://www.ua.pt/" target="_blank" rel="noreferrer">University of Aveiro</a>.'
       />
 
       {/* Three tiered groups: active development, supervision, past contributors */}
@@ -251,7 +251,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
           Rosa, J., Andrade, J., Silva, J. M., &amp; Oliveira, J. L. (2026).
           <strong>Biochef: a client-side WebAssembly-based workflow builder for genomic data analysis.</strong>
           <em>BMC Bioinformatics.</em> DOI:
-          <a class="text-brand hover:text-brand-dark font-medium" href="https://doi.org/10.1186/s12859-026-06431-1" target="_blank" rel="noreferrer">10.1186/s12859-026-06431-1</a>
+          <a class="text-brand-dark underline underline-offset-2 hover:text-brand-800 font-medium" href="https://doi.org/10.1186/s12859-026-06431-1" target="_blank" rel="noreferrer">10.1186/s12859-026-06431-1</a>
         </p>
         <div class="flex flex-wrap gap-3">
           <a class="btn btn-primary text-sm" href="https://doi.org/10.1186/s12859-026-06431-1" target="_blank" rel="noreferrer">Read on BMC Bioinformatics</a>
@@ -260,7 +260,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
         <p class="mt-4 text-xs text-text-tertiary">Open access. BioChef code is released under the MIT License.</p>
       </article>
 
-      <p class="mt-6 max-w-3xl mx-auto text-xs text-text-tertiary leading-relaxed text-center">Funding: BioChef is Work Package 4 of the ELIXIR Commissioned Service on Human Data and Translational Research (HDTR) 2027/28, after HDTR 2024 (WP6, Fed-A-Crate). Also supported by BioData.pt | ELIXIR Portugal, the IEETA strategic project Browser-First Federated Genomics Toolkit, FCT (<a class="text-brand hover:text-brand-dark" href="https://doi.org/10.54499/UID/PRR/00127/2025" target="_blank" rel="noreferrer">UID/PRR/00127/2025</a>, <a class="text-brand hover:text-brand-dark" href="https://doi.org/10.54499/2023.14342.CPCA.A1" target="_blank" rel="noreferrer">2023.14342.CPCA.A1</a>) and the European Commission (Genomic Data Infrastructure, grant 101081813).</p>
+      <p class="mt-6 max-w-3xl mx-auto text-xs text-text-tertiary leading-relaxed text-center">Funding: BioChef is Work Package 4 of the ELIXIR Commissioned Service on Human Data and Translational Research (HDTR) 2027/28, after HDTR 2024 (WP6, Fed-A-Crate). Also supported by BioData.pt | ELIXIR Portugal, the IEETA strategic project Browser-First Federated Genomics Toolkit, FCT (<a class="text-brand-dark underline underline-offset-2 hover:text-brand-800" href="https://doi.org/10.54499/UID/PRR/00127/2025" target="_blank" rel="noreferrer">UID/PRR/00127/2025</a>, <a class="text-brand-dark underline underline-offset-2 hover:text-brand-800" href="https://doi.org/10.54499/2023.14342.CPCA.A1" target="_blank" rel="noreferrer">2023.14342.CPCA.A1</a>) and the European Commission (Genomic Data Infrastructure, grant 101081813).</p>
     </div>
   </section>
 
@@ -389,7 +389,7 @@ const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
           <p class="text-sm text-text-secondary mb-3">
             See <code>CONTRIBUTING.md</code> in the BioChef repo for code style, build, and test guidance.
           </p>
-          <a class="text-sm text-brand hover:text-brand-dark font-medium inline-flex items-center gap-1" href="https://github.com/ieeta-pt/Biochef/blob/main/CONTRIBUTING.md" target="_blank" rel="noreferrer">
+          <a class="text-sm text-brand-dark hover:text-brand-800 font-medium inline-flex items-center gap-1" href="https://github.com/ieeta-pt/Biochef/blob/main/CONTRIBUTING.md" target="_blank" rel="noreferrer">
             Read CONTRIBUTING.md
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
           </a>

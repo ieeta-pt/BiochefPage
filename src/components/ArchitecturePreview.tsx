@@ -35,8 +35,8 @@ export default function ArchitecturePreview() {
           Below md:, render a 4-step pipeline as text chips. */}
       <ol className="md:hidden flex flex-col gap-2.5">
         {[
-          { num: '01', label: 'Recipes', detail: 'YAML source', tone: 'border-l-accent text-accent' },
-          { num: '02', label: 'Hub', detail: 'CI · sign · publish', tone: 'border-l-brand text-brand' },
+          { num: '01', label: 'Recipes', detail: 'YAML source', tone: 'border-l-accent text-accent-800' },
+          { num: '02', label: 'Hub', detail: 'CI · sign · publish', tone: 'border-l-brand text-brand-dark' },
           { num: '03', label: 'Registry', detail: 'Signed OCI bundles', tone: 'border-l-brand-800 text-brand-800' },
           { num: '04', label: 'Browser', detail: 'WebAssembly runtime', tone: 'border-l-tertiary text-tertiary' }
         ].map((step) => {
