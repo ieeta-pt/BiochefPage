@@ -73,6 +73,7 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
         data-cf-beacon={`{"token": "${cfBeaconToken}"}`}
       ></script>
     )}
+    <slot name="head" />
   </head>
   <body class="min-h-screen flex flex-col bg-background text-text antialiased">
     <Navigation />

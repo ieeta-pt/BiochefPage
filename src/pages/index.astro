@@ -41,6 +41,8 @@ const audiences = [
   title="BioChef · Easy genomics, private by design"
   description="Test genomic workflows in your browser, then run them where your data lives. Open, signed bioinformatics tools."
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "BioChef", "url": "https://biochef.app", "applicationCategory": "ScientificApplication", "operatingSystem": "Web browser", "description": "Open-source web application for building and running genomic data analysis workflows in the browser.", "license": "https://opensource.org/licenses/MIT", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "codeRepository": "https://github.com/ieeta-pt/Biochef", "sameAs": ["https://bio.tools/biochef", "https://github.com/ieeta-pt/Biochef"], "citation": "https://doi.org/10.1186/s12859-026-06431-1", "publisher": {"@type": "Organization", "name": "IEETA, University of Aveiro", "url": "https://www.ieeta.pt"}})} />
+
   <Hero
     client:load
     title="Easy genomics"
