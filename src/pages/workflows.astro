@@ -3,10 +3,39 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import WorkflowDemo from '../components/WorkflowDemo.astro';
+import { getCatalogStats } from '../utils/catalog';
 // fl-session.mdx is intentionally not imported: WES / TES / federated runtimes
 // are roadmap items. The agent is shown as in development.
 const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
+
+const catalog = await getCatalogStats();
+
+// Recipe ids per family; counts come from the registry at build time.
+const families = [
+  { name: 'GTO suite', items: 'sequence · format · genomic · amino acid · info · text', recipes: ['gto'], countOps: true },
+  { name: 'Alignment & mapping', items: 'minimap2 · lastz · mummer4/nucmer · ssw · ksw2 · edlib', recipes: ['minimap2', 'lastz', 'mummer4', 'ssw', 'ksw2', 'edlib'] },
+  { name: 'Variants & consensus', items: 'bcftools · ivar · viralconsensus', recipes: ['bcftools', 'ivar', 'viralconsensus'] },
+  { name: 'BAM/SAM & QC', items: 'samtools view/sort/stats · fastp · samblaster', recipes: ['samtools', 'fastp', 'samblaster'] },
+  { name: 'MSA & phylogenetics', items: 'muscle · kalign · abPOA · fasttree · ASTER · tn93', recipes: ['muscle', 'kalign', 'abpoa', 'fasttree', 'aster', 'tn93'] },
+  { name: 'Genome intervals', items: 'bedtools intersect · cgranges coverage', recipes: ['bedtools', 'cgranges'] },
+  { name: 'Assembly, ORFs & methylation', items: 'fermi-lite assemble · prodigal · modbam2bed', recipes: ['fermilite', 'prodigal', 'modbam2bed'] },
+  { name: 'Sequence toolkits', items: 'seqtk · gffread — subseq · convert · filter', recipes: ['seqtk', 'gffread'] },
+  { name: 'Text, JSON & shell', items: 'gawk · grep · sed · jq · coreutils', recipes: ['gawk', 'grep', 'sed', 'jq', 'coreutils'] }
+];
+const published = catalog.operationsByRecipe;
+const known = new Set(families.flatMap((f) => f.recipes));
+const newRecipes = catalog.source === 'registry' ? Object.keys(published).filter((r) => !known.has(r)).sort() : [];
+const familyCards = [
+  ...families.map((f) => ({
+    name: f.name,
+    items: f.items,
+    count: f.countOps
+      ? `${published.gto ?? 57} ops`
+      : String(catalog.source === 'registry' ? f.recipes.filter((r) => r in published).length : f.recipes.length)
+  })),
+  ...(newRecipes.length ? [{ name: 'Recently added', items: newRecipes.join(' · '), count: String(newRecipes.length) }] : [])
+];
 
 const steps = [
   {
@@ -140,21 +169,11 @@ const scenarios = [
       <SectionHeader
         kicker="Catalogue"
         title="What you can chain together"
-        subtitle="A snapshot of the 31 signed recipes in the public BioChef catalogue, grouped by what they do. Every tool runs as WebAssembly in the browser; 12 also have a native build for the agent."
+        subtitle={`The ${catalog.recipes} signed recipes in the public BioChef catalogue, grouped by what they do. Every tool runs as WebAssembly in the browser; ${catalog.native} also have a native build for the agent.`}
       />
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
-        {[
-          { name: 'GTO suite', items: 'sequence · format · genomic · amino acid · info · text', count: '57+ ops' },
-          { name: 'Alignment & mapping', items: 'minimap2 · lastz · mummer4/nucmer · ssw · ksw2 · edlib', count: '6' },
-          { name: 'Variants & consensus', items: 'bcftools · ivar · viralconsensus', count: '3' },
-          { name: 'BAM/SAM & QC', items: 'samtools view/sort/stats · fastp · samblaster', count: '3' },
-          { name: 'MSA & phylogenetics', items: 'muscle · kalign · abPOA · fasttree · ASTER · tn93', count: '6' },
-          { name: 'Genome intervals', items: 'bedtools intersect · cgranges coverage', count: '2' },
-          { name: 'Assembly, ORFs & methylation', items: 'fermi-lite assemble · prodigal · modbam2bed', count: '3' },
-          { name: 'Sequence toolkits', items: 'seqtk · gffread — subseq · convert · filter', count: '2' },
-          { name: 'Text, JSON & shell', items: 'gawk · grep · sed · jq · coreutils', count: '5' }
-        ].map((cat) => (
+        {familyCards.map((cat) => (
           <article class="bg-surface rounded-xl border border-border shadow-xs p-5">
             <div class="flex items-baseline justify-between mb-2">
               <h3 class="text-sm font-medium text-text tracking-tight">{cat.name}</h3>
@@ -166,7 +185,7 @@ const scenarios = [
       </div>
 
       <p class="text-center text-xs text-text-tertiary mt-8">
-        Badges count recipes per family (GTO counts operations). New recipes are added by the community. Workflows can pipe FASTA, FASTQ, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST and more between tools.
+        Badges count recipes per family (GTO counts operations); {catalog.operations} operations in all. New recipes are added by the community. Workflows can pipe FASTA, FASTQ, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST and more between tools.
         <a class="text-brand-dark underline underline-offset-2 hover:text-brand-800 ml-1" href="https://biochef.app/" target="_blank" rel="noreferrer">See the full catalogue in the app →</a>
       </p>
     </div>

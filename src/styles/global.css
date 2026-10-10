@@ -319,57 +319,24 @@
   }
 }
 
-@utility component-card {
-  /* Component detail cards */
-  &details {
-    @apply bg-surface border border-border rounded-xl p-4;
-    @apply transition-all duration-200 ease-out;
-    box-shadow: var(--shadow-sm);
-    min-height: auto;
-    height: auto;
-  }
+/* Component detail cards (Architecture page). Plain selectors: the Tailwind 4
+   upgrade turned these into a utility whose `&details` selectors never matched. */
+details.component-card {
+  @apply bg-surface border border-border rounded-xl p-4;
+  @apply transition-all duration-200 ease-out;
+  box-shadow: var(--shadow-sm);
+  min-width: 0;
+}
 
-  &details:hover:not([open]) {
-    border-color: rgba(10, 125, 115, 0.3);
-    box-shadow: var(--shadow-card);
-  }
+details.component-card:hover:not([open]) {
+  border-color: rgba(10, 125, 115, 0.3);
+  box-shadow: var(--shadow-card);
+}
 
-  &details[open] {
-    border-color: rgba(10, 125, 115, 0.4);
-    background: linear-gradient(
-      135deg,
-      rgba(10, 125, 115, 0.02) 0%,
-      transparent 100%
-    );
-    box-shadow: var(--shadow-card);
-  }
-
-  &details[open] .component-summary {
-    @apply pb-4 mb-4 border-b border-brand/20;
-  }
-
-  &details[open] .component-summary > div:first-child > span:first-child {
-    @apply ring-2 ring-brand/20 ring-offset-2;
-  }
-
-  &details .prose {
-    @apply overflow-hidden;
-    max-width: 100%;
-  }
-
-  &details .prose pre {
-    @apply overflow-x-auto text-xs rounded-lg;
-    max-width: 100%;
-  }
-
-  &details .prose code {
-    word-break: break-word;
-  }
-
-  &details .prose svg {
-    max-width: 100%;
-    height: auto;
-  }
+details.component-card[open] {
+  border-color: rgba(10, 125, 115, 0.4);
+  background: linear-gradient(135deg, rgba(10, 125, 115, 0.02) 0%, transparent 100%), var(--color-surface);
+  box-shadow: var(--shadow-card);
 }
 
 @utility component-summary {
