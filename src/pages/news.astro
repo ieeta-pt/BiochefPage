@@ -25,6 +25,30 @@ const news = [
     featured: false
   },
   {
+    dateLabel: '7 October 2026',
+    category: 'Release',
+    tone: 'brand',
+    title: '12 BioChef tools now also build natively',
+    location: 'biochef-hub · biochef-recipes',
+    summary:
+      'A recipe can now declare a native build script next to its WebAssembly one. biochef-hub builds both and records the build tools’ versions and the script’s SHA-256. Twelve of the 31 recipes ship native builds today: fastp, FastTree, gffread, GTO, ksw2, LASTZ, minimap2, MUSCLE, Prodigal, samblaster, samtools and seqtk. These are the builds the BioChef agent, in development, will run next to the data.',
+    href: 'https://github.com/ieeta-pt/biochef-recipes',
+    cta: 'See the recipes →',
+    featured: false
+  },
+  {
+    dateLabel: '7 October 2026',
+    category: 'Security',
+    tone: 'accent',
+    title: 'The browser checks every tool before it runs',
+    location: 'BioChef web app',
+    summary:
+      'Since August, the app checks the signature on the tool catalogue with a public key built into the app, loads each tool by its immutable digest, and verifies the SHA-256 of its bundle, JavaScript and WebAssembly before running it. A tool that fails a check cannot be added to a workflow. The app now also checks the registry’s reply against the expected digest before reading it.',
+    href: 'https://github.com/ieeta-pt/Biochef',
+    cta: 'See the app on GitHub →',
+    featured: false
+  },
+  {
     dateLabel: '8 July 2026',
     category: 'Talk',
     tone: 'brand',
