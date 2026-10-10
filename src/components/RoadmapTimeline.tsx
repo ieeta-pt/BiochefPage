@@ -58,7 +58,7 @@ export default function RoadmapTimeline({ items }: { items: Item[] }) {
                   <span className={clsx('w-1.5 h-1.5 rounded-full', config.dot)} />
                   {config.label}
                 </div>
-                <h4 className="font-semibold text-text mb-1">{item.label}</h4>
+                <h3 className="font-semibold text-text mb-1">{item.label}</h3>
                 <p className="text-sm text-text-secondary">{item.description}</p>
               </div>
             </motion.div>

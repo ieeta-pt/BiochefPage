@@ -36,6 +36,7 @@
   --color-accent-700: #e64a19;
   --color-accent: #ff5722;
   --color-accent-dark: #e64a19;
+  --color-accent-800: #bf360c;
   --color-accent-light: #fbe9e7;
 
   --color-secondary-50: #faf5ff;
@@ -201,7 +202,7 @@
   @apply text-xs font-semibold uppercase tracking-wider;
   @apply rounded-full;
   background-color: var(--color-brand-light);
-  color: var(--color-brand);
+  color: var(--color-brand-dark);
   border: 1px solid rgba(10, 125, 115, 0.15);
 }
 
@@ -223,11 +224,11 @@
 }
 
 @utility btn-primary {
-  @apply bg-brand text-white;
+  @apply bg-brand-dark text-white;
   box-shadow: var(--shadow-brand);
 
   &:hover {
-    @apply bg-brand-dark;
+    @apply bg-brand-800;
     box-shadow: var(--shadow-brand-lg);
     transform: translateY(-1px);
   }
@@ -238,7 +239,7 @@
 }
 
 @utility btn-secondary {
-  @apply bg-surface text-brand;
+  @apply bg-surface text-brand-dark;
   border: 2px solid var(--color-brand);
 
   &:hover {
@@ -559,7 +560,7 @@
      text-text, etc.) and component classes can opt out cleanly. Without this,
      a:hover would repaint button text dark-teal on dark-teal backgrounds. */
   :where(a) {
-    color: var(--color-brand);
+    color: var(--color-brand-dark);
     text-decoration: none;
     transition: color var(--transition-base);
   }

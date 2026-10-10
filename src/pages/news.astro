@@ -7,10 +7,10 @@ import SectionHeader from '../components/SectionHeader.astro';
 // list newest-first). `category` picks the accent tone; `href`/`cta` are
 // optional; set `featured: true` to elevate one card (used for the paper).
 const toneClasses = {
-  brand:     { badge: 'bg-brand/10 text-brand' },
-  accent:    { badge: 'bg-accent/10 text-accent' },
-  tertiary:  { badge: 'bg-tertiary/10 text-tertiary' },
-  secondary: { badge: 'bg-secondary/10 text-secondary' }
+  brand:     { badge: 'bg-brand/10 text-brand-dark' },
+  accent:    { badge: 'bg-accent/10 text-accent-800' },
+  tertiary:  { badge: 'bg-tertiary/10 text-tertiary-dark' },
+  secondary: { badge: 'bg-secondary/10 text-secondary-dark' }
 };
 
 const news = [
@@ -129,7 +129,7 @@ const news = [
                     <span class="text-xs text-text-tertiary">· {item.location}</span>
                   )}
                   {item.featured && (
-                    <span class="ml-auto text-[10px] font-semibold uppercase tracking-widest text-brand">Featured</span>
+                    <span class="ml-auto text-[10px] font-semibold uppercase tracking-widest text-brand-dark">Featured</span>
                   )}
                 </div>
 
@@ -138,7 +138,7 @@ const news = [
 
                 {item.href && (
                   <a
-                    class="inline-flex items-center gap-1 mt-4 text-sm font-medium text-brand hover:text-brand-dark"
+                    class="inline-flex items-center gap-1 mt-4 text-sm font-medium text-brand-dark hover:text-brand-800"
                     href={item.href}
                     target="_blank"
                     rel="noreferrer"
@@ -153,7 +153,7 @@ const news = [
       </ol>
 
       <p class="text-center text-xs text-text-tertiary mt-10">
-        Presented or wrote about BioChef somewhere? <a class="text-brand hover:text-brand-dark" href="https://github.com/ieeta-pt/Biochef/issues" target="_blank" rel="noreferrer">Open an issue</a> and we'll add it here.
+        Presented or wrote about BioChef somewhere? <a class="text-brand-dark underline underline-offset-2 hover:text-brand-800" href="https://github.com/ieeta-pt/Biochef/issues" target="_blank" rel="noreferrer">Open an issue</a> and we'll add it here.
       </p>
     </div>
   </section>

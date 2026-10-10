@@ -75,7 +75,7 @@ export default function CodeTabs({ tabs }: { tabs: Tab[] }) {
               <span
                 className={clsx(
                   'font-mono text-[10px] font-semibold tracking-wider',
-                  isActive ? 'text-brand-200' : 'text-white/35 group-hover:text-white/60'
+                  isActive ? 'text-brand-200' : 'text-white/60 group-hover:text-white/80'
                 )}
               >
                 {languageMark(tab.language)}
@@ -130,7 +130,7 @@ export default function CodeTabs({ tabs }: { tabs: Tab[] }) {
       )}
 
       {/* Bottom status strip — tiny but signals intent and completes the editor frame */}
-      <div className="flex items-center justify-between gap-3 px-4 py-2 bg-[#0B1424] border-t border-white/6 text-[10px] font-mono uppercase tracking-[0.12em] text-white/35">
+      <div className="flex items-center justify-between gap-3 px-4 py-2 bg-[#0B1424] border-t border-white/6 text-[10px] font-mono uppercase tracking-[0.12em] text-white/60">
         <span>{activeTab?.language}</span>
         <span>{activeTab ? activeTab.code.split('\n').length : 0} lines</span>
       </div>

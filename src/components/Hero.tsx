@@ -95,7 +95,7 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
             className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
           >
             <a
-              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-brand text-white text-sm font-medium uppercase tracking-[0.06em] rounded-md transition-all hover:bg-brand-dark hover:shadow-button focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-brand-dark text-white text-sm font-medium uppercase tracking-[0.06em] rounded-md transition-all hover:bg-brand-800 hover:shadow-button focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
               href={ctaPrimary.href}
               target="_blank"
               rel="noreferrer"
@@ -106,7 +106,7 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
               </svg>
             </a>
             <a
-              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-brand text-sm font-medium uppercase tracking-[0.06em] rounded-md border border-brand/40 hover:border-brand hover:bg-brand/4 transition-all focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-brand-dark text-sm font-medium uppercase tracking-[0.06em] rounded-md border border-brand/40 hover:border-brand hover:bg-brand/4 transition-all focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
               href={ctaSecondary.href}
               target="_blank"
               rel="noreferrer"
@@ -120,7 +120,7 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
         </div>
 
         {demo && (
-          <motion.figure {...fadeUp(0.25)} className="min-w-0">
+          <figure className="min-w-0">
             <div className="rounded-xl overflow-hidden border border-border bg-surface shadow-lg">
               <a href={demo.href} className="block aspect-video bg-background" aria-label="Watch the full app walkthrough">
                 <video
@@ -136,7 +136,7 @@ export default function Hero({ title, titleHighlight, subtitle, ctaPrimary, ctaS
                 />
               </a>
             </div>
-          </motion.figure>
+          </figure>
         )}
       </div>
     </section>

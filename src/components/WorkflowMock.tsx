@@ -310,7 +310,7 @@ export default function WorkflowMock() {
                           <button
                             key={e.to}
                             onClick={() => setSelectedNode(e.to)}
-                            className="text-xs text-brand hover:text-brand-dark font-medium transition-colors"
+                            className="text-xs text-brand-dark hover:text-brand-800 font-medium transition-colors"
                           >
                             {target.label} →
                           </button>

@@ -67,12 +67,12 @@ const scenarios = [
     <div class="container-main">
       <div class="grid gap-10 lg:gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] items-center">
         <div>
-          <p class="text-xs font-semibold tracking-[0.12em] uppercase text-brand mb-3">How it works</p>
+          <p class="text-xs font-semibold tracking-[0.12em] uppercase text-brand-dark mb-3">How it works</p>
           <h2 class="text-3xl md:text-4xl font-medium text-text tracking-tight">From a quick test to a full run</h2>
           <ol class="mt-8 space-y-7">
             {steps.map((step, i) => (
               <li class="grid grid-cols-[2rem_minmax(0,1fr)] gap-x-4">
-                <span class="font-mono text-sm text-brand pt-0.5">{String(i + 1).padStart(2, '0')}</span>
+                <span class="font-mono text-sm text-brand-dark pt-0.5">{String(i + 1).padStart(2, '0')}</span>
                 <div>
                   <h3 class="text-lg font-medium text-text tracking-tight">{step.title}</h3>
                   <p class="mt-1.5 text-text-secondary leading-relaxed">{step.body}</p>
@@ -158,7 +158,7 @@ const scenarios = [
           <article class="bg-surface rounded-xl border border-border shadow-xs p-5">
             <div class="flex items-baseline justify-between mb-2">
               <h3 class="text-sm font-medium text-text tracking-tight">{cat.name}</h3>
-              <span class="font-mono text-xs font-semibold text-brand">{cat.count}</span>
+              <span class="font-mono text-xs font-semibold text-brand-dark">{cat.count}</span>
             </div>
             <p class="font-mono text-[11px] text-text-tertiary leading-relaxed">{cat.items}</p>
           </article>
@@ -167,7 +167,7 @@ const scenarios = [
 
       <p class="text-center text-xs text-text-tertiary mt-8">
         Badges count recipes per family (GTO counts operations). New recipes are added by the community. Workflows can pipe FASTA, FASTQ, BAM, SAM, CRAM, VCF, BCF, BED, GFF, JSON, LIST and more between tools.
-        <a class="text-brand hover:text-brand-dark ml-1" href="https://biochef.app/" target="_blank" rel="noreferrer">See the full catalogue in the app →</a>
+        <a class="text-brand-dark underline underline-offset-2 hover:text-brand-800 ml-1" href="https://biochef.app/" target="_blank" rel="noreferrer">See the full catalogue in the app →</a>
       </p>
     </div>
   </section>
@@ -178,17 +178,17 @@ const scenarios = [
       <SectionHeader kicker="Runtime" title="Two places to run" align="left" />
       <div class="grid md:grid-cols-2 gap-px bg-border border border-border rounded-xl overflow-hidden">
         <article class="bg-surface p-7 md:p-9">
-          <p class="text-[10px] font-semibold tracking-[0.12em] text-brand uppercase mb-3">Live</p>
+          <p class="text-[10px] font-semibold tracking-[0.12em] text-brand-dark uppercase mb-3">Live</p>
           <h3 class="text-xl md:text-2xl font-medium text-text tracking-tight">In your browser</h3>
           <p class="mt-3 text-text-secondary leading-relaxed">For building and testing. Tools run client-side as WebAssembly on small data, with nothing to install and nothing uploaded.</p>
           <p class="mt-5 font-mono text-xs text-text-tertiary">Emscripten · biowasm · signed digest from the registry</p>
         </article>
         <article class="bg-surface p-7 md:p-9">
-          <p class="text-[10px] font-semibold tracking-[0.12em] text-accent-dark uppercase mb-3">In development</p>
+          <p class="text-[10px] font-semibold tracking-[0.12em] text-accent-800 uppercase mb-3">In development</p>
           <h3 class="text-xl md:text-2xl font-medium text-text tracking-tight">Next to your data</h3>
           <p class="mt-3 text-text-secondary leading-relaxed">For full runs. The BioChef agent runs the same signed tools on your workstation, a server or a secure environment, so large or sensitive data never has to move.</p>
           <p class="mt-5 font-mono text-xs text-text-tertiary">
-            <a class="text-brand hover:text-brand-dark" href="https://github.com/ieeta-pt/biochef-agent" target="_blank" rel="noreferrer">ieeta-pt/biochef-agent</a>
+            <a class="text-brand-dark underline underline-offset-2 hover:text-brand-800" href="https://github.com/ieeta-pt/biochef-agent" target="_blank" rel="noreferrer">ieeta-pt/biochef-agent</a>
           </p>
         </article>
       </div>
