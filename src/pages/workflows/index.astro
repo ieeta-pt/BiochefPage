@@ -1,9 +1,9 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
-import SectionHeader from '../components/SectionHeader.astro';
-import WorkflowDemo from '../components/WorkflowDemo.astro';
-import { getCatalogStats } from '../utils/catalog';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import WorkflowDemo from '../../components/WorkflowDemo.astro';
+import { getCatalogStats } from '../../utils/catalog';
 // fl-session.mdx is intentionally not imported: WES / TES / federated runtimes
 // are roadmap items. The agent is shown as in development.
 const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
@@ -48,34 +48,41 @@ const steps = [
   },
   {
     title: 'Run on the full data',
-    body: 'Export the workflow as one JSON file. Share it, or run it next to your data with the BioChef agent.',
-    note: 'Agent in development'
+    body: 'Export the workflow as one JSON file, then share it or run it where the data is.',
+    link: { label: 'Where it can run', href: '#runtime' }
   }
 ];
 
-const scenarios = [
+// One list of hands-on tutorials (pages under /workflows/tutorials). Each was
+// checked in the live app; the order is the suggested learning path.
+const tutorials = [
   {
-    what: 'Map reads',
-    how: 'Align reads with minimap2, then sort, index and summarise them with samtools. Test on a small sample here, then run the same workflow on the full dataset.',
-    example: 'reads.fastq → minimap2 → samtools sort → samtools stats',
-    tutorial: '/tutorials/map-reads'
+    slug: 'map-reads',
+    title: 'Map reads to a reference',
+    summary: 'Align reads with minimap2, sort them with samtools and count how many mapped. Start here: every move in the editor is shown.',
+    tools: 'minimap2 · samtools',
+    time: '20 min'
   },
   {
-    what: 'QC and conversion',
-    how: 'Trim and check reads with fastp, triage BAM files with samtools, and convert between formats such as GTF and GFF with gffread.',
-    example: 'raw.fastq → fastp → clean.fastq',
-    tutorial: '/tutorials/read-qc'
+    slug: 'read-qc',
+    title: 'Check and clean reads',
+    summary: 'Filter low-quality reads with fastp and count what is left with seqtk, before and after.',
+    tools: 'fastp · seqtk',
+    time: '15 min'
   },
   {
-    what: 'Viral consensus',
-    how: 'Map reads to a reference and build a consensus genome with ivar or viralconsensus.',
-    example: 'reads.fastq → minimap2 → samtools sort → viralconsensus',
-    tutorial: '/tutorials/viral-consensus'
+    slug: 'viral-consensus',
+    title: 'Build a viral consensus genome',
+    summary: 'Map a sample, call its consensus with ViralConsensus and check that it finds the mutations you know are there.',
+    tools: 'minimap2 · samtools · ViralConsensus',
+    time: '25 min'
   },
   {
-    what: 'Teaching',
-    how: 'Send a workflow file to a class. Everyone imports it in the browser and walks through the same steps.',
-    example: 'workflow.json → Import workflow → Run'
+    slug: 'phylogeny',
+    title: 'Align sequences and build a tree',
+    summary: 'Align eight sequences with muscle, infer their tree with FastTree and compare them with TN93 distances.',
+    tools: 'muscle · FastTree · TN93',
+    time: '20 min'
   }
 ];
 ---
@@ -108,10 +115,8 @@ const scenarios = [
                 <div>
                   <h3 class="text-lg font-medium text-text tracking-tight">{step.title}</h3>
                   <p class="mt-1.5 text-text-secondary leading-relaxed">{step.body}</p>
-                  {step.note && (
-                    <p class="mt-2 inline-flex items-center gap-1.5 text-xs text-[#bf360c]">
-                      <span class="w-1.5 h-1.5 rounded-full border border-[#bf360c]"></span>{step.note}
-                    </p>
+                  {step.link && (
+                    <a class="mt-2 inline-block text-sm font-medium text-brand-dark underline underline-offset-2 hover:text-brand-800" href={step.link.href}>{step.link.label} ↓</a>
                   )}
                 </div>
               </li>
@@ -150,22 +155,30 @@ const scenarios = [
     </div>
   </section>
 
-  <!-- Example Scenarios -->
-  <section class="section">
+  <!-- Tutorials -->
+  <section class="section scroll-mt-24" id="tutorials">
     <div class="container-main">
-      <SectionHeader kicker="In practice" title="What people build" align="left" />
-      <ul class="grid gap-5 md:grid-cols-2">
-        {scenarios.map((x) => (
-          <li class="flex flex-col bg-surface border border-border rounded-xl shadow-card p-6 md:p-8">
-            <h3 class="text-xl md:text-2xl font-medium text-text tracking-tight">{x.what}</h3>
-            <p class="mt-3 text-text-secondary leading-relaxed">{x.how}</p>
-            <p class="mt-auto pt-6 font-mono text-xs md:text-[13px] text-brand-dark wrap-break-word">{x.example}</p>
-            {x.tutorial && (
-              <a class="mt-4 text-sm font-medium text-brand-dark underline underline-offset-2 hover:text-brand-800" href={withBase(x.tutorial)}>Try it step by step →</a>
-            )}
+      <SectionHeader
+        kicker="Tutorials"
+        title="Learn by doing"
+        subtitle="Hands-on tutorials with small example data and the result you should get. Each one runs in your browser and ends with an exercise."
+        align="left"
+      />
+      <ol class="grid gap-5 md:grid-cols-2">
+        {tutorials.map((t, i) => (
+          <li>
+            <a href={withBase(`/workflows/tutorials/${t.slug}`)} class="group flex flex-col h-full bg-surface border border-border rounded-xl shadow-card p-6 md:p-8 transition-shadow hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+              <span class="font-mono text-xs text-brand-dark">{String(i + 1).padStart(2, '0')} · {t.time}</span>
+              <h3 class="mt-2 text-xl md:text-2xl font-medium text-text tracking-tight group-hover:text-brand-dark">{t.title}</h3>
+              <p class="mt-3 text-text-secondary leading-relaxed">{t.summary}</p>
+              <p class="mt-auto pt-6 font-mono text-xs md:text-[13px] text-text-tertiary">{t.tools}</p>
+            </a>
           </li>
         ))}
-      </ul>
+      </ol>
+      <p class="mt-6 text-text-secondary">
+        Teaching a class? Each tutorial includes its data and a finished workflow file, so students can import it and catch up at any step.
+      </p>
     </div>
   </section>
 
@@ -198,7 +211,7 @@ const scenarios = [
   </section>
 
   <!-- Where workflows run -->
-  <section class="section">
+  <section class="section scroll-mt-24" id="runtime">
     <div class="container-main">
       <SectionHeader kicker="Runtime" title="Two places to run" align="left" />
       <div class="grid md:grid-cols-2 gap-px bg-border border border-border rounded-xl overflow-hidden">
