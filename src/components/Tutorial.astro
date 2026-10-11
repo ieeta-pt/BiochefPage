@@ -48,7 +48,8 @@ const ld = {
   url: `https://home.biochef.app/workflows/tutorials/${p.slug}/`,
   keywords: p.keywords,
   learningResourceType: 'hands-on tutorial',
-  educationalLevel: p.level,
+  // TeSS accepts only Beginner, Intermediate or Advanced; the page shows the full level.
+  educationalLevel: p.level.match(/^(Beginner|Intermediate|Advanced)/)?.[1] ?? p.level,
   timeRequired: `PT${p.minutes}M`,
   inLanguage: 'en',
   license: 'https://creativecommons.org/licenses/by/4.0/',
