@@ -1,5 +1,6 @@
 ---
 import Tutorial from '../../../components/Tutorial.astro';
+import { TOOLS } from '../../../data/tools';
 
 // Checked in the live app (biochef.app) with public/tutorials/phylogeny:
 // eight sequences simulated along a known tree; FastTree recovers it.
@@ -53,6 +54,7 @@ const steps = [
   ]}
   data='Eight simulated DNA sequences of 594 to 606 bp in four lineages (A, B, C and D, two sequences each). They evolved along a known tree: A with B, C with D. Small insertions and deletions make their lengths differ. Because it is simulated, you can check the tree you get.'
   downloads={[{ label: 'Download sequences.fasta (5 KB)', file: 'sequences.fasta', primary: true }]}
+  tools={[TOOLS.muscle, TOOLS.fasttree, TOOLS.tn93]}
   steps={steps}
   expected={{
     code: '(lineage_C_2:0.0064,lineage_C_1:0.0070,(((lineage_B_1:0.0067,lineage_B_2:0.0069)0.978:0.0264,\n(lineage_A_1:0.0053,lineage_A_2:0.0082)0.988:0.0253)1.000:0.1325,\n(lineage_D_1:0.0066,lineage_D_2:0.0068)0.992:0.0274)0.977:0.0232);',

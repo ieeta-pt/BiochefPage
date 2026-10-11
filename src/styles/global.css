@@ -817,3 +817,19 @@ details.component-card[open] {
   border: 1px solid var(--color-brand-100);
   color: var(--color-brand-800);
 }
+
+/* Workflows page: "Group by" buttons for the tutorials */
+.tutorial-tab {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+}
+.tutorial-tab:hover {
+  border-color: var(--color-brand-200);
+  color: var(--color-brand-dark);
+}
+.tutorial-tab[aria-pressed='true'] {
+  border-color: var(--color-brand-dark);
+  background: var(--color-brand-dark);
+  color: #fff;
+}

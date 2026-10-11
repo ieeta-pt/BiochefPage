@@ -1,0 +1,73 @@
+---
+import Tutorial from '../../../components/Tutorial.astro';
+import { TOOLS } from '../../../data/tools';
+
+// Checked in the live app (biochef.app): the 8 reliable variants of
+// sample1.vcf against the 11 NCBI-annotated PhiX174 genes give 11 overlaps.
+const steps = [
+  {
+    title: 'Load the files',
+    body: 'Open the <strong>Workflow Builder</strong> at <a href="https://biochef.app/" target="_blank" rel="noreferrer">biochef.app</a>. In <strong>File manager</strong>, upload <code>sample1.vcf</code> and <code>phix-genes.bed</code>, and tick <code>sample1.vcf</code> for the Input node. New to the editor? The <a href="/workflows/tutorials/map-reads/">map reads tutorial</a> shows each move with screenshots.'
+  },
+  {
+    title: 'Keep the reliable variants',
+    body: 'Add <strong>Filter (BCFtools)</strong>, switch on <strong>include</strong> and type <code>QUAL&gt;=30 &amp;&amp; INFO/DP&gt;=10</code>, the same filter as in the <a href="/workflows/tutorials/explore-variants/">explore variants tutorial</a>.'
+  },
+  {
+    title: 'Overlap the variants with the genes',
+    body: 'With the Filter node selected, add <strong>Intersect (bedtools)</strong> and connect the filter to its <em>a</em> dot. Add a second Input node with <code>phix-genes.bed</code> and connect it to <em>b</em>. bedtools reports every place where something in <em>a</em> overlaps something in <em>b</em>.'
+  },
+  {
+    title: 'Ask which gene each variant hits',
+    body: 'Click the Intersect node and switch on <strong>write_b</strong>, so each line shows the variant followed by the gene it falls in. Add an Output and press <strong>▶</strong>.',
+    image: { name: '02-params', alt: 'Intersect (bedtools) settings with write_b switched on.' }
+  },
+  {
+    title: 'Read the result',
+    body: 'Each line is a variant from the VCF, then the gene from the BED file: chromosome, start, end and gene name.',
+    image: { name: '03-result', alt: 'Output with 11 lines: each filtered variant followed by the gene it overlaps.' }
+  }
+];
+---
+
+<Tutorial
+  slug="variants-in-genes"
+  title="Find which genes your variants fall in, in your browser"
+  heading="Which genes do the variants fall in?"
+  subtitle="Overlap filtered variants with gene coordinates using bedtools, and see why one variant can land in two genes. All in your browser."
+  description="A 15-minute hands-on tutorial: filter variants with bcftools and overlap them with annotated genes using bedtools intersect, all in the browser with nothing to install."
+  level="Beginner (the explore variants tutorial helps)"
+  time="About 15 minutes"
+  minutes={15}
+  keywords={['variant annotation', 'bedtools intersect', 'VCF', 'BED', 'genes', 'workflow']}
+  learn={[
+    'Combine two inputs in one workflow',
+    'Overlap variants with gene coordinates using bedtools intersect',
+    'Read overlap output, including variants in overlapping genes',
+    'Count variants per gene'
+  ]}
+  tools={[TOOLS.bcftools, TOOLS.bedtools]}
+  data='<code>sample1.vcf</code>, the 12 variants from the <a href="/workflows/tutorials/explore-variants/">explore variants tutorial</a>, and <code>phix-genes.bed</code>, the 11 genes of PhiX174 as annotated by NCBI (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001422.1" target="_blank" rel="noreferrer">NC_001422.1</a>). Genes A, A* and B cross the end of the circular genome, so each takes two lines.'
+  downloads={[
+    { label: 'Download sample1.vcf (1 KB)', file: 'sample1.vcf', primary: true },
+    { label: 'Download phix-genes.bed (1 KB)', file: 'phix-genes.bed' }
+  ]}
+  steps={steps}
+  expected={{
+    code: 'variant  gene\n150      K\n150      C\n612      D\n612      E\n1450     F\n2201     F\n3077     H\n3400     H\n3999     A\n4810     A\n4810     A*',
+    body: 'Shortened here to the variant position and gene name. The 8 variants give <strong>11</strong> lines because three of them sit in two genes at once: PhiX174 packs genes inside other genes, read in different frames. Position 150 is in both K and C, 612 in D and E, and 4810 in A and A*.'
+  }}
+  extras={[
+    {
+      title: 'Use the finished workflow',
+      body: 'Import the finished workflow, data included, and press ▶. Remember that an exported workflow contains the data loaded in its Input nodes.',
+      downloads: [{ label: 'Download the finished workflow (JSON)', file: 'variants-in-genes-workflow.json' }]
+    }
+  ]}
+  exercise={{
+    title: 'Exercise: how many variants does each gene have?',
+    body: 'Swap the inputs of Intersect: genes into <em>a</em>, filtered variants into <em>b</em>. Switch <strong>write_b</strong> off and <strong>count_overlaps</strong> on, then run. Each gene line now ends with its number of variants: F, H and A have <strong>2</strong>; K, C, D, E and A* have <strong>1</strong>; B, J and G have <strong>0</strong>.',
+    image: { name: '04-exercise', alt: 'Output listing each gene line of the BED file with a final column counting its variants.' },
+    solution: { label: 'Download the solution workflow (JSON)', file: 'variants-in-genes-solution.json' }
+  }}
+/>

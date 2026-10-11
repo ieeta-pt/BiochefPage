@@ -1,0 +1,83 @@
+---
+import Tutorial from '../../../components/Tutorial.astro';
+import { TOOLS } from '../../../data/tools';
+
+// Checked in the live app (biochef.app): 26 simulated amplicons over PhiX174
+// with six known mutations; iVar passes exactly those six.
+const steps = [
+  {
+    title: 'Load the three files',
+    body: 'Open the <strong>Workflow Builder</strong> at <a href="https://biochef.app/" target="_blank" rel="noreferrer">biochef.app</a>. In <strong>File manager</strong>, upload <code>amplicon-reads.fastq</code>, <code>phix174.fasta</code> and <code>phix-primers.bed</code>, and tick the reads for the Input node. New to the editor? The <a href="/workflows/tutorials/map-reads/">map reads tutorial</a> shows each move with screenshots.'
+  },
+  {
+    title: 'Map and sort',
+    body: 'Add <strong>Align (minimap2)</strong> with the reads in <em>reads</em> and a second Input with <code>phix174.fasta</code> in <em>ref</em>, switch on <strong>sam_output</strong>, then add <strong>Sort (samtools)</strong>.'
+  },
+  {
+    title: 'Trim the primers',
+    body: 'Select Sort and add <strong>Trim Primers (ivar)</strong>. Connect Sort to its <em>in</em> and a third Input with <code>phix-primers.bed</code> to <em>primers_bed</em>. Primer bases come from the primer, not from the sample, so they must not count as evidence. Its log may say it <em>could not retrieve index file</em>: that is only a notice, and trimming still happens.'
+  },
+  {
+    title: 'Pile up the reads',
+    body: 'Add a second <strong>Sort (samtools)</strong> after the trim, then <strong>Mpileup (samtools)</strong>. On mpileup switch on <strong>count_anomalous</strong>, <strong>disable_BAQ</strong>, <strong>min_base_qual</strong> = <code>0</code> and <strong>max_depth</strong> = <code>0</code>, settings taken from the iVar manual. A pileup lists, for each position, every read base that covers it.',
+    image: { name: '02-mpileup', alt: 'Mpileup (samtools) settings with min_base_qual 0, max_depth 0, count_anomalous and disable_BAQ switched on.' }
+  },
+  {
+    title: 'Call variants and the consensus',
+    body: 'Select mpileup and add <strong>Variants (ivar)</strong>, with the reference also into its <em>fasta_ref</em>. Select mpileup again and add <strong>Consensus (ivar)</strong>. Give each an Output and press <strong>▶</strong>.',
+    image: { name: '01-workflow', alt: 'Workflow: reads, reference and primer BED Inputs; minimap2, Sort, Trim Primers (ivar), Sort, Mpileup, then Variants (ivar) and Consensus (ivar) with Outputs.' }
+  },
+  {
+    title: 'Read the variants table',
+    body: 'Each row is a position where some reads differ from the reference: <code>ALT_FREQ</code> is the share of reads with the alternative base and <code>PASS</code> says whether iVar’s statistical test accepts it.',
+    image: { name: '03-variants', alt: 'Output with the iVar variants table: one row per position, with depth, frequency and PASS columns.' }
+  }
+];
+---
+
+<Tutorial
+  slug="amplicon"
+  title="Analyse amplicon sequencing of a virus in your browser"
+  heading="Amplicon sequencing of a virus"
+  subtitle="Trim primers, call variants and build a consensus from tiled amplicons with iVar, the approach used for SARS-CoV-2 genomic surveillance. All in your browser."
+  description="A 30-minute hands-on tutorial: map amplicon reads, trim primers and call variants and a consensus with iVar and samtools, all in the browser with nothing to install."
+  level="Intermediate (the viral consensus tutorial helps)"
+  time="About 30 minutes"
+  minutes={30}
+  keywords={['amplicon sequencing', 'iVar', 'primer trimming', 'genomic surveillance', 'virus', 'workflow']}
+  learn={[
+    'Build a longer workflow with three inputs',
+    'Trim primer sequences from amplicon reads',
+    'Make a pileup and call variants with iVar',
+    'Tell real variants from sequencing errors by frequency'
+  ]}
+  tools={[TOOLS.minimap2, TOOLS.samtools, TOOLS.ivar]}
+  data='A simulated tiled-amplicon run over bacteriophage PhiX174 (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001422.1" target="_blank" rel="noreferrer">NC_001422.1</a>): 26 overlapping amplicons of 250 bp, 1,040 reads of 150 bp from both ends of each, a BED file with the 52 primers (22 bp each), and the reference. The sample carries six mutations at known positions (612, 1450, 2201, 3077, 3999, 4810), none of them under a primer.'
+  downloads={[
+    { label: 'Download amplicon-reads.fastq (333 KB)', file: 'amplicon-reads.fastq', primary: true },
+    { label: 'Download phix174.fasta (5 KB)', file: 'phix174.fasta' },
+    { label: 'Download phix-primers.bed (2 KB)', file: 'phix-primers.bed' }
+  ]}
+  steps={steps}
+  expected={{
+    code: 'POS   REF ALT ALT_DP ALT_FREQ TOTAL_DP PASS\n612   G   A   20     1        20       TRUE\n1450  T   C   20     1        20       TRUE\n2201  T   C   20     1        20       TRUE\n3077  T   C   40     1        40       TRUE\n3999  C   T   19     0.95     20       TRUE\n4810  G   A   20     1        20       TRUE',
+    body: 'The table has 167 rows, but only six have <code>PASS</code> = TRUE: exactly the six mutations in the sample, seen in all or nearly all reads. The other 161 rows are single sequencing errors at 5% frequency (1 read in 20). The consensus starts at position 73, right after the first primer (51–72), and ends at 5278, right before the last one (5279–5300): the primers were trimmed.'
+  }}
+  extras={[
+    {
+      title: 'Why 3077 has twice the depth',
+      body: 'Amplicons overlap by 50 bp so that no position is left out. Position 3077 falls in such an overlap, so reads from two amplicons cover it: depth 40 instead of 20.'
+    },
+    {
+      title: 'Use the finished workflow',
+      body: 'Import the finished workflow, data included, and press ▶. Remember that an exported workflow contains the data loaded in its Input nodes.',
+      downloads: [{ label: 'Download the finished workflow (JSON)', file: 'amplicon-workflow.json' }]
+    }
+  ]}
+  exercise={{
+    title: 'Exercise: report only real variants',
+    body: 'On Variants (ivar), switch on <strong>min_freq_threshold</strong> and type <code>0.5</code>: report a variant only if at least half of the reads carry it. Run again. The table shrinks from 167 rows to the <strong>6</strong> real mutations.',
+    image: { name: '05-exercise', alt: 'iVar variants output with min_freq_threshold 0.5: six rows, all PASS TRUE.' },
+    solution: { label: 'Download the solution workflow (JSON)', file: 'amplicon-solution.json' }
+  }}
+/>

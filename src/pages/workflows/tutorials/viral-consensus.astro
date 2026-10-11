@@ -1,5 +1,6 @@
 ---
 import Tutorial from '../../../components/Tutorial.astro';
+import { TOOLS } from '../../../data/tools';
 
 // Checked in the live app (biochef.app) with the files in
 // public/tutorials/viral-consensus. The sample is PhiX174 with six known
@@ -57,6 +58,7 @@ const steps = [
     { label: 'Download phix174.fasta (5 KB)', file: 'phix174.fasta', primary: true },
     { label: 'Download sample-reads.fastq (377 KB)', file: 'sample-reads.fastq' }
   ]}
+  tools={[TOOLS.minimap2, TOOLS.samtools, TOOLS.viralconsensus]}
   steps={steps}
   expected={{
     code: 'viral_consensus  0  NC_001422.1  45  60  44S5324M18S  ...  NM:i:6  MD:Z:567G837T750T875T921C810G558',

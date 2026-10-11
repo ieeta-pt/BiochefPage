@@ -1,0 +1,74 @@
+---
+import Tutorial from '../../../components/Tutorial.astro';
+import { TOOLS } from '../../../data/tools';
+
+// Checked in the live app (biochef.app) with sample_R1/R2.fastq: 300 pairs,
+// 20 low-quality; 200 short fragments merge, 80 long ones do not.
+const steps = [
+  {
+    title: 'Load both files of the pair',
+    body: 'Open the <strong>Workflow Builder</strong> at <a href="https://biochef.app/" target="_blank" rel="noreferrer">biochef.app</a>. In <strong>File manager</strong>, upload <code>sample_R1.fastq</code> and <code>sample_R2.fastq</code>, and tick <code>sample_R1.fastq</code> for the Input node. Read <em>n</em> in R1 and read <em>n</em> in R2 come from the two ends of the same DNA fragment. New to the editor? The <a href="/workflows/tutorials/map-reads/">map reads tutorial</a> shows each move with screenshots.'
+  },
+  {
+    title: 'Clean the pairs',
+    body: 'Search <code>pair-end</code> and add <strong>Pair-End QC (FASTP)</strong>; connect R1 to <em>in1</em>. Add a second Input with <code>sample_R2.fastq</code> and connect it to <em>in2</em>. fastp checks both reads and keeps or drops each pair as a unit, so the two files stay in step.'
+  },
+  {
+    title: 'Merge overlapping pairs',
+    body: 'Select the QC node and add <strong>Merge Reads (FASTP)</strong>. Connect <em>out1</em> to <em>in1</em> and <em>out2</em> to <em>in2</em>. When a fragment is shorter than the two reads together, the reads overlap in the middle and fastp joins them into one longer read. By default it needs an overlap of at least 30 bases.',
+    image: { name: '02-merge', alt: 'Merge Reads (FASTP) settings: include_unmerged, overlap_len_require, overlap_diff_limit and overlap_diff_percent_limit, all off.' }
+  },
+  {
+    title: 'Count what you get',
+    body: 'Add <strong>Size (SEQTK)</strong> after the merge’s <em>merged_out</em>, and a second one after its <em>out1</em>, the pairs that could not be merged. Give each an Output and press <strong>▶</strong>.',
+    image: { name: '01-workflow', alt: 'Workflow: R1 and R2 Inputs into Pair-End QC (FASTP), then Merge Reads (FASTP), then two Size (SEQTK) nodes with Outputs.' }
+  },
+  {
+    title: 'Check the QC report',
+    body: 'Hover the <strong>ⓘ</strong> on the QC node: it lists how many reads passed and why the others failed.',
+    image: { name: '04-qc-log', alt: 'fastp log: 560 reads passed filter, 40 failed due to low quality.' }
+  }
+];
+---
+
+<Tutorial
+  slug="paired-end"
+  title="Clean and merge paired-end reads in your browser"
+  heading="Clean and merge paired-end reads"
+  subtitle="Quality-filter read pairs with fastp, merge the pairs that overlap into single longer reads, and count the result. All in your browser."
+  description="A 15-minute hands-on tutorial: quality-filter paired-end FASTQ files with fastp, merge overlapping pairs and count merged and unmerged reads with seqtk, all in the browser with nothing to install."
+  level="Beginner (the read QC tutorial helps)"
+  time="About 15 minutes"
+  minutes={15}
+  keywords={['paired-end reads', 'read merging', 'fastp', 'quality control', 'seqtk', 'workflow']}
+  learn={[
+    'Handle the two files of paired-end sequencing together',
+    'Filter pairs by quality with fastp',
+    'Merge pairs whose reads overlap',
+    'See how fragment length decides whether a pair can merge'
+  ]}
+  tools={[TOOLS.fastp, TOOLS.seqtk]}
+  data='Two files, <code>sample_R1.fastq</code> and <code>sample_R2.fastq</code>, with 300 simulated read pairs of 2 × 150 bp from bacteriophage PhiX174: 200 pairs from 250 bp fragments (their reads overlap by 50 bp), 80 pairs from 400 bp fragments (no overlap) and 20 low-quality pairs.'
+  downloads={[
+    { label: 'Download sample_R1.fastq (95 KB)', file: 'sample_R1.fastq', primary: true },
+    { label: 'Download sample_R2.fastq (95 KB)', file: 'sample_R2.fastq' }
+  ]}
+  steps={steps}
+  expected={{
+    code: 'merged:            200   50000\nnot merged (R1):    80   12000',
+    body: 'QC drops the <strong>20</strong> low-quality pairs (40 reads), leaving 280 pairs. The <strong>200</strong> pairs from 250 bp fragments merge into 200 reads of exactly 250 bp (50,000 bases). The <strong>80</strong> pairs from 400 bp fragments do not overlap, so they stay as pairs.'
+  }}
+  extras={[
+    {
+      title: 'Use the finished workflow',
+      body: 'Import the finished workflow, data included, and press ▶. Remember that an exported workflow contains the data loaded in its Input nodes.',
+      downloads: [{ label: 'Download the finished workflow (JSON)', file: 'paired-end-workflow.json' }]
+    }
+  ]}
+  exercise={{
+    title: 'Exercise: ask for a longer overlap',
+    body: 'On the merge node, switch on <strong>overlap_len_require</strong> and type <code>60</code>. Run again. No pair merges now (<strong>0</strong>), and all <strong>280</strong> stay as pairs: their reads overlap by only 50 bases, less than the 60 you asked for.',
+    image: { name: '05-exercise', alt: 'Output after raising overlap_len_require to 60: 280 unmerged R1 reads, 42000 bases.' },
+    solution: { label: 'Download the solution workflow (JSON)', file: 'paired-end-solution.json' }
+  }}
+/>

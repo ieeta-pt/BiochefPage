@@ -1,0 +1,71 @@
+---
+import Tutorial from '../../../components/Tutorial.astro';
+import { TOOLS } from '../../../data/tools';
+
+// Checked in the live app (biochef.app) with sample1.vcf: 12 variants, of
+// which 8 have QUAL >= 30 and depth >= 10.
+const steps = [
+  {
+    title: 'Load the variants',
+    body: 'Open the <strong>Workflow Builder</strong> at <a href="https://biochef.app/" target="_blank" rel="noreferrer">biochef.app</a>. In <strong>File manager</strong>, upload <code>sample1.vcf</code> and tick it for the Input node. New to the editor? The <a href="/workflows/tutorials/map-reads/">map reads tutorial</a> shows each move with screenshots.'
+  },
+  {
+    title: 'Summarise the file',
+    body: 'Search <code>stats</code> and add <strong>Stats (BCFtools)</strong>; connect the Input to it and add an Output. bcftools stats counts what is in the file before you change anything.'
+  },
+  {
+    title: 'Keep the reliable variants',
+    body: 'Select the Input again and add <strong>Filter (BCFtools)</strong>. Switch on <strong>include</strong> and type <code>QUAL&gt;=30 &amp;&amp; INFO/DP&gt;=10</code>: keep a variant only if its quality is at least 30 and at least 10 reads cover it.',
+    image: { name: '02-filter', alt: 'Filter (BCFtools) settings with include set to QUAL>=30 && INFO/DP>=10.' }
+  },
+  {
+    title: 'Turn them into a table',
+    body: 'Add <strong>Query (BCFtools)</strong> after the filter. In its required <strong>format</strong> field type <code>%POS\\t%REF\\t%ALT\\t%QUAL\\t%INFO/DP\\n</code>: one line per variant with its position, reference and alternative bases, quality and depth, separated by tabs. Switch on <strong>print_header</strong> to label the columns, and add an Output.',
+    image: { name: '03-query', alt: 'Query (BCFtools) settings with the format string and print_header switched on.' }
+  },
+  {
+    title: 'Run and compare',
+    body: 'Press <strong>▶</strong>. The Stats output describes all 12 variants; the table shows the ones that passed.',
+    image: { name: '01-workflow', alt: 'Workflow: Input feeding Stats (BCFtools) with an Output, and Filter (BCFtools) then Query (BCFtools) with an Output.' }
+  }
+];
+---
+
+<Tutorial
+  slug="explore-variants"
+  title="Explore and filter variants in your browser"
+  heading="Explore and filter variants"
+  subtitle="Summarise a VCF file, keep the variants with enough quality and depth, and turn them into a readable table with bcftools. All in your browser."
+  description="A 15-minute hands-on tutorial: summarise a VCF with bcftools stats, filter variants by quality and depth, and extract a table with bcftools query, all in the browser with nothing to install."
+  level="Beginner (the map reads tutorial helps)"
+  time="About 15 minutes"
+  minutes={15}
+  keywords={['VCF', 'variant filtering', 'bcftools', 'genetic variants', 'workflow']}
+  learn={[
+    'Summarise a VCF file with bcftools stats',
+    'Filter variants by quality and read depth',
+    'Extract chosen fields into a table with bcftools query',
+    'Mark weak variants instead of removing them'
+  ]}
+  tools={[TOOLS.bcftools]}
+  data='<code>sample1.vcf</code>: 12 variants in one sample against the PhiX174 genome (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001422.1" target="_blank" rel="noreferrer">NC_001422.1</a>), 11 single-base changes and one 3-base deletion. Eight have good quality and depth; four do not. The file is written for this tutorial, so you know which variants should pass.'
+  downloads={[{ label: 'Download sample1.vcf (1 KB)', file: 'sample1.vcf', primary: true }]}
+  steps={steps}
+  expected={{
+    code: '# [1]POS  [2]REF  [3]ALT  [4]QUAL  [5]DP\n150   A     G   58  34\n612   G     A   62  31\n1450  T     C   60  33\n2201  T     C   57  29\n3077  T     C   61  35\n3400  TGCA  T   40  27\n3999  C     T   59  30\n4810  G     A   63  32',
+    body: 'Stats reports <strong>12</strong> records: <strong>11</strong> SNPs and <strong>1</strong> indel. The filter keeps <strong>8</strong>: seven SNPs and the deletion at 3400 (<code>TGCA</code> becomes <code>T</code>). The four that go fail on quality (positions 1088, 2650, 4400) or depth (1088, 1702, 4400).'
+  }}
+  extras={[
+    {
+      title: 'Use the finished workflow',
+      body: 'Import the finished workflow, data included, and press ▶. Remember that an exported workflow contains the data loaded in its Input nodes.',
+      downloads: [{ label: 'Download the finished workflow (JSON)', file: 'explore-variants-workflow.json' }]
+    }
+  ]}
+  exercise={{
+    title: 'Exercise: mark weak variants instead of removing them',
+    body: 'On the Filter node, switch <strong>include</strong> off, switch on <strong>exclude</strong> with <code>QUAL&lt;30 || INFO/DP&lt;10</code> and <strong>soft_filter</strong> with <code>LowQual</code>. In Query, change the format to <code>%POS\\t%QUAL\\t%INFO/DP\\t%FILTER\\n</code>. All 12 variants stay, and the FILTER column says <code>PASS</code> or <code>LowQual</code>, so nothing is lost and anyone can see why.',
+    image: { name: '06-exercise', alt: 'Table of all 12 variants with a FILTER column: PASS for eight and LowQual for positions 1088, 1702, 2650 and 4400.' },
+    solution: { label: 'Download the solution workflow (JSON)', file: 'explore-variants-solution.json' }
+  }}
+/>
