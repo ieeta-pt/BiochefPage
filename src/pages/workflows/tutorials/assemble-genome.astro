@@ -1,0 +1,75 @@
+---
+import Tutorial from '../../../components/Tutorial.astro';
+import { TOOLS } from '../../../data/tools';
+
+// Checked in the live app (biochef.app): 1,500 simulated PhiX174 reads
+// assemble into one 5,375 bp contig that matches the reference.
+const steps = [
+  {
+    title: 'Load the reads',
+    body: 'Open the <strong>Workflow Builder</strong> at <a href="https://biochef.app/" target="_blank" rel="noreferrer">biochef.app</a>. In <strong>File manager</strong>, upload <code>phix-reads.fastq</code> and <code>phix174.fasta</code>, and tick <code>phix-reads.fastq</code> for the Input node. New to the editor? The <a href="/workflows/tutorials/map-reads/">map reads tutorial</a> shows each move with screenshots.'
+  },
+  {
+    title: 'Assemble',
+    body: 'Search <code>fermi</code> and add <strong>De Novo Assemble (fermi-lite)</strong>; connect the reads to it and add an Output. fermi-lite uses only the reads: no reference is involved in this step.',
+    image: { name: '02-params', alt: 'De Novo Assemble (fermi-lite) settings, all left at their defaults.' }
+  },
+  {
+    title: 'Compare the assembly with the reference',
+    body: 'Select fermi-lite and add <strong>Align (minimap2)</strong>: assembly into <em>reads</em>, a second Input with <code>phix174.fasta</code> into <em>ref</em>. Leave <strong>sam_output</strong> off, so minimap2 writes PAF, a table, and add an Output.',
+    image: { name: '01-workflow', alt: 'Workflow: reads into De Novo Assemble (fermi-lite) with an Output, then Align (minimap2) against the reference with an Output.' }
+  },
+  {
+    title: 'Run and look at the contig',
+    body: 'Press <strong>▶</strong> and click the first Output. fermi-lite writes contigs in FASTQ form: a name line, the sequence, then a line of characters that encode read coverage instead of base quality. The app notes that this output is FASTQ rather than the FASTA it expected; minimap2 reads it either way.',
+    image: { name: '03-contig', alt: 'Output with a single contig in FASTQ form.' }
+  },
+  {
+    title: 'Read the comparison',
+    body: 'Click the second Output. A PAF line gives the contig name and length, where it starts and ends, the strand, the reference name and length, where it lands on the reference, then the number of matching bases and the alignment length.',
+    image: { name: '04-paf', alt: 'Output with one PAF line: contig of 5375 bp aligned to NC_001422.1 from position 18 to 5381.' }
+  }
+];
+---
+
+<Tutorial
+  slug="assemble-genome"
+  title="Assemble a small genome from reads in your browser"
+  heading="Assemble a small genome from reads"
+  subtitle="Put a phage genome back together from short reads with fermi-lite, without a reference, then check the result against the known genome with minimap2. All in your browser."
+  description="A 20-minute hands-on tutorial: assemble a small genome de novo from short reads with fermi-lite and compare the contig with the reference using minimap2, all in the browser with nothing to install."
+  level="Beginner (the map reads tutorial helps)"
+  time="About 20 minutes"
+  minutes={20}
+  keywords={['de novo assembly', 'fermi-lite', 'contigs', 'minimap2', 'PAF', 'workflow']}
+  learn={[
+    'Assemble reads into contigs without a reference',
+    'Compare a contig with a reference genome in PAF format',
+    'Read identity and coverage from a PAF line',
+    'Find differences between an assembly and a reference'
+  ]}
+  tools={[TOOLS.fermilite, TOOLS.minimap2]}
+  data='1,500 simulated reads of 150 bp (about 42× coverage, 0.2% errors) from bacteriophage PhiX174, and its reference genome (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001422.1" target="_blank" rel="noreferrer">NC_001422.1</a>) for the check. Because the reads come from the reference, you know what the assembly should be.'
+  downloads={[
+    { label: 'Download phix-reads.fastq (479 KB)', file: 'phix-reads.fastq', primary: true },
+    { label: 'Download phix174.fasta (5 KB)', file: 'phix174.fasta' }
+  ]}
+  steps={steps}
+  expected={{
+    code: '0:1  5375  3  5367  -  NC_001422.1  5386  17  5381  5364  5364  60',
+    body: 'The reads assemble into <strong>one contig of 5,375 bp</strong>, almost the whole 5,386 bp genome. It aligns to the reference from position 18 to 5381 (PAF counts from 0, so the 17 means position 18), on the reverse strand (<code>-</code>), with <strong>5,364 of 5,364</strong> bases identical. The few bases missing at the ends are the ends of a circular genome read as a line: fewer reads reach them.'
+  }}
+  extras={[
+    {
+      title: 'Use the finished workflow',
+      body: 'Import the finished workflow, data included, and press ▶. Remember that an exported workflow contains the data loaded in its Input nodes.',
+      downloads: [{ label: 'Download the finished workflow (JSON)', file: 'assemble-genome-workflow.json' }]
+    }
+  ]}
+  exercise={{
+    title: 'Exercise: assemble a sample with mutations',
+    body: 'In the reads Input, load <code>sample-reads.fastq</code> from the <a href="/workflows/tutorials/viral-consensus/">viral consensus tutorial</a> instead. On the minimap2 node, switch on <strong>output_cigar</strong> so the PAF line also counts differences. Run again: one contig of 5,381 bp with <code>NM:i:6</code>, six differences from the reference. The sample was simulated with six mutations, and the assembly finds six differences without using the reference to build the genome.',
+    image: { name: '05-exercise', alt: 'PAF output for the assembled sample: one contig of 5381 bp, NM:i:6.' },
+    solution: { label: 'Download the solution workflow (JSON)', file: 'assemble-genome-solution.json' }
+  }}
+/>

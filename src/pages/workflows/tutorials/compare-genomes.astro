@@ -1,0 +1,70 @@
+---
+import Tutorial from '../../../components/Tutorial.astro';
+import { TOOLS } from '../../../data/tools';
+
+// Checked in the live app (biochef.app): PhiX174 (NC_001422.1) and S13
+// (NC_001424.1) align in two blocks because the circular genomes start at
+// different points.
+const steps = [
+  {
+    title: 'Load the two genomes',
+    body: 'Open the <strong>Workflow Builder</strong> at <a href="https://biochef.app/" target="_blank" rel="noreferrer">biochef.app</a>. In <strong>File manager</strong>, upload <code>phix174.fasta</code> and <code>s13.fasta</code>, and tick <code>s13.fasta</code> for the Input node. New to the editor? The <a href="/workflows/tutorials/map-reads/">map reads tutorial</a> shows each move with screenshots.'
+  },
+  {
+    title: 'Align one genome to the other',
+    body: 'Add <strong>Align (minimap2)</strong>: S13 into <em>reads</em>, a second Input with <code>phix174.fasta</code> into <em>ref</em>. PhiX174 is the reference: positions are reported on its coordinates.'
+  },
+  {
+    title: 'Use the genome-to-genome settings',
+    body: 'Click the minimap2 node. Switch on <strong>preset</strong> and type <code>asm5</code>, the setting for aligning one assembly to another when they differ by well under 5%, as these two do. Switch on <strong>output_cigar</strong> so each line also counts the differences (<code>NM</code>). Leave <strong>sam_output</strong> off to get PAF, a table.',
+    image: { name: '02-params', alt: 'Align (minimap2) settings with preset set to asm5 and output_cigar switched on.' }
+  },
+  {
+    title: 'Run and read the PAF table',
+    body: 'Add an Output and press <strong>▶</strong>. Each line is one aligned block: query name, length, start and end; strand; reference name, length, start and end; matching bases; block length; mapping quality; then tags such as <code>NM</code>.',
+    image: { name: '03-paf', alt: 'Output with two PAF lines comparing S13 with PhiX174.' }
+  }
+];
+---
+
+<Tutorial
+  slug="compare-genomes"
+  title="Compare two related genomes in your browser"
+  heading="Compare two related genomes"
+  subtitle="Align the genomes of two related phages with minimap2, measure how similar they are, and discover why a circular genome can align in two pieces. All in your browser."
+  description="A 15-minute hands-on tutorial: compare the genomes of phages PhiX174 and S13 with minimap2 in assembly mode, read the PAF output and interpret a rotated circular genome, all in the browser."
+  level="Beginner (the map reads tutorial helps)"
+  time="About 15 minutes"
+  minutes={15}
+  keywords={['genome comparison', 'minimap2', 'PAF', 'sequence identity', 'phage', 'workflow']}
+  learn={[
+    'Align a whole genome against another with minimap2',
+    'Read identity and differences from PAF output',
+    'Understand why circular genomes can align in pieces',
+    'See how the choice of reference changes the coordinates'
+  ]}
+  tools={[TOOLS.minimap2]}
+  data='Two real genomes from NCBI: bacteriophage PhiX174 (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001422.1" target="_blank" rel="noreferrer">NC_001422.1</a>) and its close relative S13 (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001424.1" target="_blank" rel="noreferrer">NC_001424.1</a>), both 5,386 bp.'
+  downloads={[
+    { label: 'Download phix174.fasta (5 KB)', file: 'phix174.fasta', primary: true },
+    { label: 'Download s13.fasta (5 KB)', file: 's13.fasta' }
+  ]}
+  steps={steps}
+  expected={{
+    code: 'NC_001424.1 5386 1469 5382 + NC_001422.1 5386    0 3913 3828 3913 60 NM:i:85\nNC_001424.1 5386   49 1469 + NC_001422.1 5386 3966 5386 1400 1420 60 NM:i:20',
+    body: 'Two blocks, not one. Both genomes are circles, but each was written down from a different starting point. S13 from 1470 onwards matches the start of PhiX174, and S13’s first part matches PhiX174’s end. Together: <strong>5,228 identical bases out of 5,333 aligned</strong> (about <strong>98%</strong>), with 105 differences. PAF counts positions from 0.'
+  }}
+  extras={[
+    {
+      title: 'Use the finished workflow',
+      body: 'Import the finished workflow, data included, and press ▶. Remember that an exported workflow contains the data loaded in its Input nodes.',
+      downloads: [{ label: 'Download the finished workflow (JSON)', file: 'compare-genomes-workflow.json' }]
+    }
+  ]}
+  exercise={{
+    title: 'Exercise: swap the reference',
+    body: 'Swap the connections so that PhiX174 goes into <em>reads</em> and S13 into <em>ref</em>, and run again. You get the same two blocks and the same numbers, with the coordinates on the other side: PhiX174 0–3913 now lands on S13 1469–5382. The choice of reference decides whose positions you read.',
+    image: { name: '04-exercise', alt: 'PAF output with PhiX174 as query and S13 as reference: the same two blocks with coordinates swapped.' },
+    solution: { label: 'Download the solution workflow (JSON)', file: 'compare-genomes-solution.json' }
+  }}
+/>

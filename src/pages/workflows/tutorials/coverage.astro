@@ -1,0 +1,77 @@
+---
+import Tutorial from '../../../components/Tutorial.astro';
+import { TOOLS } from '../../../data/tools';
+
+// Checked in the live app (biochef.app): an amplicon run with one amplicon
+// missing; samtools and gawk report exactly the three low-coverage regions.
+const steps = [
+  {
+    title: 'Load the reads',
+    body: 'Open the <strong>Workflow Builder</strong> at <a href="https://biochef.app/" target="_blank" rel="noreferrer">biochef.app</a>. In <strong>File manager</strong>, upload <code>run2-reads.fastq</code> and <code>phix174.fasta</code>, and tick the reads for the Input node. New to the editor? The <a href="/workflows/tutorials/map-reads/">map reads tutorial</a> shows each move with screenshots.'
+  },
+  {
+    title: 'Map and sort',
+    body: 'Add <strong>Align (minimap2)</strong> with the reads in <em>reads</em> and a second Input with <code>phix174.fasta</code> in <em>ref</em>, switch on <strong>sam_output</strong>, then add <strong>Sort (samtools)</strong>.'
+  },
+  {
+    title: 'Get the overall coverage',
+    body: 'Select Sort and add <strong>Coverage (samtools)</strong> with an Output. It gives one summary line per sequence: reads, bases covered, percentage covered and mean depth.'
+  },
+  {
+    title: 'Get the depth at every position',
+    body: 'Select Sort again and add <strong>Depth (samtools)</strong>. Switch on <strong>all_positions</strong> so that positions with no reads are listed too, with depth 0. The output has one line per position: sequence name, position, depth.'
+  },
+  {
+    title: 'List the low-coverage regions',
+    body: 'After Depth, add <strong>Script (gawk)</strong> and, in its required <strong>program</strong> field, paste:<br><code>$3 &lt; 10 { if (!s) s = $2; e = $2; next } s { print $1, s, e; s = 0 } END { if (s) print $1, s, e }</code><br>For each run of positions with depth below 10, it prints where the run starts and ends. Add an Output and press <strong>▶</strong>.',
+    image: { name: '02-gawk', alt: 'Script (gawk) settings with the program that reports runs of positions with depth below 10.' }
+  },
+  {
+    title: 'Read both results',
+    body: 'Click the two Outputs: the coverage summary, and the list of low-coverage regions.',
+    image: { name: '01-workflow', alt: 'Workflow: reads and reference into minimap2, Sort, then Coverage (samtools) with an Output and Depth (samtools), Script (gawk) with an Output.' }
+  }
+];
+---
+
+<Tutorial
+  slug="coverage"
+  title="Find where a genome is poorly covered, in your browser"
+  heading="Find where coverage drops"
+  subtitle="Measure how much of a genome your reads cover, and list the exact regions where coverage drops, with samtools and a one-line gawk program. All in your browser."
+  description="A 20-minute hands-on tutorial: compute coverage and per-position depth with samtools and list low-coverage regions with gawk, using an amplicon run with one failed amplicon, all in the browser."
+  level="Beginner (the map reads tutorial helps)"
+  time="About 20 minutes"
+  minutes={20}
+  keywords={['coverage', 'sequencing depth', 'samtools', 'amplicon dropout', 'gawk', 'workflow']}
+  learn={[
+    'Summarise coverage with samtools coverage',
+    'Get the depth at every position with samtools depth',
+    'Turn a long table into a short answer with gawk',
+    'Spot an amplicon that failed'
+  ]}
+  tools={[TOOLS.minimap2, TOOLS.samtools, TOOLS.gawk]}
+  data='A simulated amplicon run over bacteriophage PhiX174 (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001422.1" target="_blank" rel="noreferrer">NC_001422.1</a>): 1,000 reads of 150 bp from 25 of the 26 amplicons used in the <a href="/workflows/tutorials/amplicon/">amplicon tutorial</a>. Amplicon 12 (positions 2251–2500) failed, as happens in real runs, and you will find where.'
+  downloads={[
+    { label: 'Download run2-reads.fastq (321 KB)', file: 'run2-reads.fastq', primary: true },
+    { label: 'Download phix174.fasta (5 KB)', file: 'phix174.fasta' }
+  ]}
+  steps={steps}
+  expected={{
+    code: '#rname       startpos endpos numreads covbases coverage meandepth\nNC_001422.1  1        5386   1000     5100     94.6899  27.8455\n\nNC_001422.1 1 50\nNC_001422.1 2301 2450\nNC_001422.1 5301 5386',
+    body: 'Reads cover <strong>5,100</strong> of 5,386 bases (<strong>94.7%</strong>), at a mean depth of 27.8. Three regions fall below 10 reads. Positions 1–50 and 5301–5386 lie outside the first and last amplicons. Positions <strong>2301–2450</strong> are the gap left by the failed amplicon: the neighbouring amplicons overlap it only at its edges.'
+  }}
+  extras={[
+    {
+      title: 'Use the finished workflow',
+      body: 'Import the finished workflow, data included, and press ▶. Remember that an exported workflow contains the data loaded in its Input nodes.',
+      downloads: [{ label: 'Download the finished workflow (JSON)', file: 'coverage-workflow.json' }]
+    }
+  ]}
+  exercise={{
+    title: 'Exercise: draw the coverage',
+    body: 'On Coverage (samtools), switch on <strong>histogram</strong> and run again. samtools draws the coverage along the genome in text. The output panel is narrow and wraps long lines, so the drawing is easier to read below. The gap near 2.3 kb shows up as a hole.',
+    code: 'NC_001422.1 (5.4Kbp)\n>  90.00% │ ████████████████  ████████████████████ │ Number of reads: 1000\n>  80.00% │ ████████████████  ████████████████████ │\n>  70.00% │ ████████████████ ▁████████████████████ │ Covered bases:   5.1Kbp\n>  60.00% │▂████████████████ █████████████████████ │ Percent covered: 94.69%\n>  50.00% │█████████████████ █████████████████████▄│ Mean coverage:   27.8x\n>  40.00% │█████████████████ ██████████████████████│ Mean baseQ:      38.5\n>  30.00% │█████████████████ ██████████████████████│ Mean mapQ:       60\n>  20.00% │█████████████████ ██████████████████████│\n>  10.00% │█████████████████▅██████████████████████│ Histo bin width: 134bp\n>   0.00% │████████████████████████████████████████│ Histo max bin:   100%\n          1        1.3K      2.7K      4.0K       5.4K',
+    solution: { label: 'Download the solution workflow (JSON)', file: 'coverage-solution.json' }
+  }}
+/>

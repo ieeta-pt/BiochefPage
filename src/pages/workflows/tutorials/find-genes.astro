@@ -1,0 +1,77 @@
+---
+import Tutorial from '../../../components/Tutorial.astro';
+import { TOOLS } from '../../../data/tools';
+
+// Checked in the live app (biochef.app) with phix174.fasta. The NCBI annotation
+// of NC_001422.1 lists 11 genes; Prodigal finds 7 of them (see expected).
+const steps = [
+  {
+    title: 'Load the genome',
+    body: 'Open the <strong>Workflow Builder</strong> at <a href="https://biochef.app/" target="_blank" rel="noreferrer">biochef.app</a>. In <strong>File manager</strong>, upload <code>phix174.fasta</code> and tick it for the Input node. New to the editor? The <a href="/workflows/tutorials/map-reads/">map reads tutorial</a> shows each move with screenshots.'
+  },
+  {
+    title: 'Add Prodigal',
+    body: 'Search <code>prodigal</code> and add <strong>Predict Genes (Prodigal)</strong>; connect the Input to it. Prodigal has three outputs: the gene list (<em>out</em>), the proteins (<em>proteins</em>) and the gene sequences (<em>nucleotides</em>). Add an Output node to each.',
+    image: { name: '01-workflow', alt: 'Workflow: Input, Predict Genes (Prodigal) and three Output nodes for the gene list, proteins and nucleotides.' }
+  },
+  {
+    title: 'Run it and read the error',
+    body: 'Press <strong>▶</strong>. Nothing comes out. Hover the <strong>ⓘ</strong> on the Prodigal node: <em>Sequence must be 20000 characters (only 5386 read). Consider running with the -p meta option</em>. By default Prodigal learns the genome’s own gene patterns, and that needs at least 20 kb. PhiX174 is 5.4 kb.',
+    image: { name: '02-error', alt: 'Prodigal log: Sequence must be 20000 characters (only 5386 read), consider running with the -p meta option.' }
+  },
+  {
+    title: 'Switch to meta mode',
+    body: 'Click the Prodigal node, switch on <strong>mode</strong> and type <code>meta</code>. In this mode Prodigal uses settings pre-trained on many genomes, which works for short sequences.',
+    image: { name: '03-meta', alt: 'Prodigal settings with mode switched on and set to meta.' }
+  },
+  {
+    title: 'Run again and look at the genes',
+    body: 'Press <strong>▶</strong> and click the first Output. Each <code>CDS</code> entry is one predicted gene with its start and end positions, and a note with its start codon (<code>start_type=ATG</code>) and a confidence score.',
+    image: { name: '04-genes', alt: 'Output with seven CDS entries, from 51..221 to 3981..>5384.' }
+  },
+  {
+    title: 'See the proteins',
+    body: 'Click the second Output: the protein sequence of each gene, one letter per amino acid, with <code>*</code> for the stop codon. The first, 56 amino acids long, is the K protein.',
+    image: { name: '05-proteins', alt: 'Output with the predicted protein sequences in FASTA format.' }
+  }
+];
+---
+
+<Tutorial
+  slug="find-genes"
+  title="Find the genes in a genome in your browser"
+  heading="Find the genes in a genome"
+  subtitle="Predict the protein-coding genes of bacteriophage PhiX174 with Prodigal, then compare them with the official annotation. All in your browser."
+  description="A 15-minute hands-on tutorial: predict genes in a small phage genome with Prodigal, read its error message, switch to meta mode and compare the result with the NCBI annotation, all in the browser."
+  level="Beginner (the map reads tutorial helps)"
+  time="About 15 minutes"
+  minutes={15}
+  keywords={['gene prediction', 'Prodigal', 'genome annotation', 'phage', 'workflow']}
+  learn={[
+    'Predict protein-coding genes with Prodigal',
+    'Read a tool’s error message and act on it',
+    'Choose between single-genome and meta mode',
+    'Compare predicted genes with a published annotation'
+  ]}
+  tools={[TOOLS.prodigal]}
+  data='The genome of bacteriophage PhiX174 (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001422.1" target="_blank" rel="noreferrer">NC_001422.1</a>, 5,386 bp). NCBI annotates 11 genes in it, several of them overlapping, which makes it a good test for a gene finder.'
+  downloads={[{ label: 'Download phix174.fasta (5 KB)', file: 'phix174.fasta', primary: true }]}
+  steps={steps}
+  expected={{
+    code: 'CDS  51..221        K\nCDS  390..848       D\nCDS  848..964       J\nCDS  1001..2284     F\nCDS  2395..2922     G\nCDS  2931..3917     H\nCDS  3981..>5384    A (partial)',
+    body: 'Prodigal finds <strong>7</strong> of the 11 annotated genes; gene names added here from the NCBI annotation. Six match it exactly. Gene A is marked partial (<code>&gt;5384</code>): the genome is circular and A runs past the end back to the start, which a linear sequence cannot show. The four it misses (C, E, A* and B) lie inside or across other genes, a known limit of gene finders.'
+  }}
+  extras={[
+    {
+      title: 'Use the finished workflow',
+      body: 'Import the finished workflow, data and meta mode included, and press ▶. Remember that an exported workflow contains the data loaded in its Input nodes.',
+      downloads: [{ label: 'Download the finished workflow (JSON)', file: 'find-genes-workflow.json' }]
+    }
+  ]}
+  exercise={{
+    title: 'Exercise: get the genes as a GFF table',
+    body: 'The gene list above is in GenBank format. On the Prodigal node, switch on <strong>output_format</strong>, type <code>gff</code> and run again. You get the same seven genes as GFF, one per line with tab-separated columns, the format that tools such as bedtools read.',
+    image: { name: '06-exercise', alt: 'Output in GFF format: seven CDS lines for NC_001422.1 from Prodigal_v2.6.3.' },
+    solution: { label: 'Download the solution workflow (JSON)', file: 'find-genes-solution.json' }
+  }}
+/>

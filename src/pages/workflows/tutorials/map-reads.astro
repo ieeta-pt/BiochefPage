@@ -1,5 +1,6 @@
 ---
 import Tutorial from '../../../components/Tutorial.astro';
+import { TOOLS } from '../../../data/tools';
 
 // Hands-on tutorial. Every step, screenshot and expected result was checked in
 // the live app (biochef.app) with the files in public/tutorials/map-reads.
@@ -67,6 +68,7 @@ const steps = [
     { label: 'Download phix174.fasta (5 KB)', file: 'phix174.fasta', primary: true },
     { label: 'Download reads.fastq (126 KB)', file: 'reads.fastq' }
   ]}
+  tools={[TOOLS.minimap2, TOOLS.samtools]}
   steps={steps}
   expected={{
     code: '400 + 0 in total (QC-passed reads + QC-failed reads)\n...\n380 + 0 mapped (95.00% : N/A)',

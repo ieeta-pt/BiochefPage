@@ -10,6 +10,7 @@ interface Image { name: string; alt: string }
 interface Download { label: string; file: string; primary?: boolean }
 interface Step { title: string; body: string; image?: Image }
 interface Extra { title: string; body: string; code?: string; image?: Image; downloads?: Download[] }
+interface Tool { name: string; role: string; url: string }
 
 interface Props {
   slug: string;
@@ -27,7 +28,9 @@ interface Props {
   steps: Step[];
   expected: { code: string; body: string };
   extras: Extra[];
-  exercise: { title: string; body: string; image: Image; solution: Download };
+  exercise: { title: string; body: string; image?: Image; code?: string; solution: Download };
+  /** The tools used, explained before the steps. */
+  tools: Tool[];
 }
 
 const p = Astro.props;
@@ -85,6 +88,20 @@ const ld = {
           <p class="tutorial-text mt-4 text-text-secondary leading-relaxed" set:html={p.data} />
         </div>
       </div>
+      <div class="mt-10">
+        <h2 class="text-2xl font-medium text-text tracking-tight">Tools in this tutorial</h2>
+        <dl class="mt-4 divide-y divide-border border-y border-border">
+          {p.tools.map((t) => (
+            <div class="grid gap-1 py-3 sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-4">
+              <dt class="font-medium text-text">
+                <a class="text-brand-dark underline underline-offset-2 hover:text-brand-800" href={t.url} target="_blank" rel="noreferrer">{t.name}</a>
+              </dt>
+              <dd class="tutorial-text text-text-secondary leading-relaxed" set:html={t.role} />
+            </div>
+          ))}
+        </dl>
+      </div>
+
       <div class="mt-8 flex flex-wrap gap-3">
         {p.downloads.map((d) => (
           <a class={`btn ${d.primary ? 'btn-primary' : 'btn-secondary'} text-sm`} href={file(d.file)} download>{d.label}</a>
@@ -154,11 +171,16 @@ const ld = {
         <p class="tutorial-text mt-3 text-text-secondary leading-relaxed" set:html={p.exercise.body} />
         <details class="mt-5 bg-surface border border-border rounded-xl p-5">
           <summary class="cursor-pointer font-medium text-text">Show the solution</summary>
-          <figure class="mt-4">
-            <div class="rounded-xl overflow-hidden border border-border bg-surface">
-              <a href={img(p.exercise.image.name)} target="_blank" rel="noreferrer"><img src={img(p.exercise.image.name)} alt={p.exercise.image.alt} width="1200" height="750" loading="lazy" decoding="async" class="block w-full h-auto" /></a>
-            </div>
-          </figure>
+          {p.exercise.code && (
+            <pre class="mt-4 overflow-x-auto rounded-lg bg-background p-4 font-mono text-[13px] leading-[1.2] text-text">{p.exercise.code}</pre>
+          )}
+          {p.exercise.image && (
+            <figure class="mt-4">
+              <div class="rounded-xl overflow-hidden border border-border bg-surface">
+                <a href={img(p.exercise.image.name)} target="_blank" rel="noreferrer"><img src={img(p.exercise.image.name)} alt={p.exercise.image.alt} width="1200" height="750" loading="lazy" decoding="async" class="block w-full h-auto" /></a>
+              </div>
+            </figure>
+          )}
           <div class="mt-4">
             <a class="btn btn-secondary text-sm" href={file(p.exercise.solution.file)} download>{p.exercise.solution.label}</a>
           </div>

@@ -1,0 +1,15 @@
+((((human,chimp),gorilla),orangutan),macaque);
+((((human,chimp),gorilla),orangutan),macaque);
+((((human,chimp),gorilla),orangutan),macaque);
+((((human,chimp),gorilla),orangutan),macaque);
+((((human,chimp),gorilla),orangutan),macaque);
+((((human,chimp),gorilla),orangutan),macaque);
+((((human,chimp),gorilla),orangutan),macaque);
+((((human,chimp),gorilla),orangutan),macaque);
+((((human,chimp),gorilla),orangutan),macaque);
+((((human,gorilla),chimp),orangutan),macaque);
+((((human,gorilla),chimp),orangutan),macaque);
+((((human,gorilla),chimp),orangutan),macaque);
+((((chimp,gorilla),human),orangutan),macaque);
+((((chimp,gorilla),human),orangutan),macaque);
+(((human,chimp),(gorilla,orangutan)),macaque);

@@ -53,38 +53,11 @@ const steps = [
   }
 ];
 
-// One list of hands-on tutorials (pages under /workflows/tutorials). Each was
-// checked in the live app; the order is the suggested learning path.
-const tutorials = [
-  {
-    slug: 'map-reads',
-    title: 'Map reads to a reference',
-    summary: 'Align reads with minimap2, sort them with samtools and count how many mapped. Start here: every move in the editor is shown.',
-    tools: 'minimap2 · samtools',
-    time: '20 min'
-  },
-  {
-    slug: 'read-qc',
-    title: 'Check and clean reads',
-    summary: 'Filter low-quality reads with fastp and count what is left with seqtk, before and after.',
-    tools: 'fastp · seqtk',
-    time: '15 min'
-  },
-  {
-    slug: 'viral-consensus',
-    title: 'Build a viral consensus genome',
-    summary: 'Map a sample, call its consensus with ViralConsensus and check that it finds the mutations you know are there.',
-    tools: 'minimap2 · samtools · ViralConsensus',
-    time: '25 min'
-  },
-  {
-    slug: 'phylogeny',
-    title: 'Align sequences and build a tree',
-    summary: 'Align eight sequences with muscle, infer their tree with FastTree and compare them with TN93 distances.',
-    tools: 'muscle · FastTree · TN93',
-    time: '20 min'
-  }
-];
+import { TUTORIALS, GROUPINGS } from '../../data/tutorials';
+const groupedBy = (key) => {
+  const g = GROUPINGS.find((x) => x.key === key);
+  return Object.entries(g.groups).map(([id, meta]) => ({ id, ...meta, items: TUTORIALS.filter((t) => t[key] === id) })).filter((x) => x.items.length);
+};
 ---
 
 <BaseLayout title="Workflows · BioChef" description="Build a workflow in your browser, test it on small data, then run it where your data lives.">
@@ -161,26 +134,60 @@ const tutorials = [
       <SectionHeader
         kicker="Tutorials"
         title="Learn by doing"
-        subtitle="Hands-on tutorials with small example data and the result you should get. Each one runs in your browser and ends with an exercise."
+        subtitle={`${TUTORIALS.length} hands-on tutorials with small example data and the result you should get. Each one runs in your browser and ends with an exercise. New here? Start with “Map reads to a reference”.`}
         align="left"
       />
-      <ol class="grid gap-5 md:grid-cols-2">
-        {tutorials.map((t, i) => (
-          <li>
-            <a href={withBase(`/workflows/tutorials/${t.slug}`)} class="group flex flex-col h-full bg-surface border border-border rounded-xl shadow-card p-6 md:p-8 transition-shadow hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
-              <span class="font-mono text-xs text-brand-dark">{String(i + 1).padStart(2, '0')} · {t.time}</span>
-              <h3 class="mt-2 text-xl md:text-2xl font-medium text-text tracking-tight group-hover:text-brand-dark">{t.title}</h3>
-              <p class="mt-3 text-text-secondary leading-relaxed">{t.summary}</p>
-              <p class="mt-auto pt-6 font-mono text-xs md:text-[13px] text-text-tertiary">{t.tools}</p>
-            </a>
-          </li>
+
+      <div class="flex flex-wrap items-center gap-3 mb-8" role="group" aria-label="Group tutorials by">
+        <span class="text-sm text-text-secondary">Group by</span>
+        {GROUPINGS.map((g, i) => (
+          <button type="button" data-group-by={g.key} aria-pressed={i === 0 ? 'true' : 'false'}
+            class="tutorial-tab rounded-full border px-4 py-1.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+            {g.label}
+          </button>
         ))}
-      </ol>
-      <p class="mt-6 text-text-secondary">
+      </div>
+
+      {GROUPINGS.map((g, gi) => (
+        <div data-grouping={g.key} hidden={gi !== 0} class="space-y-12">
+          {groupedBy(g.key).map((group) => (
+            <div>
+              <h3 class="text-xl font-medium text-text tracking-tight">{group.label}</h3>
+              <p class="mt-1 text-sm text-text-secondary">{group.note}</p>
+              <ul class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {group.items.map((t) => (
+                  <li>
+                    <a href={withBase(`/workflows/tutorials/${t.slug}`)} class="group flex flex-col h-full bg-surface border border-border rounded-xl shadow-card p-5 md:p-6 transition-shadow hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+                      <span class="font-mono text-xs text-brand-dark">{t.time}</span>
+                      <h4 class="mt-1.5 text-lg font-medium text-text tracking-tight group-hover:text-brand-dark">{t.title}</h4>
+                      <p class="mt-2 text-sm text-text-secondary leading-relaxed">{t.summary}</p>
+                      <p class="mt-auto pt-4 font-mono text-xs text-text-tertiary">{t.tools}</p>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      ))}
+
+      <p class="mt-10 text-text-secondary">
         Teaching a class? Each tutorial includes its data and a finished workflow file, so students can import it and catch up at any step.
       </p>
     </div>
   </section>
+
+  <script>
+    const tabs = document.querySelectorAll<HTMLButtonElement>('[data-group-by]');
+    const views = document.querySelectorAll<HTMLElement>('[data-grouping]');
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const key = tab.dataset.groupBy;
+        tabs.forEach((t) => t.setAttribute('aria-pressed', String(t === tab)));
+        views.forEach((v) => { v.hidden = v.dataset.grouping !== key; });
+      });
+    });
+  </script>
 
   <!-- Tool catalogue snapshot -->
   <section class="section">

@@ -1,0 +1,70 @@
+---
+import Tutorial from '../../../components/Tutorial.astro';
+import { TOOLS } from '../../../data/tools';
+
+// Checked in the live app (biochef.app): 15 illustrative gene trees, 9 of
+// which follow the species tree; ASTRAL recovers it.
+const steps = [
+  {
+    title: 'Load the gene trees',
+    body: 'Open the <strong>Workflow Builder</strong> at <a href="https://biochef.app/" target="_blank" rel="noreferrer">biochef.app</a>. In <strong>File manager</strong>, upload <code>gene-trees.txt</code> and tick it for the Input node. Each line is one tree in Newick format: brackets group the species that a gene says are most closely related. New to the editor? The <a href="/workflows/tutorials/map-reads/">map reads tutorial</a> shows each move with screenshots.'
+  },
+  {
+    title: 'Add ASTRAL',
+    body: 'Search <code>species tree</code> and add <strong>Species Tree (ASTRAL)</strong>; connect the Input to its <em>gene_trees</em> dot. Add an Output and press <strong>▶</strong>.',
+    image: { name: '01-workflow', alt: 'Workflow: Input with the gene trees into Species Tree (ASTRAL) and an Output.' }
+  },
+  {
+    title: 'Read the species tree',
+    body: 'Click the Output. ASTRAL writes one tree. The numbers after a closing bracket are support values from 0 to 1: how sure ASTRAL is about that grouping, given the gene trees.',
+    image: { name: '02-tree', alt: 'Output with the species tree in Newick format and its support values.' }
+  },
+  {
+    title: 'Look at the search',
+    body: 'Hover the <strong>ⓘ</strong> on the ASTRAL node to see how it searched: it starts from a guess and moves branches around until no change improves its score.',
+    image: { name: '03-log', alt: 'ASTRAL log showing the initial tree, the search rounds and the final score.' }
+  }
+];
+---
+
+<Tutorial
+  slug="species-tree"
+  title="Build a species tree from gene trees in your browser"
+  heading="Build a species tree from gene trees"
+  subtitle="Different genes can tell different stories about how species are related. Combine 15 gene trees into one species tree with ASTRAL. All in your browser."
+  description="A 15-minute hands-on tutorial: combine discordant gene trees into a species tree with ASTRAL (ASTER), read support values and see how the answer depends on the data, all in the browser."
+  level="Intermediate (the phylogeny tutorial helps)"
+  time="About 15 minutes"
+  minutes={15}
+  keywords={['species tree', 'gene trees', 'ASTRAL', 'ASTER', 'phylogenomics', 'Newick']}
+  learn={[
+    'Understand why gene trees can disagree',
+    'Combine many gene trees into one species tree with ASTRAL',
+    'Read an unrooted tree and its support values',
+    'See how the result depends on the gene trees you give it'
+  ]}
+  tools={[TOOLS.astral]}
+  data='<code>gene-trees.txt</code>: 15 gene trees for five primates, written for this tutorial (they are not inferred from real genes). Nine follow the species tree, with human and chimpanzee closest; five pair gorilla with human or with chimpanzee instead; one groups gorilla with orangutan. Genes can disagree like this in real data too, for example through incomplete lineage sorting.'
+  downloads={[
+    { label: 'Download gene-trees.txt (1 KB)', file: 'gene-trees.txt', primary: true },
+    { label: 'Download discordant-trees.txt (1 KB)', file: 'discordant-trees.txt' }
+  ]}
+  steps={steps}
+  expected={{
+    code: '((((macaque,orangutan)0.999997,gorilla)0.984978,chimp),human);',
+    body: 'Shortened here: branch lengths removed. The tree is unrooted, so ASTRAL can write it starting from any species, here from human. Read it as groups: <strong>human with chimpanzee</strong>, then gorilla, then orangutan and macaque. That is the tree most gene trees support, recovered with support 0.98 to 1.00, even though six of the 15 gene trees disagree with it.'
+  }}
+  extras={[
+    {
+      title: 'Use the finished workflow',
+      body: 'Import the finished workflow, data included, and press ▶. Remember that an exported workflow contains the data loaded in its Input nodes.',
+      downloads: [{ label: 'Download the finished workflow (JSON)', file: 'species-tree-workflow.json' }]
+    }
+  ]}
+  exercise={{
+    title: 'Exercise: keep only the genes that disagree',
+    body: 'Download <code>discordant-trees.txt</code>, the six gene trees that disagree with the species tree. Upload it and tick it for the Input node instead of <code>gene-trees.txt</code>, then run again. Now ASTRAL groups <strong>human with gorilla</strong>, and the support for that grouping drops to <strong>0.58</strong>: with less and conflicting evidence, the answer changes and becomes uncertain.',
+    image: { name: '04-exercise', alt: 'Output with the species tree from the six discordant gene trees; one support value is 0.579.' },
+    solution: { label: 'Download the solution workflow (JSON)', file: 'species-tree-solution.json' }
+  }}
+/>

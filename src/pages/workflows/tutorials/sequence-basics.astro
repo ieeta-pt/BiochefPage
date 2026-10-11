@@ -1,0 +1,72 @@
+---
+import Tutorial from '../../../components/Tutorial.astro';
+import { TOOLS } from '../../../data/tools';
+
+// Checked in the live app (biochef.app) with phix174.fasta and gene-G.bed.
+const steps = [
+  {
+    title: 'Load the genome and the region',
+    body: 'Open the <strong>Workflow Builder</strong> at <a href="https://biochef.app/" target="_blank" rel="noreferrer">biochef.app</a>. In <strong>File manager</strong>, upload <code>phix174.fasta</code> and <code>gene-G.bed</code>, and tick <code>phix174.fasta</code> for the Input node. New to the editor? The <a href="/workflows/tutorials/map-reads/">map reads tutorial</a> shows each move with screenshots.'
+  },
+  {
+    title: 'Count the bases',
+    body: 'Search <code>comp</code> and add <strong>Comp (SEQTK)</strong>; connect the genome to it and add an Output. seqtk comp reports, for each sequence, its length and how many A, C, G and T it has.'
+  },
+  {
+    title: 'Cut out one gene',
+    body: 'Select the genome Input and add <strong>Subseq (SEQTK)</strong>: genome into <em>in</em>, a second Input with <code>gene-G.bed</code> into <em>regions</em>. The BED file holds one line: the sequence name, a start and an end. BED counts from 0, so <code>2394 2922</code> means positions 2395 to 2922. Add an Output.'
+  },
+  {
+    title: 'Read the other strand',
+    body: 'Select Subseq and add <strong>Seq (SEQTK)</strong>. Switch on <strong>reverse_complement</strong>: DNA has two strands, and this writes the gene as read from the opposite one. Add an Output and press <strong>▶</strong>.',
+    image: { name: '01-workflow', alt: 'Workflow: genome into Comp (SEQTK) with an Output, and with the BED into Subseq (SEQTK) with an Output, then Seq (SEQTK) with an Output.' }
+  },
+  {
+    title: 'Look at the gene',
+    body: 'Click the Subseq Output. The sequence starts with <code>ATG</code>, the start codon, and ends with <code>TGA</code>, a stop codon: this stretch of DNA codes for a protein, the major spike protein G.',
+    image: { name: '03-gene', alt: 'Output with gene G in FASTA format, named NC_001422.1:2395-2922, starting with ATG.' }
+  }
+];
+---
+
+<Tutorial
+  slug="sequence-basics"
+  title="First steps with DNA sequences in your browser"
+  heading="First steps with DNA sequences"
+  subtitle="Count bases, cut a gene out of a genome and read it from the other strand with seqtk. A gentle start for a class or for anyone new to sequence files. All in your browser."
+  description="A 15-minute hands-on tutorial for beginners: base composition, extracting a region with a BED file and reverse-complementing with seqtk, all in the browser with nothing to install."
+  level="Beginner, no prior knowledge needed"
+  time="About 15 minutes"
+  minutes={15}
+  keywords={['FASTA', 'BED', 'base composition', 'GC content', 'reverse complement', 'seqtk', 'teaching']}
+  learn={[
+    'Read a FASTA file and count its bases',
+    'Use a BED file to cut a region out of a genome',
+    'Reverse-complement a sequence',
+    'Recognise start and stop codons'
+  ]}
+  tools={[TOOLS.seqtk]}
+  data='The genome of bacteriophage PhiX174 (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001422.1" target="_blank" rel="noreferrer">NC_001422.1</a>, 5,386 bp) and <code>gene-G.bed</code>, the position of gene G, which codes for the virus’s major spike protein.'
+  downloads={[
+    { label: 'Download phix174.fasta (5 KB)', file: 'phix174.fasta', primary: true },
+    { label: 'Download gene-G.bed (1 KB)', file: 'gene-G.bed' }
+  ]}
+  steps={steps}
+  expected={{
+    code: 'name          length  A     C     G     T\nNC_001422.1   5386    1291  1157  1254  1684\n\n>NC_001422.1:2395-2922   528 bp, starts ATGTTTCAGACT…, ends …CTTAAGTGA\nreverse complement       starts TCACTTAAGTGG…',
+    body: 'Shortened here; seqtk comp prints more columns (ambiguous bases and CpG counts, among others). The genome is <strong>44.76%</strong> G+C. Gene G is <strong>528 bp</strong>: 176 codons, the last one a stop. Its reverse complement starts with <code>TCA</code>, the reverse complement of the stop codon <code>TGA</code>.'
+  }}
+  extras={[
+    {
+      title: 'Use the finished workflow',
+      body: 'Import the finished workflow, data included, and press ▶. Remember that an exported workflow contains the data loaded in its Input nodes.',
+      downloads: [{ label: 'Download the finished workflow (JSON)', file: 'sequence-basics-workflow.json' }]
+    }
+  ]}
+  exercise={{
+    title: 'Exercise: is the gene richer in G+C than the genome?',
+    body: 'Add a second <strong>Comp (SEQTK)</strong> after Subseq, with its own Output, and run again. Gene G has A=106, C=114, G=108, T=200: <strong>42.05%</strong> G+C, a little lower than the genome’s 44.76%.',
+    image: { name: '05-exercise', alt: 'Output of seqtk comp for gene G: length 528, A 106, C 114, G 108, T 200.' },
+    solution: { label: 'Download the solution workflow (JSON)', file: 'sequence-basics-solution.json' }
+  }}
+/>
