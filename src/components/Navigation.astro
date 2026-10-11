@@ -16,7 +16,8 @@ const currentPath = Astro.url?.pathname || '';
 
 const isActive = (href: string) => {
   const target = withBase(href);
-  return currentPath === target || currentPath === `${target}/`;
+  // Sub-pages (e.g. /workflows/tutorials/...) keep their section active.
+  return currentPath === target || currentPath === `${target}/` || (href !== '/' && currentPath.startsWith(`${target}/`));
 };
 ---
 

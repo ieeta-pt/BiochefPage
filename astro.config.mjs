@@ -12,6 +12,15 @@ export default defineConfig({
   // ieeta-pt.github.io/Biochef/.
   site: 'https://home.biochef.app',
   integrations: [react(), mdx(), sitemap()],
+  // Tutorials moved under Workflows; keep the first published links working.
+  redirects: {
+    '/tutorials': '/workflows#tutorials',
+    '/workflows/tutorials': '/workflows#tutorials',
+    '/tutorials/map-reads': '/workflows/tutorials/map-reads',
+    '/tutorials/read-qc': '/workflows/tutorials/read-qc',
+    '/tutorials/viral-consensus': '/workflows/tutorials/viral-consensus',
+    '/tutorials/phylogeny': '/workflows/tutorials/phylogeny'
+  },
   vite: { plugins: [tailwindcss()] },
   markdown: {
     syntaxHighlight: 'shiki',
