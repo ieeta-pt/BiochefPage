@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+
+const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
+
+// Suggested order: the first tutorial teaches the editor; the others build on it.
+const tutorials = [
+  {
+    slug: 'map-reads',
+    title: 'Map sequencing reads in your browser',
+    summary: 'Align reads to a reference with minimap2, sort them with samtools and count how many mapped. Start here: every move in the editor is shown.',
+    tools: 'minimap2 · samtools',
+    time: '20 min'
+  },
+  {
+    slug: 'read-qc',
+    title: 'Check and clean sequencing reads',
+    summary: 'Filter low-quality reads with fastp and count what is left with seqtk, before and after.',
+    tools: 'fastp · seqtk',
+    time: '15 min'
+  },
+  {
+    slug: 'viral-consensus',
+    title: 'Build a viral consensus genome',
+    summary: 'Map a sample, call its consensus genome with ViralConsensus and check that it finds the six mutations you know are there.',
+    tools: 'minimap2 · samtools · ViralConsensus',
+    time: '25 min'
+  },
+  {
+    slug: 'phylogeny',
+    title: 'Align sequences and build a tree',
+    summary: 'Align eight sequences with muscle, infer their tree with FastTree and compare them with TN93 distances.',
+    tools: 'muscle · FastTree · TN93',
+    time: '20 min'
+  }
+];
+---
+
+<BaseLayout title="Tutorials · BioChef" description="Hands-on BioChef tutorials: map reads, clean reads, build a viral consensus and build a phylogenetic tree, all in the browser with nothing to install.">
+  <PageHero
+    kicker="Tutorials"
+    title="Learn by doing"
+    subtitle="Short hands-on tutorials with small example data. Each one runs in your browser, has the answer you should get, and ends with an exercise and its solution."
+    crumbs={[{ label: 'Tutorials' }]}
+    meta={[
+      { label: 'Level', value: 'Beginner, no command line needed' },
+      { label: 'You need', value: 'A recent desktop browser' },
+      { label: 'Licence', value: 'CC BY 4.0' }
+    ]}
+  />
+
+  <section class="section">
+    <div class="container-main max-w-4xl">
+      <ol class="grid gap-5 md:grid-cols-2">
+        {tutorials.map((t, i) => (
+          <li>
+            <a href={withBase(`/tutorials/${t.slug}`)} class="group flex flex-col h-full bg-surface border border-border rounded-xl shadow-card p-6 md:p-7 transition-shadow hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+              <span class="font-mono text-xs text-brand-dark">{String(i + 1).padStart(2, '0')} · {t.time}</span>
+              <h2 class="mt-2 text-xl font-medium text-text tracking-tight group-hover:text-brand-dark">{t.title}</h2>
+              <p class="mt-2 text-text-secondary leading-relaxed">{t.summary}</p>
+              <p class="mt-auto pt-5 font-mono text-xs text-text-tertiary">{t.tools}</p>
+            </a>
+          </li>
+        ))}
+      </ol>
+      <p class="mt-8 text-sm text-text-secondary">
+        Teaching a class? Every tutorial includes the data and a finished workflow file to import, so students can catch up at any step.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

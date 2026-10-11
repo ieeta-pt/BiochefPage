@@ -63,12 +63,14 @@ const scenarios = [
   {
     what: 'QC and conversion',
     how: 'Trim and check reads with fastp, triage BAM files with samtools, and convert between formats such as GTF and GFF with gffread.',
-    example: 'raw.fastq → fastp → clean.fastq'
+    example: 'raw.fastq → fastp → clean.fastq',
+    tutorial: '/tutorials/read-qc'
   },
   {
     what: 'Viral consensus',
     how: 'Map reads to a reference and build a consensus genome with ivar or viralconsensus.',
-    example: 'reads.fastq → minimap2 → samtools sort → viralconsensus'
+    example: 'reads.fastq → minimap2 → samtools sort → viralconsensus',
+    tutorial: '/tutorials/viral-consensus'
   },
   {
     what: 'Teaching',
@@ -159,7 +161,7 @@ const scenarios = [
             <p class="mt-3 text-text-secondary leading-relaxed">{x.how}</p>
             <p class="mt-auto pt-6 font-mono text-xs md:text-[13px] text-brand-dark wrap-break-word">{x.example}</p>
             {x.tutorial && (
-              <a class="mt-4 text-sm font-medium text-brand-dark underline underline-offset-2 hover:text-brand-800" href={withBase(x.tutorial)}>Try it step by step: 20-minute tutorial →</a>
+              <a class="mt-4 text-sm font-medium text-brand-dark underline underline-offset-2 hover:text-brand-800" href={withBase(x.tutorial)}>Try it step by step →</a>
             )}
           </li>
         ))}
