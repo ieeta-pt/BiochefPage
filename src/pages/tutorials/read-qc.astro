@@ -1,0 +1,74 @@
+---
+import Tutorial from '../../components/Tutorial.astro';
+
+// Checked in the live app (biochef.app) with public/tutorials/read-qc/run1.fastq:
+// 340 high-quality and 60 low-quality simulated reads.
+const steps = [
+  {
+    title: 'Load the reads',
+    body: 'Open the <strong>Workflow Builder</strong> at <a href="https://biochef.app/" target="_blank" rel="noreferrer">biochef.app</a>. In <strong>File manager</strong>, upload <code>run1.fastq</code> and tick it for the Input node. New to the editor? The <a href="/tutorials/map-reads/">map reads tutorial</a> shows each move with screenshots.'
+  },
+  {
+    title: 'Count the reads before cleaning',
+    body: 'Search <code>size</code> and add <strong>Size (SEQTK)</strong>. Connect the Input to it and add an <strong>Output</strong> node after it. seqtk size reports two numbers: reads and bases.'
+  },
+  {
+    title: 'Add fastp',
+    body: 'Select the Input again, search <code>fastp</code> and add <strong>Single-End QC (FASTP)</strong>. Connect the Input to its <em>in1</em> dot. Then select fastp, add a second <strong>Size (SEQTK)</strong> after it and an Output after that.',
+    image: { name: '01-workflow', alt: 'Workflow: one Input feeding Size (SEQTK) directly and Single-End QC (FASTP), which feeds a second Size (SEQTK); each Size has an Output.' }
+  },
+  {
+    title: 'Know the rules fastp applies',
+    body: 'Click the fastp node. With everything off, fastp uses its defaults: a base is good from quality 15 (<code>qualified_quality_phred</code>), and a read is dropped when more than 40% of its bases are below that (<code>unqualified_percent_limit</code>), when it has more than 5 N (<code>n_base_limit</code>) or when it is shorter than 15 bases (<code>length_required</code>).',
+    image: { name: '02-parameters', alt: 'Single-End QC (FASTP) settings: qualified_quality_phred, length_required, n_base_limit, unqualified_percent_limit and trimming options, all switched off.' }
+  },
+  {
+    title: 'Run and compare',
+    body: 'Press <strong>▶</strong>. Click the first Output (before fastp), then the second (after).',
+    image: { name: '04-after', alt: 'Output after fastp: 340 reads and 51000 bases.' }
+  },
+  {
+    title: 'Read the fastp report',
+    body: 'Hover the <strong>ⓘ</strong> on the fastp node to see its report: how many reads passed, why the others failed, and the share of Q30 bases before and after filtering.',
+    image: { name: '05-log', alt: 'fastp log: 400 reads before filtering, 340 passed, 60 failed due to low quality; Q30 bases rise from 85% to 100%.' }
+  }
+];
+---
+
+<Tutorial
+  slug="read-qc"
+  title="Check and clean sequencing reads in your browser"
+  heading="Check and clean sequencing reads"
+  subtitle="Filter low-quality reads with fastp and count what is left with seqtk, before and after. All in your browser; nothing is installed or uploaded."
+  description="A 15-minute hands-on tutorial: quality-filter FASTQ reads with fastp and compare read counts before and after with seqtk, all in the browser with nothing to install."
+  level="Beginner (the map reads tutorial helps)"
+  time="About 15 minutes"
+  minutes={15}
+  keywords={['quality control', 'FASTQ', 'fastp', 'seqtk', 'read filtering', 'workflow']}
+  learn={[
+    'Filter low-quality reads with fastp',
+    'Count reads and bases with seqtk size',
+    'Read the fastp report: what passed and why the rest failed',
+    'See how a stricter threshold changes the result'
+  ]}
+  data='One simulated sequencing run of 400 reads of 150 bp from bacteriophage PhiX174: 340 high-quality reads (base qualities 30 to 40) and 60 low-quality reads (base qualities 2 to 12), mixed together. Because it is simulated, you know how many reads should survive.'
+  downloads={[{ label: 'Download run1.fastq (125 KB)', file: 'run1.fastq', primary: true }]}
+  steps={steps}
+  expected={{
+    code: 'before fastp:  400   60000\nafter fastp:   340   51000',
+    body: 'fastp keeps the <strong>340</strong> good reads and removes the <strong>60</strong> low-quality ones, so 9,000 bases go. In its report, Q30 bases rise from <strong>85%</strong> to <strong>100%</strong>.'
+  }}
+  extras={[
+    {
+      title: 'Use the finished workflow',
+      body: 'Import the finished workflow, data included, and press ▶. Remember that an exported workflow contains the data loaded in its Input nodes.',
+      downloads: [{ label: 'Download the finished workflow (JSON)', file: 'read-qc-workflow.json' }]
+    }
+  ]}
+  exercise={{
+    title: 'Exercise: what if the bar is too high?',
+    body: 'On the fastp node, switch on <strong>qualified_quality_phred</strong> and type <code>35</code>. Run again. Only <strong>35</strong> reads survive (5,250 bases): with this bar, many bases of the good reads (qualities 30 to 34) count as bad, and 365 reads fail. Filtering too hard throws good data away.',
+    image: { name: '06-exercise', alt: 'Output after fastp with qualified_quality_phred set to 35: 35 reads and 5250 bases.' },
+    solution: { label: 'Download the solution workflow (JSON)', file: 'read-qc-solution.json' }
+  }}
+/>

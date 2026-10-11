@@ -1,0 +1,79 @@
+---
+import Tutorial from '../../components/Tutorial.astro';
+
+// Checked in the live app (biochef.app) with public/tutorials/phylogeny:
+// eight sequences simulated along a known tree; FastTree recovers it.
+const steps = [
+  {
+    title: 'Load the sequences',
+    body: 'Open the <strong>Workflow Builder</strong> at <a href="https://biochef.app/" target="_blank" rel="noreferrer">biochef.app</a>. In <strong>File manager</strong>, upload <code>sequences.fasta</code> and tick it for the Input node. New to the editor? The <a href="/tutorials/map-reads/">map reads tutorial</a> shows each move with screenshots.'
+  },
+  {
+    title: 'Align the sequences',
+    body: 'Search <code>muscle</code> and add <strong>Align (muscle)</strong>; connect the Input to it. The sequences have different lengths because of small insertions and deletions, so they must be aligned before they can be compared position by position. Add an <strong>Output</strong> after muscle to see the alignment.'
+  },
+  {
+    title: 'Build the tree',
+    body: 'Select muscle, search <code>fasttree</code> and add <strong>Build Tree (FastTree)</strong>. Connect muscle to it, then add an Output after it.',
+    image: { name: '01-workflow', alt: 'Workflow: Input, Align (muscle), an Output for the alignment, Build Tree (FastTree) and an Output for the tree.' }
+  },
+  {
+    title: 'Tell FastTree these are DNA sequences',
+    body: 'Click the FastTree node and switch on <strong>nucleotide</strong>. Without it, FastTree reads the alignment as protein.',
+    image: { name: '02-parameters', alt: 'Build Tree (FastTree) settings with the nucleotide switch turned on.' }
+  },
+  {
+    title: 'Run and look at the alignment',
+    body: 'Press <strong>▶</strong> and click the alignment Output. All eight sequences now have the same length, 606 positions, with <code>-</code> where a sequence has a gap.',
+    image: { name: '03-alignment', alt: 'Output panel with the multiple alignment in FASTA format, gaps shown as dashes.' }
+  },
+  {
+    title: 'Read the tree',
+    body: 'Click the tree Output. FastTree writes the tree in Newick format: brackets group sequences, numbers after a colon are branch lengths, and numbers after a closing bracket are support values from 0 to 1.',
+    image: { name: '04-tree', alt: 'Output panel with the tree in Newick format, including branch lengths and support values.' }
+  }
+];
+---
+
+<Tutorial
+  slug="phylogeny"
+  title="Align sequences and build a phylogenetic tree in your browser"
+  heading="Align sequences and build a tree"
+  subtitle="Align eight DNA sequences with muscle, infer their tree with FastTree, and check it against the tree they were simulated on. All in your browser."
+  description="A 20-minute hands-on tutorial: build a multiple sequence alignment with muscle and a maximum-likelihood tree with FastTree, then compare sequences with TN93 distances, all in the browser with nothing to install."
+  level="Beginner (the map reads tutorial helps)"
+  time="About 20 minutes"
+  minutes={20}
+  keywords={['multiple sequence alignment', 'phylogenetics', 'muscle', 'FastTree', 'TN93', 'Newick', 'workflow']}
+  learn={[
+    'Align several sequences with muscle',
+    'Infer a tree with FastTree and read it in Newick format',
+    'Interpret branch lengths and support values',
+    'Compare sequences with TN93 genetic distances'
+  ]}
+  data='Eight simulated DNA sequences of 594 to 606 bp in four lineages (A, B, C and D, two sequences each). They evolved along a known tree: A with B, C with D. Small insertions and deletions make their lengths differ. Because it is simulated, you can check the tree you get.'
+  downloads={[{ label: 'Download sequences.fasta (5 KB)', file: 'sequences.fasta', primary: true }]}
+  steps={steps}
+  expected={{
+    code: '(lineage_C_2:0.0064,lineage_C_1:0.0070,(((lineage_B_1:0.0067,lineage_B_2:0.0069)0.978:0.0264,\n(lineage_A_1:0.0053,lineage_A_2:0.0082)0.988:0.0253)1.000:0.1325,\n(lineage_D_1:0.0066,lineage_D_2:0.0068)0.992:0.0274)0.977:0.0232);',
+    body: 'Shortened here to four decimals. Each pair of sequences from the same lineage sits together, A groups with B (support <strong>1.000</strong>) and C with D: the tree the sequences were simulated on. The long branch (0.13) separates the two groups. The tree is unrooted, so it starts from an arbitrary point (here lineage C); the groupings are what matter.'
+  }}
+  extras={[
+    {
+      title: 'The same tree, drawn',
+      body: 'Drawn with the root between the two groups. Paste the Newick text into any tree viewer to draw it yourself.',
+      code: '            ┌── lineage_A_1\n        ┌───┤\n        │   └── lineage_A_2\n    ┌───┤\n    │   │   ┌── lineage_B_1\n    │   └───┤\n    │       └── lineage_B_2\n────┤\n    │       ┌── lineage_C_1\n    │   ┌───┤\n    │   │   └── lineage_C_2\n    └───┤\n        │   ┌── lineage_D_1\n        └───┤\n            └── lineage_D_2'
+    },
+    {
+      title: 'Use the finished workflow',
+      body: 'Import the finished workflow, data included, and press ▶. Remember that an exported workflow contains the data loaded in its Input nodes.',
+      downloads: [{ label: 'Download the finished workflow (JSON)', file: 'phylogeny-workflow.json' }]
+    }
+  ]}
+  exercise={{
+    title: 'Exercise: which sequences are closest?',
+    body: 'Select muscle and add <strong>Distance (TN93)</strong>, connect muscle to it, add an Output and run. TN93 lists only the pairs closer than its default threshold of 0.015 substitutions per site. You should get exactly four pairs, the two sequences of each lineage, at distances of about <strong>0.013 to 0.014</strong>. Switch on <strong>threshold</strong> and raise it to see more distant pairs.',
+    image: { name: '05-exercise', alt: 'Workflow with Distance (TN93) after muscle; its output lists four pairs, one per lineage, with distances from 0.0133 to 0.0136.' },
+    solution: { label: 'Download the solution workflow (JSON)', file: 'phylogeny-solution.json' }
+  }}
+/>

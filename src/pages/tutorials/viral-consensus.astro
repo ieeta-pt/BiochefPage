@@ -1,0 +1,82 @@
+---
+import Tutorial from '../../components/Tutorial.astro';
+
+// Checked in the live app (biochef.app) with the files in
+// public/tutorials/viral-consensus. The sample is PhiX174 with six known
+// point mutations, so learners can check the consensus against the truth.
+const steps = [
+  {
+    title: 'Load the files',
+    body: 'Open the <strong>Workflow Builder</strong> at <a href="https://biochef.app/" target="_blank" rel="noreferrer">biochef.app</a>. In <strong>File manager</strong>, upload <code>phix174.fasta</code> and <code>sample-reads.fastq</code>, and tick <code>sample-reads.fastq</code> for the first Input node. New to the editor? The <a href="/tutorials/map-reads/">map reads tutorial</a> shows each of these moves with screenshots.'
+  },
+  {
+    title: 'Map the reads to the reference',
+    body: 'Add <strong>Align (minimap2)</strong> and connect the reads to its <em>reads</em> dot. Add a second Input node with <code>phix174.fasta</code> and connect it to <em>ref</em>. Switch on <strong>sam_output</strong>, then add <strong>Sort (samtools)</strong> after the aligner.'
+  },
+  {
+    title: 'Add the consensus caller',
+    body: 'With the Sort node selected, search <code>consensus</code>. There are three: pick <strong>Consensus (ViralConsensus)</strong>. Connect Sort to its <em>reads</em> dot and the reference Input to its <em>reference</em> dot: the same reference feeds two tools.',
+    image: { name: '01-workflow', alt: 'Workflow: reference and reads Inputs, Align (minimap2), Sort (samtools), Consensus (ViralConsensus) and an Output, plus a second Align (minimap2) that checks the consensus.' }
+  },
+  {
+    title: 'Look at the settings',
+    body: 'Click the consensus node. Its settings are off, so ViralConsensus uses its defaults: a base needs quality 20 or more (<code>min_qual</code>), at least 10 reads covering the position (<code>min_depth</code>) and more than half of them agreeing (<code>min_freq</code>). Positions that fail get an <code>N</code>.',
+    image: { name: '02-parameters', alt: 'Consensus (ViralConsensus) settings: min_qual, min_depth, min_freq, ambig_char and primer options, all switched off.' }
+  },
+  {
+    title: 'Run and read the consensus',
+    body: 'Add an <strong>Output</strong> node after the consensus and press <strong>▶</strong>. The Output holds the consensus genome in FASTA. Its header records the settings used: <code>--min_qual 20 --min_depth 10 --min_freq 0.5</code>.',
+    image: { name: '03-consensus', alt: 'Output panel with the consensus FASTA; the header lists the ViralConsensus settings and the sequence starts with Ns.' }
+  },
+  {
+    title: 'Check it against the reference',
+    body: 'Select the consensus node and add another <strong>Align (minimap2)</strong>: consensus into <em>reads</em>, reference into <em>ref</em>. Switch on <strong>sam_output</strong> and <strong>md_tag</strong>, add an Output and run again. You get one SAM line for the whole genome.',
+    image: { name: '04-check', alt: 'Output panel with the SAM record of the consensus aligned to NC_001422.1.' }
+  }
+];
+---
+
+<Tutorial
+  slug="viral-consensus"
+  title="Build a viral consensus genome in your browser"
+  heading="Build a viral consensus genome"
+  subtitle="Map a sample's reads to a reference, call a consensus genome with ViralConsensus, and check that it finds the mutations you know are there. All in your browser."
+  description="A 25-minute hands-on tutorial: map reads with minimap2, sort with samtools, build a consensus genome with ViralConsensus and verify it against a reference, all in the browser with nothing to install."
+  level="Beginner (the map reads tutorial helps)"
+  time="About 25 minutes"
+  minutes={25}
+  keywords={['consensus genome', 'viral genomics', 'ViralConsensus', 'minimap2', 'samtools', 'workflow']}
+  learn={[
+    'Build a consensus genome from mapped reads with ViralConsensus',
+    'Understand the depth, quality and frequency rules behind each consensus base',
+    'Check a consensus against its reference with the NM and MD tags',
+    'See why poorly covered positions become N'
+  ]}
+  data='A simulated sample of bacteriophage PhiX174 (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001422.1" target="_blank" rel="noreferrer">NC_001422.1</a>) with six point mutations at known positions (612, 1450, 2201, 3077, 3999 and 4810), sequenced as 1,200 reads of 150 bp (about 33× coverage, 0.5% errors), plus the reference genome. Because it is simulated, you can check the answer.'
+  downloads={[
+    { label: 'Download phix174.fasta (5 KB)', file: 'phix174.fasta', primary: true },
+    { label: 'Download sample-reads.fastq (377 KB)', file: 'sample-reads.fastq' }
+  ]}
+  steps={steps}
+  expected={{
+    code: 'viral_consensus  0  NC_001422.1  45  60  44S5324M18S  ...  NM:i:6  MD:Z:567G837T750T875T921C810G558',
+    body: '<code>NM:i:6</code> means the consensus differs from the reference at six positions. The <code>MD</code> tag says where: the alignment starts at position 45, then 567 matches and a difference at 45 + 567 = <strong>612</strong>, then 837 matches and a difference at <strong>1450</strong>, and so on: 2201, 3077, 3999 and 4810. Those are exactly the six mutations in the sample.'
+  }}
+  extras={[
+    {
+      title: 'Why the consensus starts and ends with N',
+      body: 'The first 44 and last 18 bases are <code>N</code>. Reads cover the ends of a linear genome less, and there fewer than 10 reads cover each position, below <code>min_depth</code>. ViralConsensus writes <code>N</code> rather than guess, which is why the check alignment soft-clips them (<code>44S</code> and <code>18S</code>). PhiX174 is actually circular; mapping to it as a linear sequence is a simplification.'
+    },
+    {
+      title: 'Use the finished workflow',
+      body: 'Import the finished workflow, data included, and press ▶. Remember that an exported workflow contains the data loaded in its Input nodes.',
+      downloads: [{ label: 'Download the finished workflow (JSON)', file: 'viral-consensus-workflow.json' }]
+    }
+  ]}
+  exercise={{
+    title: 'Exercise: accept less coverage',
+    body: 'On the consensus node, switch on <strong>min_depth</strong> and type <code>5</code>. Run again. How many <code>N</code> are left? With the default of 10 the consensus has <strong>62</strong>; with 5 it has <strong>30</strong>. Lower thresholds call more bases, from less evidence.',
+    image: { name: '05-exercise', alt: 'Consensus (ViralConsensus) settings with min_depth switched on and set to 5.' },
+    solution: { label: 'Download the solution workflow (JSON)', file: 'viral-consensus-solution.json' }
+  }}
+/>

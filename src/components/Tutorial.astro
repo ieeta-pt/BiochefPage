@@ -1,0 +1,203 @@
+---
+// Shared layout for hands-on tutorials under /tutorials. Each tutorial page
+// passes its content; images live in public/img/tutorials/<slug>/ and
+// downloads in public/tutorials/<slug>/. Text fields marked "html" may contain
+// links, <code>, <strong> and <em>.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from './PageHero.astro';
+
+interface Image { name: string; alt: string }
+interface Download { label: string; file: string; primary?: boolean }
+interface Step { title: string; body: string; image?: Image }
+interface Extra { title: string; body: string; code?: string; image?: Image; downloads?: Download[] }
+
+interface Props {
+  slug: string;
+  title: string;
+  heading: string;
+  subtitle: string;
+  description: string;
+  level: string;
+  time: string;
+  minutes: number;
+  keywords: string[];
+  learn: string[];
+  data: string;
+  downloads: Download[];
+  steps: Step[];
+  expected: { code: string; body: string };
+  extras: Extra[];
+  exercise: { title: string; body: string; image: Image; solution: Download };
+}
+
+const p = Astro.props;
+const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+const withBase = (path: string) => `${base}/${path.replace(/^\//, '')}`;
+const img = (name: string) => withBase(`/img/tutorials/${p.slug}/${name}.webp`);
+const file = (name: string) => withBase(`/tutorials/${p.slug}/${name}`);
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'LearningResource',
+  'dct:conformsTo': { '@type': 'CreativeWork', '@id': 'https://bioschemas.org/profiles/TrainingMaterial/1.0-RELEASE' },
+  name: p.title,
+  description: p.description,
+  url: `https://home.biochef.app/tutorials/${p.slug}/`,
+  keywords: p.keywords,
+  learningResourceType: 'hands-on tutorial',
+  educationalLevel: p.level,
+  timeRequired: `PT${p.minutes}M`,
+  inLanguage: 'en',
+  license: 'https://creativecommons.org/licenses/by/4.0/',
+  teaches: p.learn,
+  mentions: { '@type': 'SoftwareApplication', name: 'BioChef', url: 'https://biochef.app', sameAs: 'https://bio.tools/biochef' },
+  author: [{ '@type': 'Organization', name: 'IEETA, University of Aveiro', url: 'https://www.ieeta.pt' }]
+};
+---
+
+<BaseLayout title={`${p.title} · BioChef`} description={p.description}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(ld)} />
+
+  <PageHero
+    kicker="Tutorial"
+    title={p.heading}
+    subtitle={p.subtitle}
+    crumbs={[{ label: 'Tutorials', href: withBase('/tutorials') }, { label: p.heading }]}
+    meta={[
+      { label: 'Level', value: p.level },
+      { label: 'Time', value: p.time },
+      { label: 'You need', value: 'A recent desktop browser' },
+      { label: 'Licence', value: 'CC BY 4.0' }
+    ]}
+  />
+
+  <section class="section">
+    <div class="container-main max-w-3xl">
+      <div class="grid gap-8 md:grid-cols-2">
+        <div>
+          <h2 class="text-2xl font-medium text-text tracking-tight">What you will learn</h2>
+          <ul class="mt-4 space-y-2 text-text-secondary leading-relaxed list-disc pl-5">
+            {p.learn.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div>
+          <h2 class="text-2xl font-medium text-text tracking-tight">The data</h2>
+          <p class="tutorial-text mt-4 text-text-secondary leading-relaxed" set:html={p.data} />
+        </div>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-3">
+        {p.downloads.map((d) => (
+          <a class={`btn ${d.primary ? 'btn-primary' : 'btn-secondary'} text-sm`} href={file(d.file)} download>{d.label}</a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section pt-0">
+    <div class="container-main max-w-3xl">
+      <h2 class="text-3xl font-medium text-text tracking-tight">Steps</h2>
+      <ol class="mt-8 space-y-14">
+        {p.steps.map((step, i) => (
+          <li>
+            <div class="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-x-3">
+              <span class="font-mono text-sm text-brand-dark pt-1">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <h3 class="text-xl font-medium text-text tracking-tight">{step.title}</h3>
+                <p class="tutorial-text mt-2 text-text-secondary leading-relaxed" set:html={step.body} />
+              </div>
+            </div>
+            {step.image && (
+              <figure class="mt-5">
+                <div class="rounded-xl overflow-hidden border border-border bg-surface shadow-card">
+                  <a href={img(step.image.name)} target="_blank" rel="noreferrer"><img src={img(step.image.name)} alt={step.image.alt} width="1200" height="750" loading="lazy" decoding="async" class="block w-full h-auto" /></a>
+                </div>
+              </figure>
+            )}
+          </li>
+        ))}
+      </ol>
+
+      <div class="mt-12 bg-surface border border-border rounded-xl shadow-card p-6 md:p-8">
+        <h3 class="text-lg font-medium text-text tracking-tight">What you should see</h3>
+        <pre class="mt-4 overflow-x-auto rounded-lg bg-background p-4 font-mono text-[13px] leading-relaxed text-text">{p.expected.code}</pre>
+        <p class="tutorial-text mt-4 text-text-secondary leading-relaxed" set:html={p.expected.body} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section pt-0">
+    <div class="container-main max-w-3xl space-y-14">
+      {p.extras.map((x) => (
+        <div>
+          <h2 class="text-2xl font-medium text-text tracking-tight">{x.title}</h2>
+          <p class="tutorial-text mt-3 text-text-secondary leading-relaxed" set:html={x.body} />
+          {x.code && (
+            <pre class="mt-5 overflow-x-auto rounded-xl border border-border bg-surface p-5 font-mono text-[13px] leading-[1.2] text-text">{x.code}</pre>
+          )}
+          {x.image && (
+            <figure class="mt-5">
+              <div class="rounded-xl overflow-hidden border border-border bg-surface shadow-card">
+                <a href={img(x.image.name)} target="_blank" rel="noreferrer"><img src={img(x.image.name)} alt={x.image.alt} width="1200" height="750" loading="lazy" decoding="async" class="block w-full h-auto" /></a>
+              </div>
+            </figure>
+          )}
+          {x.downloads && (
+            <div class="mt-5 flex flex-wrap gap-3">
+              {x.downloads.map((d) => <a class="btn btn-secondary text-sm" href={file(d.file)} download>{d.label}</a>)}
+            </div>
+          )}
+        </div>
+      ))}
+
+      <div>
+        <h2 class="text-2xl font-medium text-text tracking-tight">{p.exercise.title}</h2>
+        <p class="tutorial-text mt-3 text-text-secondary leading-relaxed" set:html={p.exercise.body} />
+        <details class="mt-5 bg-surface border border-border rounded-xl p-5">
+          <summary class="cursor-pointer font-medium text-text">Show the solution</summary>
+          <figure class="mt-4">
+            <div class="rounded-xl overflow-hidden border border-border bg-surface">
+              <a href={img(p.exercise.image.name)} target="_blank" rel="noreferrer"><img src={img(p.exercise.image.name)} alt={p.exercise.image.alt} width="1200" height="750" loading="lazy" decoding="async" class="block w-full h-auto" /></a>
+            </div>
+          </figure>
+          <div class="mt-4">
+            <a class="btn btn-secondary text-sm" href={file(p.exercise.solution.file)} download>{p.exercise.solution.label}</a>
+          </div>
+        </details>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-medium text-text tracking-tight">From a test to a full run</h2>
+        <p class="tutorial-text mt-3 text-text-secondary leading-relaxed">
+          The browser is the place to build and test a workflow on small data like this. For full datasets, the same workflow file is meant to run next to the data with the <a href="https://github.com/ieeta-pt/biochef-agent" target="_blank" rel="noreferrer">BioChef agent</a>, which is in development. See <a href={withBase('/workflows')}>Workflows</a> for how the two fit together.
+        </p>
+      </div>
+
+      <div class="border-t border-border pt-6 space-y-3">
+        <p class="text-sm text-text-secondary">
+          More tutorials: <a class="text-brand-dark underline underline-offset-2 hover:text-brand-800" href={withBase('/tutorials')}>all BioChef tutorials</a>.
+        </p>
+        <p class="text-sm text-text-tertiary leading-relaxed">
+          This tutorial is licensed under <a class="text-brand-dark underline underline-offset-2 hover:text-brand-800" href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>. If you use BioChef in your work, please cite{' '}
+          <a class="text-brand-dark underline underline-offset-2 hover:text-brand-800" href="https://doi.org/10.1186/s12859-026-06431-1" target="_blank" rel="noreferrer">Rosa et al., BMC Bioinformatics 2026</a>.
+          BioChef is listed in bio.tools as <a class="text-brand-dark underline underline-offset-2 hover:text-brand-800" href="https://bio.tools/biochef" target="_blank" rel="noreferrer">biotools:biochef</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .tutorial-text :global(a) {
+    color: var(--color-brand-dark);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .tutorial-text :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    padding: 0.1em 0.35em;
+    border-radius: 0.25rem;
+    background: var(--color-brand-light);
+    color: var(--color-brand-800);
+  }
+</style>
