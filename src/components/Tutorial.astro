@@ -11,6 +11,7 @@ interface Download { label: string; file: string; primary?: boolean }
 interface Step { title: string; body: string; image?: Image }
 interface Extra { title: string; body: string; code?: string; image?: Image; downloads?: Download[] }
 interface Tool { name: string; role: string; url: string }
+interface Video { file: string; poster: string; length: string }
 
 interface Props {
   slug: string;
@@ -31,6 +32,8 @@ interface Props {
   exercise: { title: string; body: string; image?: Image; code?: string; solution: Download };
   /** The tools used, explained before the steps. */
   tools: Tool[];
+  /** Optional screen recording of the whole tutorial, in public/video/tutorials/. */
+  video?: Video;
 }
 
 const p = Astro.props;
@@ -113,6 +116,15 @@ const ld = {
 
   <section class="section pt-0">
     <div class="container-main max-w-3xl">
+      {p.video && (
+        <figure class="mb-14">
+          <h2 class="text-2xl font-medium text-text tracking-tight">Watch it first</h2>
+          <p class="mt-2 text-text-secondary leading-relaxed">The whole tutorial in {p.video.length}, recorded in the live app. The run is sped up.</p>
+          <div class="mt-5 rounded-xl overflow-hidden border border-border shadow-card bg-black aspect-video">
+            <video class="block w-full h-full" src={withBase(`/video/tutorials/${p.video.file}`)} poster={withBase(`/video/tutorials/${p.video.poster}`)} controls playsinline preload="none"></video>
+          </div>
+        </figure>
+      )}
       <h2 class="text-3xl font-medium text-text tracking-tight">Steps</h2>
       <ol class="mt-8 space-y-14">
         {p.steps.map((step, i) => (
