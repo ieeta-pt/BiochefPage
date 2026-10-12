@@ -52,6 +52,7 @@ const steps = [
     'Tell real variants from sequencing errors by frequency'
   ]}
   tools={[TOOLS.minimap2, TOOLS.samtools, TOOLS.ivar]}
+  video={{ file: 'amplicon.mp4', poster: 'amplicon-poster.jpg', length: 'under 4 minutes' }}
   data='A simulated tiled-amplicon run over bacteriophage PhiX174 (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001422.1" target="_blank" rel="noreferrer">NC_001422.1</a>): 26 overlapping amplicons of 250 bp, 1,040 reads of 150 bp from both ends of each, a BED file with the 52 primers (22 bp each), and the reference. The sample carries six mutations at known positions (612, 1450, 2201, 3077, 3999, 4810), none of them under a primer.'
   downloads={[
     { label: 'Download amplicon-reads.fastq (333 KB)', file: 'amplicon-reads.fastq', primary: true },
