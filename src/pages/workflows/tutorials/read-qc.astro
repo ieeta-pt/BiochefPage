@@ -55,6 +55,7 @@ const steps = [
   data='One simulated sequencing run of 400 reads of 150 bp from bacteriophage PhiX174: 340 high-quality reads (base qualities 30 to 40) and 60 low-quality reads (base qualities 2 to 12), mixed together. Because it is simulated, you know how many reads should survive.'
   downloads={[{ label: 'Download run1.fastq (125 KB)', file: 'run1.fastq', primary: true }]}
   tools={[TOOLS.fastp, TOOLS.seqtk]}
+  video={{ file: 'read-qc.mp4', poster: 'read-qc-poster.jpg', length: 'under 2 minutes' }}
   steps={steps}
   expected={{
     code: 'before fastp:  400   60000\nafter fastp:   340   51000',
