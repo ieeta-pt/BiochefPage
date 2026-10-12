@@ -41,7 +41,7 @@ const steps = [
   },
   {
     title: 'Run it and read the result',
-    body: 'Click the green <strong>▶</strong> button at the top left of the workflow. It takes a few seconds. Click the <strong>Output</strong> node to see the flagstat report.',
+    body: 'First click an empty part of the canvas so that no node is selected: with the Output node selected, the run currently stops after minimap2. Then click the green <strong>▶</strong> button at the top left of the workflow. It takes a few seconds. Click the <strong>Output</strong> node to see the flagstat report.',
     image: { name: '07-result', alt: 'The Output panel showing samtools flagstat: 400 reads in total, 380 mapped (95.00%).' }
   }
 ];
@@ -69,6 +69,7 @@ const steps = [
     { label: 'Download reads.fastq (126 KB)', file: 'reads.fastq' }
   ]}
   tools={[TOOLS.minimap2, TOOLS.samtools]}
+  video={{ file: 'map-reads.mp4', poster: 'map-reads-poster.jpg', length: 'under 2 minutes' }}
   steps={steps}
   expected={{
     code: '400 + 0 in total (QC-passed reads + QC-failed reads)\n...\n380 + 0 mapped (95.00% : N/A)',
