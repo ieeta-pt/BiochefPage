@@ -59,6 +59,7 @@ const steps = [
     { label: 'Download sample-reads.fastq (377 KB)', file: 'sample-reads.fastq' }
   ]}
   tools={[TOOLS.minimap2, TOOLS.samtools, TOOLS.viralconsensus]}
+  video={{ file: 'viral-consensus.mp4', poster: 'viral-consensus-poster.jpg', length: 'under 3 minutes' }}
   steps={steps}
   expected={{
     code: 'viral_consensus  0  NC_001422.1  45  60  44S5324M18S  ...  NM:i:6  MD:Z:567G837T750T875T921C810G558',
