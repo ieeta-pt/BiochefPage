@@ -47,6 +47,7 @@ const steps = [
     'Count variants per gene'
   ]}
   tools={[TOOLS.bcftools, TOOLS.bedtools]}
+  video={{ file: 'variants-in-genes.mp4', poster: 'variants-in-genes-poster.jpg', length: 'under 2 minutes' }}
   data='<code>sample1.vcf</code>, the 12 variants from the <a href="/workflows/tutorials/explore-variants/">explore variants tutorial</a>, and <code>phix-genes.bed</code>, the 11 genes of PhiX174 as annotated by NCBI (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001422.1" target="_blank" rel="noreferrer">NC_001422.1</a>). Genes A, A* and B cross the end of the circular genome, so each takes two lines.'
   downloads={[
     { label: 'Download sample1.vcf (1 KB)', file: 'sample1.vcf', primary: true },
