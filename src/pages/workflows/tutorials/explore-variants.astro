@@ -48,6 +48,7 @@ const steps = [
     'Mark weak variants instead of removing them'
   ]}
   tools={[TOOLS.bcftools]}
+  video={{ file: 'explore-variants.mp4', poster: 'explore-variants-poster.jpg', length: 'under 3 minutes' }}
   data='<code>sample1.vcf</code>: 12 variants in one sample against the PhiX174 genome (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001422.1" target="_blank" rel="noreferrer">NC_001422.1</a>), 11 single-base changes and one 3-base deletion. Eight have good quality and depth; four do not. The file is written for this tutorial, so you know which variants should pass.'
   downloads={[{ label: 'Download sample1.vcf (1 KB)', file: 'sample1.vcf', primary: true }]}
   steps={steps}
