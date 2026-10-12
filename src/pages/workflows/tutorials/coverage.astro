@@ -51,6 +51,7 @@ const steps = [
     'Spot an amplicon that failed'
   ]}
   tools={[TOOLS.minimap2, TOOLS.samtools, TOOLS.gawk]}
+  video={{ file: 'coverage.mp4', poster: 'coverage-poster.jpg', length: 'under 3 minutes' }}
   data='A simulated amplicon run over bacteriophage PhiX174 (<a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_001422.1" target="_blank" rel="noreferrer">NC_001422.1</a>): 1,000 reads of 150 bp from 25 of the 26 amplicons used in the <a href="/workflows/tutorials/amplicon/">amplicon tutorial</a>. Amplicon 12 (positions 2251–2500) failed, as happens in real runs, and you will find where.'
   downloads={[
     { label: 'Download run2-reads.fastq (321 KB)', file: 'run2-reads.fastq', primary: true },
