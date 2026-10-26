@@ -26,6 +26,8 @@ The marketing/docs site at <https://home.biochef.app/> is what this `llms.txt` i
 - biochef-recipes (YAML recipes): <https://github.com/ieeta-pt/biochef-recipes>
 - biochef-hub (CI / signing): <https://github.com/ieeta-pt/biochef-hub>
 - biochef-agent (agent mode, in development): <https://github.com/ieeta-pt/biochef-agent>
+- biochef-coordinator (studies, approvals and jobs that agents poll; just started): <https://github.com/ieeta-pt/biochef-coordinator>
+- biochef-infra (every BioChef repository as a git submodule): <https://github.com/ieeta-pt/biochef-infra>
 - This marketing site: <https://github.com/ieeta-pt/BiochefPage>
 
 ## Roadmap (in progress)
