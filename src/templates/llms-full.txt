@@ -164,7 +164,7 @@ Local dev: clone the SPA, `npm start`.
 Recipes repo: <https://github.com/ieeta-pt/biochef-recipes> · Hub CI: <https://github.com/ieeta-pt/biochef-hub>
 
 **Step 02 · Run — run the BioChef app locally.** Clone the SPA, install deps, and serve it with the dev server. No backend required.
-1. `git clone https://github.com/ieeta-pt/Biochef` and `npm install`.
+1. `git clone https://github.com/ieeta-pt/biochef-app` and `npm install`.
 2. (Optional) install Emscripten 3.1.65 and run `npm run build-wasm` to rebuild WASM modules from source.
 3. `npm start` and open `http://localhost:8082`.
 Or `docker compose -f docker-compose.dev.yml up`: the app plus an empty local registry. The `tools` profile adds the Hub to publish recipes into it.
@@ -307,7 +307,7 @@ Funding: BioChef is Work Package 4 of the ELIXIR Commissioned Service on Human D
 
 ### Get involved
 
-- **Repositories.** ieeta-pt/Biochef · ieeta-pt/biochef-hub · ieeta-pt/biochef-recipes · ieeta-pt/biochef-agent · registry.biochef.app
+- **Repositories.** ieeta-pt/biochef-app · ieeta-pt/biochef-hub · ieeta-pt/biochef-recipes · ieeta-pt/biochef-agent · registry.biochef.app
 - **Issues & Discussions.** BioChef issues · biochef-hub issues
 - **Contributing.** See `CONTRIBUTING.md` in the BioChef repo for code style, build, and test guidance.
 
@@ -315,4 +315,4 @@ Funding: BioChef is Work Package 4 of the ELIXIR Commissioned Service on Human D
 
 ## End of full content
 
-Source files for the marketing site itself live at <https://github.com/ieeta-pt/BiochefPage>. The actual BioChef SPA users run is in <https://github.com/ieeta-pt/Biochef>. YAML recipes are in <https://github.com/ieeta-pt/biochef-recipes>. Hub CI is in <https://github.com/ieeta-pt/biochef-hub>. The signed Registry is at <https://registry.biochef.app>.
+Source files for the marketing site itself live at <https://github.com/ieeta-pt/BiochefPage>. The actual BioChef SPA users run is in <https://github.com/ieeta-pt/biochef-app>. YAML recipes are in <https://github.com/ieeta-pt/biochef-recipes>. Hub CI is in <https://github.com/ieeta-pt/biochef-hub>. The signed Registry is at <https://registry.biochef.app>.
