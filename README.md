@@ -40,6 +40,6 @@ Pushes to `main` trigger `.github/workflows/deploy.yml`, which builds the site w
 
 ## License
 
-Site source: MIT.
+Site source: Apache-2.0, see [LICENSE](LICENSE) and [NOTICE](NOTICE).
 BioChef code: MIT.
 BioChef paper: CC-BY 4.0 ([10.1186/s12859-026-06431-1](https://doi.org/10.1186/s12859-026-06431-1)).
