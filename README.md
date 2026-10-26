@@ -1,6 +1,6 @@
 # BioChef · marketing site
 
-Documentation and marketing site for the [BioChef](https://github.com/ieeta-pt/Biochef) project — a catalogue of signed bioinformatics tools that run end-to-end in your browser via WebAssembly.
+Documentation and marketing site for the [BioChef](https://github.com/ieeta-pt/biochef-app) project — a catalogue of signed bioinformatics tools that run end-to-end in your browser via WebAssembly.
 
 **Live:** https://home.biochef.app/
 

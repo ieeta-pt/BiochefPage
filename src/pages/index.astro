@@ -41,7 +41,7 @@ const audiences = [
   title="BioChef · Easy genomics, private by design"
   description="Test genomic workflows in your browser, then run them where your data lives. Open, signed bioinformatics tools."
 >
-  <script type="application/ld+json" slot="head" set:html={JSON.stringify({"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "BioChef", "url": "https://biochef.app", "applicationCategory": "ScientificApplication", "operatingSystem": "Web browser", "description": "Open-source web application for building and running genomic data analysis workflows in the browser.", "license": "https://opensource.org/licenses/MIT", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "codeRepository": "https://github.com/ieeta-pt/Biochef", "sameAs": ["https://bio.tools/biochef", "https://github.com/ieeta-pt/Biochef"], "citation": "https://doi.org/10.1186/s12859-026-06431-1", "publisher": {"@type": "Organization", "name": "IEETA, University of Aveiro", "url": "https://www.ieeta.pt"}})} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "BioChef", "url": "https://biochef.app", "applicationCategory": "ScientificApplication", "operatingSystem": "Web browser", "description": "Open-source web application for building and running genomic data analysis workflows in the browser.", "license": "https://opensource.org/licenses/MIT", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "codeRepository": "https://github.com/ieeta-pt/biochef-app", "sameAs": ["https://bio.tools/biochef", "https://github.com/ieeta-pt/biochef-app"], "citation": "https://doi.org/10.1186/s12859-026-06431-1", "publisher": {"@type": "Organization", "name": "IEETA, University of Aveiro", "url": "https://www.ieeta.pt"}})} />
 
   <Hero
     client:load
@@ -49,7 +49,7 @@ const audiences = [
     titleHighlight="Private by design"
     subtitle="Test in your browser. Run where your data lives. Open, signed bioinformatics tools, from a quick check on your laptop to a full run next to the data."
     ctaPrimary={{ label: 'Open the app', href: 'https://biochef.app/' }}
-    ctaSecondary={{ label: 'GitHub', href: 'https://github.com/ieeta-pt/Biochef' }}
+    ctaSecondary={{ label: 'GitHub', href: 'https://github.com/ieeta-pt/biochef-app' }}
     demo={{ src: withBase('/video/promo.mp4'), poster: withBase('/video/promo-poster.jpg'), href: withBase('/workflows#workflow-demo') }}
   />
 
