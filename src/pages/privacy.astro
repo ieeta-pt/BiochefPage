@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const contact = 'jorge.miguel.ferreira.silva@ua.pt';
+const link = 'text-brand-dark underline underline-offset-2 hover:text-brand-800';
+const h2 = 'text-2xl font-medium text-text tracking-tight mt-12 mb-4';
+const p = 'text-base text-text-secondary leading-relaxed mb-4';
+---
+
+<BaseLayout title="Privacy notice · BioChef" description="Privacy notice for the BioChef Agent (test) LS Login client.">
+  <PageHero
+    kicker="Privacy"
+    title="Privacy notice"
+    subtitle="What the BioChef Agent (test) LS Login client receives when you log in, why, and for how long it is kept."
+    crumbs={[{ label: 'Privacy' }]}
+    meta={[
+      { label: 'Applies to', value: 'BioChef Agent (test) LS Login client' },
+      { label: 'Data controller', value: 'University of Aveiro (IEETA)' },
+      { label: 'Last updated', value: '16 November 2026' }
+    ]}
+  />
+
+  <section class="section">
+    <div class="container-main">
+      <div class="max-w-3xl">
+        <h2 class={h2.replace('mt-12 ', '')}>What this service is</h2>
+        <p class={p}>
+          "BioChef Agent (test)" is a research test of the BioChef project (ELIXIR HDTR 2027/28,
+          Work Package 4), run at IEETA, University of Aveiro. It tests whether a software agent that
+          runs inside a Trusted Research Environment can keep a researcher's consent to fetch data the
+          researcher is already approved to use. It is registered only in the LS Login test
+          environment, so only users who have joined that test environment can log in. In practice
+          these are members of the BioChef team, with their own accounts.
+        </p>
+
+        <h2 class={h2}>Who is responsible</h2>
+        <p class={p}>
+          The data controller is the University of Aveiro, through its research unit IEETA. Contact: <a class={link} href={`mailto:${contact}`}>{contact}</a>.
+        </p>
+
+        <h2 class={h2}>What data we receive</h2>
+        <p class={p}>When you log in through LS Login, this service receives only:</p>
+        <ul class="list-disc pl-6 space-y-2 text-base text-text-secondary leading-relaxed mb-4">
+          <li>your LS Login user identifier (the "sub" value);</li>
+          <li>
+            your GA4GH Passport, that is, the visas LS Login holds for you, such as affiliations and
+            dataset access permissions;
+          </li>
+          <li>
+            an access token and a refresh token that let the agent ask LS Login for your visas again
+            later.
+          </li>
+        </ul>
+        <p class={p}>We do not request your name or email address.</p>
+
+        <h2 class={h2}>Why we use it</h2>
+        <p class={p}>
+          Only to test the login and consent mechanism: whether LS Login issues a refresh token to
+          this client, how long it lasts, and whether it changes when used. We do not use the data for
+          any other purpose, and we do not fetch any research data with it during this test.
+        </p>
+
+        <h2 class={h2}>Legal basis</h2>
+        <p class={p}>
+          The consent of the team members who take part in the test (Article 6(1)(a) of the General
+          Data Protection Regulation).
+        </p>
+
+        <h2 class={h2}>Where it is kept and for how long</h2>
+        <p class={p}>
+          To measure how long a refresh token lasts, the tokens must be kept for several days. They are
+          stored encrypted on the tester's own computer until the test ends, are never written to
+          logs, and are deleted when the service is removed from LS Login.
+        </p>
+        <p class={p}>
+          To investigate security incidents, as LS Login asks of every connected service, we keep a
+          minimal access log (time of login and your LS Login identifier, no tokens) for 180 days,
+          and then delete it.
+        </p>
+        <p class={p}>
+          The test lasts one month from the approval of the registration and may be extended if
+          needed. When it ends, the service is removed from LS Login.
+        </p>
+        <p class={p}>If someone outside the team logs in, their data is deleted immediately and is not used.</p>
+
+        <h2 class={h2}>Your rights</h2>
+        <p class={p}>
+          You can ask to access or delete your data, or withdraw your consent, by writing to <a class={link} href={`mailto:${contact}`}>{contact}</a>.
+          You can also revoke this service's access in your LS Login account at any time. You may
+          complain to the Portuguese data protection authority (CNPD).
+        </p>
+
+        <h2 class={h2}>LS Login</h2>
+        <p class={p}>
+          The login itself is run by LS Login. Its own privacy notice covers the data it processes.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
